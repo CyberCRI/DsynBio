@@ -405,6 +405,7 @@ public class Parser
 
   public TreeNode<NodeData> Parse(string str)
   {
+    clear();
     Lexer lex = new Lexer();
     LinkedList<Lexer.Token> tokenList = lex.lex(str);
 //     lex.PPTokenList(tokenList);

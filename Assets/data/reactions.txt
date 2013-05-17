@@ -7,12 +7,16 @@
     
     <promoter>
       <name>PromZ</name>
-      <productionMax>0.9</productionMax>
+      <productionMax>0,9</productionMax>
       <terminatorFactor>0.9</terminatorFactor>
       <formula>[0.5]X*![0.4]Y</formula>
       <operon>
 	<gene>
 	  <name>Z</name>
+	  <RBSFactor>0.9</RBSFactor>
+	</gene>
+	<gene>
+	  <name>X</name>
 	  <RBSFactor>0.9</RBSFactor>
 	</gene>
       </operon>

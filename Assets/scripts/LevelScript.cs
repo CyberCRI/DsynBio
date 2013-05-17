@@ -10,7 +10,7 @@ public class Misc
   public bool CheckDefault<T>(T value)
   {
     return EqualityComparer<T>.Default.Equals(value, default(T));
-  }  
+  }
 }
 
 public class LevelScript : MonoBehaviour
