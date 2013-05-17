@@ -18,7 +18,7 @@ public class Hero : MonoBehaviour{
 
 	void Update(){
 		energy -= 0.0001f;
-		if (Input.GetMouseButtonDown(1)){
+		if (Input.GetMouseButtonDown(0)){
 			Ray ray = (Camera.main.ScreenPointToRay(Input.mousePosition));
 			RaycastHit hit;
 
