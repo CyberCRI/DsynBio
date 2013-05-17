@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Xml;
 using System;
+using System.Collections.Generic;
 
 public class ReactionEngine : MonoBehaviour {
 
@@ -9,12 +10,15 @@ public class ReactionEngine : MonoBehaviour {
 
   private Parser _parser;
 
-  private IReaction[]   _reactions;
+  private LinkedList<IReaction>   _reactions;
 
   public ReactionEngine()
   {
     _parser = new Parser();
+    _reactions = new LinkedList<IReaction>();
   }
+
+// ====================== PROMOTER LOADING ===========================
 
   private bool loadPromoterName(string value, Promoter prom)
   {
@@ -46,7 +50,6 @@ public class ReactionEngine : MonoBehaviour {
         return false;
       }
     prom.setTerminatorFactor(float.Parse(value.Replace(",", ".")));
-    Debug.Log("terminatorFactor set to : " + prom.getTerminatorFactor());
     return true;
   }
 
@@ -71,28 +74,34 @@ public class ReactionEngine : MonoBehaviour {
     string RBSf = null;
     bool n = false;
     bool rbsf = false;
+    bool b = true;
 
-    foreach (XmlNode attr in node)
+    foreach (XmlNode gene in node)
       {
-        switch (attr.Name)
+        n = false;
+        rbsf = false;
+        foreach(XmlNode attr in gene)
           {
-          case "name":
-            name = attr.InnerText;
-            n = true;
-            break;
-          case "RBSFactor":
-            RBSf = attr.InnerText;
-            rbsf = true;
-            break;
+            switch (attr.Name)
+              {
+              case "name":
+                name = attr.InnerText;
+                n = true;
+                break;
+              case "RBSFactor":
+                RBSf = attr.InnerText;
+                rbsf = true;
+                break;
+              }
           }
+        if (n && rbsf)
+          b = b && loadGene(prom, name, RBSf);
+        if (!n)
+          Debug.Log("Error : Missing Gene name in operon");
+        if (!rbsf)
+          Debug.Log("Error : Missing RBSfactor in operon");
       }
-    if (n && rbsf)
-      return loadGene(prom, name, RBSf);
-    if (!n)
-      Debug.Log("Error : Missing Gene name in operon");
-    if (!rbsf)
-      Debug.Log("Error : Missing RBSfactor in operon");
-    return false;
+    return b;
   }
 
   private bool loadPromoterFormula(string formula, Promoter p)
@@ -108,7 +117,6 @@ public class ReactionEngine : MonoBehaviour {
     return true;
   }
 
-  // FIXME : checkout what to do with the boolean
   private bool loadPromoters(XmlNode node)
   {
     XmlNodeList promotersList = node.SelectNodes("promoter");
@@ -137,47 +145,128 @@ public class ReactionEngine : MonoBehaviour {
                 b = b && loadPromoterOperon(attr, p);
                 break;
               }
-            Debug.Log(attr.Name);
+            _reactions.AddLast(p);
           }
       }
     return b;
   }
 
+// ====================== END PROMOTER LOADING ===========================
+
+  
+
+// ================== ENZYME REACTIONS LOADING ==========================
+
+  private bool loadEnzymeReactionName(string value, EnzymeReaction er)
+  {
+    if (String.IsNullOrEmpty(value))
+      {
+        Debug.Log("Error: Empty name field");
+        return false;
+      }
+    er.setName(value);
+    return true;
+  }
+
+  private bool loadEnzymeReactionProductionMax(string value, EnzymeReaction er)
+  {
+    if (String.IsNullOrEmpty(value))
+      {
+        Debug.Log("Error: Empty productionMax field");
+        return false;
+      }
+    er.setBeta(float.Parse(value.Replace(",", ".")));
+    return true;
+  }
+
+  private bool loadEnzymeReactionProducts(XmlNode node, EnzymeReaction er)
+  {
+    foreach (XmlNode attr in node)
+      {
+        if (attr.Name == "name")
+          {
+            if (String.IsNullOrEmpty(attr.InnerText))
+              Debug.Log("Warning : Empty name field in Enzyme Reaction definition");
+            Product prod = new Product();
+            prod.setName(node.InnerText);
+            er.addProduct(prod);
+          }
+      }
+    return true;
+  }
+
+  // FIXME : Determine what will be the syntax of EnzymeFormula
+  private bool loadEnzymeReactionFormula(string formula, EnzymeReaction er)
+  {
+//     TreeNode<NodeData> tree = _parser.Parse(formula);
+    
+//     if (tree == null)
+//       {
+//         Debug.Log("Syntax Error in promoter Formula");
+//         return false;
+//       }
+//     p.setFormula(tree);
+    return true;
+  }
+
   private bool loadEnzymeReactions(XmlNode node)
   {
     XmlNodeList EReactionsList = node.SelectNodes("enzyme");
+    bool b = true;
+
     foreach (XmlNode EReaction in EReactionsList)
       {
         EnzymeReaction er = new EnzymeReaction();
-        Debug.Log("Enzyme reaction");
+        foreach (XmlNode attr in EReaction)
+          {
+            switch (attr.Name)
+              {
+              case "name":
+                b = b && loadEnzymeReactionName(attr.InnerText, er);
+                break;
+              case "productionMax":
+                b = b && loadEnzymeReactionProductionMax(attr.InnerText, er);
+                break;
+              case "formula":
+                b = b && loadEnzymeReactionFormula(attr.InnerText, er);
+                break;
+              case "products":
+                b = b && loadEnzymeReactionProducts(attr, er);
+                break;
+              }
+          }
+        _reactions.AddLast(er);
       }
-      return true;
+    return b;
   }
 
-  private bool loadChemicalReactions(XmlNode node)
-  {
-    XmlNodeList CReactionsList = node.SelectNodes("chemical");
-    foreach (XmlNode CReaction in CReactionsList)
-      {
-        Debug.Log("Chemical reaction");
-      }
-      return true;
-  }
+// ================== END ENZYME REACTIONS LOADING =======================
+
+
+//   private bool loadChemicalReactions(XmlNode node)
+//   {
+//     XmlNodeList CReactionsList = node.SelectNodes("chemical");
+//     foreach (XmlNode CReaction in CReactionsList)
+//       {
+//         Debug.Log("Chemical reaction");
+//       }
+//       return true;
+//   }
 
   private bool loadReactions(XmlNode node)
   {
-    return loadPromoters(node) && loadEnzymeReactions(node) && loadChemicalReactions(node);
+    return loadPromoters(node) && loadEnzymeReactions(node);//  && loadChemicalReactions(node);
   }
 
   private void loadReactionsFromFile(TextAsset filePath)
   {
+    bool b = true;
+
     XmlDocument xmlDoc = new XmlDocument();
     xmlDoc.LoadXml(filePath.text);
-    XmlNodeList reactionsLists = xmlDoc.GetElementsByTagName("reactions"); 
+    XmlNodeList reactionsLists = xmlDoc.GetElementsByTagName("reactions");
     foreach (XmlNode reactionsNode in reactionsLists)
-      {
-        loadReactions(reactionsNode);
-      }
+      b &= loadReactions(reactionsNode);
   }
 
 	// Use this for initialization

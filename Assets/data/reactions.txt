@@ -1,9 +1,5 @@
 <Document>
   <reactions>
-    <promoter>
-      <name>PromY</name>
-      
-    </promoter>
     
     <promoter>
       <name>PromZ</name>
@@ -25,8 +21,9 @@
     <enzyme>
       <name>ER1</name>
       <formula></formula>
+      <productionMax>0.4</productionMax>
       <products>
-      <name></name>
+	<name>Name</name>
       </products>
     </enzyme>
     

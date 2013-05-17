@@ -33,6 +33,10 @@ public abstract class IReaction
   protected float _beta;
   protected LinkedList<Product> _products;
 
+  public IReaction()
+  {
+    _products = new LinkedList<Product>();
+  }
 
   public void setName(string name) { _name = Tools.epurStr(name); }
   public string getName() { return _name; }
@@ -50,7 +54,7 @@ public class Promoter : IReaction
 
 //   public Promoter(string name = null, float beta = 0)
 //   {
-// //     _products = new Molecule[1](1);
+//     _products = new LinkedList<GeneProduct>();
 //   }
 
   public void setTerminatorFactor(float v) { _terminatorFactor = v; }
@@ -67,10 +71,10 @@ public class Promoter : IReaction
 
 public class EnzymeReaction : IReaction
 {
-  public EnzymeReaction(string name = null, float beta = 0)
-  {
-//     _products = new Molecule[1](1);
-  }
+//   public EnzymeReaction(string name = null, float beta = 0)
+//   {
+//     _products = new LinkedList<Product>();
+//   }
 
   public override void react()
   {
