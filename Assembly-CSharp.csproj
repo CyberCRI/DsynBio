@@ -44,13 +44,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\LevelScript.cs" />
-     <Compile Include="Assets\Parser.cs" />
-     <Compile Include="Assets\TreeNode.cs" />
      <Compile Include="Assets\managers\GUIManager.cs" />
      <Compile Include="Assets\scripts\Collectibles.cs" />
      <Compile Include="Assets\scripts\Glucose.cs" />
      <Compile Include="Assets\scripts\Hero.cs" />
+     <Compile Include="Assets\scripts\LevelScript.cs" />
+     <Compile Include="Assets\scripts\Parser.cs" />
+     <Compile Include="Assets\scripts\TreeNode.cs" />
      <Compile Include="Assets\scripts\mainCamera.cs" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
