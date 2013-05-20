@@ -208,12 +208,12 @@ public class ReactionEngine : MonoBehaviour {
 //     p.setFormula(tree);
     return true;
   }
-
+  
   private bool loadEnzymeReactions(XmlNode node)
   {
     XmlNodeList EReactionsList = node.SelectNodes("enzyme");
     bool b = true;
-
+    
     foreach (XmlNode EReaction in EReactionsList)
       {
         EnzymeReaction er = new EnzymeReaction();
@@ -242,7 +242,7 @@ public class ReactionEngine : MonoBehaviour {
 
 // ================== END ENZYME REACTIONS LOADING =======================
 
-
+// FIXME : check if we need to implement other chemical reactions
 //   private bool loadChemicalReactions(XmlNode node)
 //   {
 //     XmlNodeList CReactionsList = node.SelectNodes("chemical");
@@ -257,7 +257,7 @@ public class ReactionEngine : MonoBehaviour {
   {
     return loadPromoters(node) && loadEnzymeReactions(node);//  && loadChemicalReactions(node);
   }
-
+  
   private void loadReactionsFromFile(TextAsset filePath)
   {
     bool b = true;
@@ -272,9 +272,6 @@ public class ReactionEngine : MonoBehaviour {
 	// Use this for initialization
   void Start () {
     loadReactionsFromFile(_reactionFile);
-    //           Parser p = new Parser();
-    //           TreeNode<NodeData> tree = p.Parse("[0.5]X*(![0.4]Y|[0.5]A*![0.4]B)");
-    //           p.PPTree(tree);
   }
   
   // Update is called once per frame

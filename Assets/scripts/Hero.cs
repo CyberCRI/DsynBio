@@ -3,23 +3,24 @@ using System.Collections;
 
 public class Hero : MonoBehaviour{
 
-	public Transform mover;
-	public int moveSpeed = 5;
-	public float smooth = 0.5f;
-	private Vector3 _destination = Vector3.zero;
-	
-	public static int collected;
-	public static float energy = 1f;
-	public static float life = 1f;
-
+  public Transform mover;
+  public int moveSpeed = 5;
+  public float smooth = 0.5f;
+  private Vector3 _destination = Vector3.zero;
+  
+  public static int collected;
+  public static float energy = 1f;
+  public static float life = 1f;
+  public Camera _cam;
+  
 	void Start (){
-		_destination = mover.position;
+          _destination = mover.position;
 	}
-
+  
 	void Update(){
 		energy -= 0.0001f;
 		if (Input.GetMouseButtonDown(0)){
-			Ray ray = (Camera.main.ScreenPointToRay(Input.mousePosition));
+			Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
 
 			// did we hit something?
