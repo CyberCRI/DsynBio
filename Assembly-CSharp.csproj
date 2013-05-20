@@ -50,7 +50,9 @@
      <Compile Include="Assets\scripts\Hero.cs" />
      <Compile Include="Assets\scripts\LevelScript.cs" />
      <Compile Include="Assets\scripts\Parser.cs" />
+     <Compile Include="Assets\scripts\Reaction.cs" />
      <Compile Include="Assets\scripts\ReactionEngine.cs" />
+     <Compile Include="Assets\scripts\Tools.cs" />
      <Compile Include="Assets\scripts\TreeNode.cs" />
      <Compile Include="Assets\scripts\mainCamera.cs" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
