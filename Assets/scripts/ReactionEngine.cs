@@ -11,11 +11,13 @@ public class ReactionEngine : MonoBehaviour {
   private Parser _parser;
 
   private LinkedList<IReaction>   _reactions;
+  private ArrayList          _molecules;
 
   public ReactionEngine()
   {
     _parser = new Parser();
     _reactions = new LinkedList<IReaction>();
+    _molecules = new ArrayList();
   }
 
 // ====================== PROMOTER LOADING ===========================
@@ -241,7 +243,6 @@ public class ReactionEngine : MonoBehaviour {
   }
 
 // ================== END ENZYME REACTIONS LOADING =======================
-
 // FIXME : check if we need to implement other chemical reactions
 //   private bool loadChemicalReactions(XmlNode node)
 //   {
@@ -252,6 +253,59 @@ public class ReactionEngine : MonoBehaviour {
 //       }
 //       return true;
 //   }
+
+  private bool storeMolecule(XmlNode node, Molecule.eType type)
+  {
+    Molecule mol = new Molecule();
+
+    mol.setType(type);
+    foreach (XmlNode attr in node)
+      {
+        switch (attr.Name)
+          {
+          case "name":
+            mol.setName(attr.InnerText);
+            break;
+          case "description":
+            mol.setDescription(attr.InnerText);
+            break;
+          case "concentration":
+            mol.setConcentration(float.Parse(attr.InnerText.Replace(",", ".")));
+            break;
+          case "degradationRate":
+            mol.setDegradationRate(float.Parse(attr.InnerText.Replace(",", ".")));
+            break;
+          }
+     }
+    _molecules.Add(mol);
+    return true;
+  }
+
+  private bool loadMolecule(XmlNode node)
+  {
+    if (node.Attributes["type"] == null)
+      return false;
+    switch (node.Attributes["type"].Value)
+      {
+      case "enzyme":
+        return storeMolecule(node, Molecule.eType.ENZYME);
+      case "transcription_factor":
+        return storeMolecule(node, Molecule.eType.TRANSCRIPTION_FACTOR);
+      case "other":
+        return storeMolecule(node, Molecule.eType.OTHER);
+      }
+    return true;
+  }
+
+  private bool loadMolecules(XmlNode node)
+  {
+    foreach (XmlNode mol in node)
+      {
+        if (mol.Name == "molecule")
+          loadMolecule(mol);
+      }
+    return true;
+  }
 
   private bool loadReactions(XmlNode node)
   {
@@ -267,6 +321,10 @@ public class ReactionEngine : MonoBehaviour {
     XmlNodeList reactionsLists = xmlDoc.GetElementsByTagName("reactions");
     foreach (XmlNode reactionsNode in reactionsLists)
       b &= loadReactions(reactionsNode);
+
+    XmlNodeList moleculesLists = xmlDoc.GetElementsByTagName("molecules");
+    foreach (XmlNode moleculesNode in moleculesLists)
+      b &= loadMolecules(moleculesNode);
   }
 
 	// Use this for initialization

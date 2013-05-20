@@ -1,13 +1,31 @@
 using System.Collections.Generic;
 
-// public abstract class IFormula
-// {
-//   private abstract formula;
-// }
-
 public class Molecule
 {
-  
+  public enum eType
+  {
+    ENZYME,
+    TRANSCRIPTION_FACTOR,
+    OTHER
+  }
+
+  private string _name;
+  private eType _type;
+  private string _description;
+  private float _concentration;
+  private float _degradationRate;
+
+  public string getName() {return _name; }
+  public eType getType() {return _type; }
+  public string getDescription() {return _description; }
+  public float getConcentration() {return _concentration; }
+  public float getDegradationRate() {return _degradationRate; }
+
+  public void setName(string name) { _name = name; }
+  public void setType(eType type) { _type = type; }
+  public void setDescription(string description) { _description = description; }
+  public void setConcentration(float concentration) { _concentration = concentration; }
+  public void setDegradationRate(float degradationRate) { _degradationRate = degradationRate; }
 }
 
 public class Product
