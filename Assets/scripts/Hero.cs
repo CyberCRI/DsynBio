@@ -14,7 +14,7 @@ public class Hero : MonoBehaviour{
   public Camera _cam;
   
 	void Start (){
-          _destination = mover.position;
+      	_destination = mover.position;
 	}
   
 	void Update(){
@@ -34,9 +34,11 @@ public class Hero : MonoBehaviour{
 		}
 		// move toward destination
 		//mover.position = Vector3.MoveTowards(mover.transform.position, _destination, Time.deltaTime * moveSpeed);
+
 		// move toward destination with smooth
 		mover.position = Vector3.Lerp(mover.transform.position, _destination, Time.deltaTime * smooth);
-		//Debug.DrawRay(mover.transform.position, _destination, Color.red);
+		// debug rayon
+		Debug.DrawRay(mover.transform.position, _destination, Color.red);
 	}
 
 	public static void Collect(){
