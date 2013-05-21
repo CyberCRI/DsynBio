@@ -1,4 +1,6 @@
+using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class Molecule
 {
@@ -61,8 +63,27 @@ public abstract class IReaction
   public void setBeta(float beta) { _beta = beta; }
   public float getBeta() { return _beta; }
 
-  public abstract void react();
+  public abstract void react(ArrayList molecules);
   public void addProduct(Product prod) { if (prod != null) _products.AddLast(prod); }
+}
+
+public class Degradation : IReaction
+{
+  private float _degradationRate;
+  private string _molName;
+
+  public Degradation(float degradationRate, string molName)
+  {
+    _degradationRate = degradationRate;
+    _molName = molName;
+  }
+
+  public override void react(ArrayList molecules)
+  {
+    Debug.Log("React degradation");
+    Molecule mol = ReactionEngine.getMoleculeFromName(_molName, molecules);
+    mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * 0.01f);
+  }
 }
 
 public class Promoter : IReaction
@@ -80,9 +101,9 @@ public class Promoter : IReaction
   public void setFormula(TreeNode<NodeData> tree) { _formula = tree; }
   public TreeNode<NodeData> getFormula() { return _formula; }
 
-  public override void react()
+  public override void react(ArrayList molecules)
   {
-    
+    Debug.Log("React promoter");
   }
 
 }
@@ -94,8 +115,8 @@ public class EnzymeReaction : IReaction
 //     _products = new LinkedList<Product>();
 //   }
 
-  public override void react()
+  public override void react(ArrayList molecules)
   {
-    
+    Debug.Log("React enzyme");
   }
 }

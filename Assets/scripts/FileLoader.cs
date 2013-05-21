@@ -20,6 +20,9 @@ public class FileLoader
     _molecules = new ArrayList();
   }
 
+  public LinkedList<IReaction>  getReactions() { return _reactions; }
+  public ArrayList  getMolecules() { return _molecules; }
+
 // ====================== PROMOTER LOADING ===========================
 
   private bool loadPromoterName(string value, Promoter prom)
@@ -278,6 +281,7 @@ public class FileLoader
           }
      }
     _molecules.Add(mol);
+    _reactions.AddLast(new Degradation(mol.getDegradationRate(), mol.getName()));
     return true;
   }
 
