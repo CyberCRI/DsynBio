@@ -5,6 +5,7 @@ public class Hero : MonoBehaviour{
 
   public Transform mover;
   public float moveSpeed = .5f;
+  //public int moveSpeed = 5;
   //public float smooth = .5f;
   private Vector3 _destination = Vector3.zero;
   
