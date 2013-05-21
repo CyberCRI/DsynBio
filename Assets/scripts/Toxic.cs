@@ -16,9 +16,10 @@ public class Toxic : MonoBehaviour {
 
 	void OnTriggerEnter(){
 		drainLife = true;
+		Debug.Log("Enter");
 	}
 
-	void onTriggerExit(){
+	void OnTriggerExit(){
 		drainLife = false;
 		Debug.Log("Exit");
 	}
