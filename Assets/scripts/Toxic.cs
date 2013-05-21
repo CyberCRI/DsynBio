@@ -12,6 +12,8 @@ public class Toxic : MonoBehaviour {
 	void Update () {
 		if (drainLife == true)
 			Hero.life -= Time.deltaTime * .3f;
+		if (drainLife == false && Hero.life < 1f)
+			Hero.life += Time.deltaTime * .1f;
 	}
 
 	void OnTriggerEnter(){
