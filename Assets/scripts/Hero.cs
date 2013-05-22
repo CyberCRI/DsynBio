@@ -9,7 +9,7 @@ public class Hero : MonoBehaviour{
 	//private Vector3 _destination = Vector3.zero;
 	
 	// -------------- speed --------------
-	private float _moveSpeed = 3.5f;
+	private float _moveSpeed = 3f;
 	public float getMoveSpeed() {return _moveSpeed;}
 	public void setMoveSpeed(float moveSpeed) {if (moveSpeed < 0) moveSpeed = 0; _moveSpeed = moveSpeed;}
 	
@@ -28,10 +28,11 @@ public class Hero : MonoBehaviour{
 	// -------------- life --------------
 	private float _life = 1f;
 	public float getLife() {return _life;}
-	public void setLife(float life) {if (life > 1f) life = 1; if (life < 0) life = 0; _life = life;}
+	public void setLife(float life) {if (life > 1f) life = 1; if (life < 0) gameObject.SetActive(false); _life = life;}
   
 	void Start (){
       	//_destination = mover.position;
+      	gameObject.SetActive(true);
 	}
   
 	void Update(){
@@ -58,5 +59,8 @@ public class Hero : MonoBehaviour{
 	public void Collect() {this.setCollected(this.getCollected() + 1);}
 
 	// -------------- glucose collect --------------
-	public void winEnergy() {this.setEnergy(this.getEnergy() + .2f);}	
+	public void winEnergy() {this.setEnergy(this.getEnergy() + .2f);}
+
+	// -------------- equip imp moti --------------
+	public void equipImpMoti() {this.setMoveSpeed(this.getMoveSpeed() + 3f);}
 }
