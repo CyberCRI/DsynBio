@@ -28,7 +28,14 @@ public class Hero : MonoBehaviour{
 	// -------------- life --------------
 	private float _life = 1f;
 	public float getLife() {return _life;}
-	public void setLife(float life) {if (life > 1f) life = 1; if (life < 0) gameObject.SetActive(false); _life = life;}
+	public void setLife(float life) {
+		if (life > 1f) life = 1; 
+		if (life < 0) {
+			life = 0;
+			gameObject.SetActive(false);
+			Debug.Log("Game Over!");
+		}
+		_life = life;}
   
 	void Start (){
       	//_destination = mover.position;
