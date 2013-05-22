@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Glucose : MonoBehaviour {
 
+	public Hero hero;
+
 	public Vector3 rotationVelocity;
 
 	void Start(){
@@ -14,7 +16,7 @@ public class Glucose : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(){
-		Hero.winEnergy();
+		hero.winEnergy();
 		gameObject.SetActive(false);
 	}
 }

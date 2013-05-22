@@ -1,34 +1,49 @@
 using UnityEngine;
 using System.Collections;
 
+
 public class Hero : MonoBehaviour{
 
-  public Transform mover;
-  public float moveSpeed = .5f;
-  //public int moveSpeed = 5;
-  //public float smooth = .5f;
-  private Vector3 _destination = Vector3.zero;
-  
-  public static int collected;
-  public static float energy = 1f;
-  public static float life = 1f;
-  public Camera _cam;
+	public Transform mover;
+	public Camera cam;
+	private Vector3 _destination = Vector3.zero;
+	
+	// -------------- speed --------------
+	private float _moveSpeed = 3.5f;
+	public float getMoveSpeed() {return _moveSpeed;}
+	public void setMoveSpeed(float moveSpeed) {if (moveSpeed < 0) moveSpeed = 0; _moveSpeed = moveSpeed;}
+	//public int moveSpeed = 5;
+	//public float smooth = .5f;
+
+	// -------------- collect --------------
+	private int _collected;
+	public int getCollected() {return _collected;}
+	public void setCollected(int collected) {_collected = collected;}
+	
+	// -------------- atp --------------
+	private float _energy = 1f;
+	public float getEnergy() {return _energy;}
+	public void setEnergy(float energy) {if (energy > 1f) energy = 1f; if(energy < 0) energy = 0; _energy = energy;}
+
+	// -------------- life --------------
+	private float _life = 1f;
+	public float getLife() {return _life;}
+	public void setLife(float life) {if (life > 1f) life = 1; if (life < 0) life = 0; _life = life;}
   
 	void Start (){
-      	_destination = mover.position;
+      	//_destination = mover.position;
 	}
   
 	void Update(){
-		//	idle player energy drain
-		energy -= 0.0001f;
-		
-	 	/* 
-		-------------- keys to move --------------
-		*/
-	 	transform.Translate((Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime), 0, (Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime));
 
+		//	-------------- idle player energy drain --------------
+		this._energy -= 0.0001f;
+		
+		// -------------- keys to move --------------
+	 	transform.Translate((Input.GetAxis("Horizontal") * this._moveSpeed * Time.deltaTime), 0, (Input.GetAxis("Vertical") * this._moveSpeed * Time.deltaTime));
+
+		// -------------- click to move --------------
 		/*
-		-------------- click to move --------------
 		if (Input.GetMouseButtonDown(0)){
 			Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
@@ -45,17 +60,13 @@ public class Hero : MonoBehaviour{
 		*/
 	}
 
-	// executed when the player collect a biobrick
-	public static void Collect(){
-		collected +=1;
+	// -------------- biobricks collect --------------
+	public void Collect(){
+		this._collected += 1;
 	}
 
-	// executed when the player collects glucose
-	public static void winEnergy(){
-		energy += 0.2f;
-		if (energy > 1.0f)
-			energy = 1.0f;
-		if (energy < 0f)
-			energy = 0f;
+	// -------------- glucose collect --------------
+	public void winEnergy(){
+		this._energy += 0.2f;
 	}
 }

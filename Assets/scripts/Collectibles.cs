@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Collectibles : MonoBehaviour {
 
+	public Hero hero;
+
 	public Vector3 rotationVelocity;
 
 	void Start(){
@@ -14,7 +16,7 @@ public class Collectibles : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(){
-		Hero.Collect();
+		hero.Collect();
 		gameObject.SetActive(false);
 	}
 }
