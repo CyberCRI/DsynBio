@@ -73,7 +73,9 @@ public class GUIManager : MonoBehaviour {
 		if (_characPanel == true){
 			GUI.BeginGroup (new Rect (Screen.width / 2 - 200, Screen.height / 2 - 300, 400, 600));
 				GUI.Box (new Rect (0, 0, 400, 600), "Bacterium summary");
-				GUI.Box (new Rect (30, 40, 180, 24), ("Initial speed: " + hero.getMoveSpeed()));
+				GUI.Box (new Rect (30, 40, 180, 24), ("Speed: " + hero.getMoveSpeed()));
+				GUI.Box (new Rect (30, 80, 180, 24), ("Life: " + hero.getLife()));
+				GUI.Box (new Rect (30, 120, 180, 24), ("Energy: " + hero.getEnergy()));
 			GUI.EndGroup();
 		}
 

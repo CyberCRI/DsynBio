@@ -13,7 +13,7 @@ public class Toxic : MonoBehaviour {
 	
 	void Update () {
 		if (_drainLife == true)
-			hero.setLife(hero.getLife() - Time.deltaTime * .3f);
+			hero.setLife(hero.getLife() - Time.deltaTime * .6f);
 		if (_drainLife == false) 
 			hero.setLife(hero.getLife() + Time.deltaTime * .1f);
 	}

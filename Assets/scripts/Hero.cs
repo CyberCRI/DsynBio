@@ -5,15 +5,15 @@ using System.Collections;
 public class Hero : MonoBehaviour{
 
 	public Transform mover;
-	public Camera cam;
-	private Vector3 _destination = Vector3.zero;
+	public Camera mainCam;
+	//private Vector3 _destination = Vector3.zero;
 	
 	// -------------- speed --------------
 	private float _moveSpeed = 3.5f;
 	public float getMoveSpeed() {return _moveSpeed;}
 	public void setMoveSpeed(float moveSpeed) {if (moveSpeed < 0) moveSpeed = 0; _moveSpeed = moveSpeed;}
-	//public int moveSpeed = 5;
-	//public float smooth = .5f;
+	
+	//private float _moveSmooth = .5f;
 
 	// -------------- collect --------------
 	private int _collected;
@@ -36,8 +36,8 @@ public class Hero : MonoBehaviour{
   
 	void Update(){
 
-		//	-------------- idle player energy drain --------------
-		this._energy -= 0.0001f;
+		// -------------- idle player energy drain --------------
+		setEnergy(getEnergy() - Time.deltaTime * .01f);
 		
 		// -------------- keys to move --------------
 	 	transform.Translate((Input.GetAxis("Horizontal") * this._moveSpeed * Time.deltaTime), 0, (Input.GetAxis("Vertical") * this._moveSpeed * Time.deltaTime));
@@ -45,28 +45,18 @@ public class Hero : MonoBehaviour{
 		// -------------- click to move --------------
 		/*
 		if (Input.GetMouseButtonDown(0)){
-			Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+			Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit)){
-				if (hit.transform.name == "Ground")
-				_destination = hit.point;
-				//	moving player energy drain
-				energy -= 0.02f;
-			}
+			if (Physics.Raycast(ray, out hit)) {if (hit.transform.name == "Ground") _destination = hit.point;}
 		}
-		//mover.position = Vector3.MoveTowards(mover.transform.position, _destination, Time.deltaTime * moveSpeed);
-		mover.position = Vector3.Lerp(mover.transform.position, _destination, Time.deltaTime * smooth);
+		mover.position = Vector3.Lerp(mover.transform.position, _destination, Time.deltaTime * _moveSmooth);
 		Debug.DrawRay(mover.transform.position, _destination, Color.red);
 		*/
 	}
 
 	// -------------- biobricks collect --------------
-	public void Collect(){
-		this._collected += 1;
-	}
+	public void Collect() {this.setCollected(this.getCollected() + 1);}
 
 	// -------------- glucose collect --------------
-	public void winEnergy(){
-		this._energy += 0.2f;
-	}
+	public void winEnergy() {this.setEnergy(this.getEnergy() + .2f);}	
 }
