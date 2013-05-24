@@ -63,6 +63,9 @@
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
      <None Include="Assets\data\reactions.txt" />
      <None Include="Assets\data\map.txt" />
+ <Reference Include="Assets\Plugins\Vectrosity\Vectrosity_Unity4">
+ <HintPath>Assets\Plugins\Vectrosity\Vectrosity_Unity4.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
