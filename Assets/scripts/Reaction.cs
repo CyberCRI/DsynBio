@@ -80,7 +80,7 @@ public class Degradation : IReaction
 
   public override void react(ArrayList molecules)
   {
-    Debug.Log("React degradation");
+//     Debug.Log("React degradation");
     Molecule mol = ReactionEngine.getMoleculeFromName(_molName, molecules);
     mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * 0.01f);
   }
@@ -103,7 +103,7 @@ public class Promoter : IReaction
 
   public override void react(ArrayList molecules)
   {
-    Debug.Log("React promoter");
+//     Debug.Log("React promoter");
   }
 
 }
@@ -117,6 +117,6 @@ public class EnzymeReaction : IReaction
 
   public override void react(ArrayList molecules)
   {
-    Debug.Log("React enzyme");
+//     Debug.Log("React enzyme");
   }
 }

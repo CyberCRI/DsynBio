@@ -46,8 +46,10 @@
   <ItemGroup>
      <Compile Include="Assets\managers\GUIManager.cs" />
      <Compile Include="Assets\scripts\Collectibles.cs" />
+     <Compile Include="Assets\scripts\Curve.cs" />
      <Compile Include="Assets\scripts\FileLoader.cs" />
      <Compile Include="Assets\scripts\Glucose.cs" />
+     <Compile Include="Assets\scripts\Graph.cs" />
      <Compile Include="Assets\scripts\Grapher1.cs" />
      <Compile Include="Assets\scripts\Hero.cs" />
      <Compile Include="Assets\scripts\LevelScript.cs" />
