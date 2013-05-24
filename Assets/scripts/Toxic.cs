@@ -3,24 +3,26 @@ using System.Collections;
 
 public class Toxic : MonoBehaviour {
 
-	public static bool drainLife;
+	public Hero hero;
+
+	private bool _drainLife;
 
 	void Start () {
-		drainLife = false;
+		_drainLife = false;
 	}
 	
 	void Update () {
-		if (drainLife == true)
-			Hero.life -= Time.deltaTime * .3f;
+		if (_drainLife == true)
+			hero.setLife(hero.getLife() - Time.deltaTime * .8f);
+		if (_drainLife == false) 
+			hero.setLife(hero.getLife() + Time.deltaTime * .1f);
 	}
 
 	void OnTriggerEnter(){
-		drainLife = true;
-		Debug.Log("Enter");
+		_drainLife = true;
 	}
 
 	void OnTriggerExit(){
-		drainLife = false;
-		Debug.Log("Exit");
+		_drainLife = false;
 	}
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Glucose : MonoBehaviour {
+public class devImpMoti : MonoBehaviour {
 
 	public Hero hero;
 
@@ -16,7 +16,7 @@ public class Glucose : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(){
-		hero.winEnergy();
+		hero.equipImpMoti();
 		gameObject.SetActive(false);
 	}
 }
