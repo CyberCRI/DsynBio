@@ -82,7 +82,7 @@ public class Degradation : IReaction
   {
 //     Debug.Log("React degradation");
     Molecule mol = ReactionEngine.getMoleculeFromName(_molName, molecules);
-    mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * 0.01f);
+    mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * mol.getConcentration() * 0.05f);
   }
 }
 
