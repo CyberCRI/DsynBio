@@ -64,17 +64,20 @@ public class Curve
   {
     if (_points.Count >= _maxPoints)
       removeFirstPoint();
-    Debug.Log("add: "+pt.x+" pt.y="+pt.y);
+//     Debug.Log("add: "+pt.x+" pt.y="+pt.y);
     _points.AddLast(pt);
   }
 
   public void updatePts()
   {
     int i = 0;
+    Vector2 tmpPt;
 
     foreach (Vector2 pt in _points)
       {
-        _pts[i] = pt;
+        tmpPt = pt;
+        tmpPt.x -= getMinX();
+        _pts[i] = tmpPt;
         i++;
       }
     _line.drawStart = 0;

@@ -135,7 +135,8 @@ public class Parser
     NOT,
     CONSTANT,
     WORD,
-    NUM
+    NUM,
+    BOOL
   }
 
 
@@ -308,6 +309,13 @@ public class Parser
     int restoreStatus;
 
     restoreStatus = getRestoreListStatus();
+
+    if ((right = ParseBool(tokenList)) != null)
+      {
+        data.token = Parser.eNodeType.CONSTANT;
+        data.value = "C";
+        return new TreeNode<NodeData>(data, null, right);
+      }
     if ((left = ParseConstants(tokenList)) == null)
       {
         restoreListState(tokenList, restoreStatus);
@@ -323,6 +331,33 @@ public class Parser
     data.token = Parser.eNodeType.CONSTANT;
     data.value = "C";
     return new TreeNode<NodeData>(data, left, right);
+  }
+
+  public TreeNode<NodeData>     ParseBool(LinkedList<Lexer.Token> tokenList)
+  {
+    NodeData data = new NodeData();
+    int restoreStatus;
+    string value = "";
+
+    restoreStatus = getRestoreListStatus();
+    if (tokenList.First().token != Lexer.eToken.CHAR)
+      {
+        restoreListState(tokenList, restoreStatus);
+        Debug.Log("Syntax error : A word need to begin with a Character.");        
+        return null;
+      }
+    value += tokenList.First().c;
+    popToken(tokenList);
+
+    if (value == "T" || value == "F")
+      data.token = Parser.eNodeType.BOOL;
+    else
+      {
+        restoreListState(tokenList, restoreStatus);
+        return null;        
+      }
+    data.value = value;
+    return new TreeNode<NodeData>(data);
   }
 
   public TreeNode<NodeData>     ParseConstants(LinkedList<Lexer.Token> tokenList)
@@ -451,9 +486,9 @@ public class Parser
     string path = "graph.txt";
 
     // This text is added only once to the file. 
-    if (!File.Exists(path))
-      {
-        File.WriteAllText(path, output);
-      }
+//     if (!File.Exists(path))
+//       {
+//         File.WriteAllText(path, output);
+//       }
   }
 }

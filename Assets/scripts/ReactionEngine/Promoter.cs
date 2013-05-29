@@ -1,0 +1,117 @@
+using System.Collections.Generic;
+using System.Collections;
+using System;
+
+
+using UnityEngine;
+
+// ========================== Promoter ================================
+
+public class Promoter : IReaction
+{
+  private float _terminatorFactor;
+  private TreeNode<NodeData> _formula;
+
+//   public Promoter(string name = null, float beta = 0)
+//   {
+//     _products = new LinkedList<GeneProduct>();
+//   }
+
+  public void setTerminatorFactor(float v) { _terminatorFactor = v; }
+  public float getTerminatorFactor() { return _terminatorFactor; }
+  public void setFormula(TreeNode<NodeData> tree) { _formula = tree; }
+  public TreeNode<NodeData> getFormula() { return _formula; }
+
+  public static float hillFunc(float K, float concentration, double n)
+  {
+    return (float)(Math.Pow(concentration, n) / (K + Math.Pow(concentration, n)));
+  }
+
+  public static float stepFunc(float K, float concentration)
+  {
+    if (concentration > K)
+      return 1f;
+    return 0f;
+//     return (float)(Math.Pow(concentration, n) / (K + Math.Pow(concentration, n)));
+  }
+
+//   FIXME : Check all possible issues like product or molecule not exists;
+  private float execConstant(TreeNode<NodeData> node, ArrayList molecules)
+  {
+    if (node == null)
+      return 0f;
+
+    if (node.getRightNode().getData().token == Parser.eNodeType.BOOL)
+      return execBool(node.getRightNode());
+    Molecule mol = execWord(node.getRightNode(), molecules);
+    float K = execNum(node.getLeftNode(), molecules); 
+//     Debug.Log("concentration de " + mol.getName() + " = " + mol.getConcentration());
+//     return stepFunc(K, mol.getConcentration());
+//     if (mol.getName() == "Y")
+//       Debug.Log("hill : " + hillFunc(K, mol.getConcentration(), 4));
+//     else
+//       Debug.Log(mol.getName());
+    return hillFunc(K, mol.getConcentration(), 2);
+  }
+
+  // FIXME : check issues like node == null etc;
+  private Molecule execWord(TreeNode<NodeData> node, ArrayList molecules)
+  {
+    return ReactionEngine.getMoleculeFromName(node.getData().value, molecules);
+  }
+
+  // FIXME : check issues like node == null etc;
+  private float execBool(TreeNode<NodeData> node)
+  {
+    if (node.getData().value == "T")
+      return 1f;
+    return 0f;
+  }
+
+  // FIXME : check issues like bad parse and node == null
+  private float execNum(TreeNode<NodeData> node, ArrayList molecules)
+  {
+    return float.Parse(node.getData().value.Replace(",", "."));
+  }
+
+  private float execNode(TreeNode<NodeData> node, ArrayList molecules)
+  {
+    if (node != null)
+      {
+        if (node.getData().token == Parser.eNodeType.OR)
+          return execNode(node.getLeftNode(), molecules) + execNode(node.getRightNode(), molecules);
+        else if (node.getData().token == Parser.eNodeType.AND)
+          return Math.Min(execNode(node.getLeftNode(), molecules), execNode(node.getRightNode(), molecules));
+        else if (node.getData().token == Parser.eNodeType.NOT)
+          return 1f - execNode(node.getLeftNode(), molecules);
+        else if (node.getData().token == Parser.eNodeType.CONSTANT)
+          return execConstant(node, molecules);
+        else if (node.getData().token == Parser.eNodeType.BOOL)
+          return execBool(node);
+        else if (node.getData().token == Parser.eNodeType.WORD)
+          {
+            Molecule mol = ReactionEngine.getMoleculeFromName(node.getData().value, molecules);
+            if (mol != null)
+              return mol.getConcentration();
+          }
+        else if (node.getData().token == Parser.eNodeType.NUM)
+          return float.Parse(node.getData().value.Replace(",", "."));
+      }
+    return 1.0f;
+  }
+
+  public override void react(ArrayList molecules)
+  {
+    if (!_isActive)
+      return;
+    float delta = execNode(_formula, molecules);
+    foreach (Product pro in _products)
+      {
+//         Debug.Log(pro.getName());
+        Molecule mol = ReactionEngine.getMoleculeFromName(pro.getName(), molecules);
+        mol.setConcentration(mol.getConcentration() + delta * 0.01f * pro.getProductionFactor() * _terminatorFactor * _beta);
+      }
+    //       pro.setConcentration(pro.getConcentration() * delta);
+  }
+
+}

@@ -26,7 +26,7 @@ public class Molecule
   public void setName(string name) { _name = name; }
   public void setType(eType type) { _type = type; }
   public void setDescription(string description) { _description = description; }
-  public void setConcentration(float concentration) { _concentration = concentration; }
+  public void setConcentration(float concentration) { _concentration = concentration; if (_concentration < 0) _concentration = 0;}
   public void setDegradationRate(float degradationRate) { _degradationRate = degradationRate; }
 }
 
@@ -36,6 +36,7 @@ public class Product
   // FIXME : Potentially add a ptr to the molecule
   public void setName(string name) { _name = Tools.epurStr(name); }
   public string getName() { return _name; }
+  public virtual float getProductionFactor() { return 1f;}
 }
 
 public class GeneProduct : Product
@@ -44,6 +45,7 @@ public class GeneProduct : Product
   
   public void setRBSFactor(float value) { _RBSf = value; }
   public float getRBSFactor() { return _RBSf; }  
+  public override float getProductionFactor() { return _RBSf;}
 }
 
 
@@ -52,10 +54,12 @@ public abstract class IReaction
   protected string _name;
   protected float _beta;
   protected LinkedList<Product> _products;
+  protected bool _isActive;
 
   public IReaction()
   {
     _products = new LinkedList<Product>();
+    _isActive = true;
   }
 
   public void setName(string name) { _name = Tools.epurStr(name); }
@@ -66,6 +70,8 @@ public abstract class IReaction
   public abstract void react(ArrayList molecules);
   public void addProduct(Product prod) { if (prod != null) _products.AddLast(prod); }
 }
+
+// ========================== DEGRADATION ================================
 
 public class Degradation : IReaction
 {
@@ -80,33 +86,16 @@ public class Degradation : IReaction
 
   public override void react(ArrayList molecules)
   {
+    if (!_isActive)
+      return;
 //     Debug.Log("React degradation");
     Molecule mol = ReactionEngine.getMoleculeFromName(_molName, molecules);
     mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * mol.getConcentration() * 0.05f);
   }
 }
 
-public class Promoter : IReaction
-{
-  private float _terminatorFactor;
-  private TreeNode<NodeData> _formula;
 
-//   public Promoter(string name = null, float beta = 0)
-//   {
-//     _products = new LinkedList<GeneProduct>();
-//   }
-
-  public void setTerminatorFactor(float v) { _terminatorFactor = v; }
-  public float getTerminatorFactor() { return _terminatorFactor; }
-  public void setFormula(TreeNode<NodeData> tree) { _formula = tree; }
-  public TreeNode<NodeData> getFormula() { return _formula; }
-
-  public override void react(ArrayList molecules)
-  {
-//     Debug.Log("React promoter");
-  }
-
-}
+// ========================== EnzymeReaction ================================
 
 public class EnzymeReaction : IReaction
 {
@@ -117,6 +106,8 @@ public class EnzymeReaction : IReaction
 
   public override void react(ArrayList molecules)
   {
+    if (!_isActive)
+      return;
 //     Debug.Log("React enzyme");
   }
 }

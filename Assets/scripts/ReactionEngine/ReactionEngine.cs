@@ -47,7 +47,8 @@ public class ReactionEngine : MonoBehaviour {
         _graphic.addCurve(c);
       }
   }
-  
+
+  //   private int _i = 0;
   // Update is called once per frame
   void Update ()
   {
@@ -55,20 +56,41 @@ public class ReactionEngine : MonoBehaviour {
         reaction.react(_molecules);
 
 //     Vector2 p = default(Vector2);
-
+//     Time.fixedDeltaTime = 0.0000000002f;
     //FIXME : To delete
-    int i = 0;
-    if (i % 1000 == 0)
+//     _i = 0;
+//     if (_i % 100 == 0)
+//       {
+    if (Input.GetKey (KeyCode.UpArrow))
       {
+        Molecule mole = ReactionEngine.getMoleculeFromName("X", _molecules);
+        mole.setConcentration(mole.getConcentration() + 0.2f);
+      }
+    if (Input.GetKey (KeyCode.DownArrow))
+      {
+        Molecule mole = ReactionEngine.getMoleculeFromName("X", _molecules);
+        mole.setConcentration(mole.getConcentration() - 0.2f);
+      }
+    if (Input.GetKey (KeyCode.LeftArrow))
+      {
+        Molecule mole = ReactionEngine.getMoleculeFromName("Y", _molecules);
+        mole.setConcentration(mole.getConcentration() - 0.2f);
+      }
+    if (Input.GetKey (KeyCode.RightArrow))
+      {
+        Molecule mole = ReactionEngine.getMoleculeFromName("Y", _molecules);
+        mole.setConcentration(mole.getConcentration() + 0.2f);
+      }
+
         LinkedListNode<Curve> node = _curves.First;
         foreach (Molecule mol in _molecules)
           {
-            Vector2 p = new Vector2((float)Time.timeSinceLevelLoad *100f, mol.getConcentration() *100f);
+            Vector2 p = new Vector2((float)Time.timeSinceLevelLoad*200f, mol.getConcentration() *100f);
             node.Value.addPoint(p);
-            node.Value.updatePts();
+//             node.Value.updatePts();
             node = node.Next;
           }
-      }
-    i++;
+//       }
+//     _i++;
   }
 }

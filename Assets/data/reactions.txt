@@ -1,23 +1,31 @@
 <Document>
   <reactions>
-    
     <promoter>
       <name>PromZ</name>
       <productionMax>0,9</productionMax>
       <terminatorFactor>0.9</terminatorFactor>
-      <formula>[0.5]X*![0.4]Y</formula>
+      <formula>[0.5]X*![2]Y</formula>
       <operon>
 	<gene>
 	  <name>Z</name>
-	  <RBSFactor>0.9</RBSFactor>
-	</gene>
-	<gene>
-	  <name>X</name>
-	  <RBSFactor>0.9</RBSFactor>
+	  <RBSFactor>1</RBSFactor>
 	</gene>
       </operon>
     </promoter>
-    
+
+    <promoter>
+      <name>PromY</name>
+      <productionMax>0.5</productionMax>
+      <terminatorFactor>1</terminatorFactor>
+      <formula>[2]X*</formula>
+      <operon>
+	<gene>
+	  <name>Y</name>
+	  <RBSFactor>1</RBSFactor>
+	</gene>
+      </operon>
+    </promoter>
+
     <enzyme>
       <name>ER1</name>
       <formula></formula>
@@ -37,36 +45,23 @@
   </reactions>
   
   <molecules>
-    <molecule type="enzyme">
-      <name>E1</name>
-      <description></description>
-      <concentration>3</concentration>
-      <degradationRate>0.3</degradationRate>
-    </molecule>
-    
     <molecule type="transcription_factor">
       <name>Z</name>
       <description></description>
-      <concentration>2</concentration>
+      <concentration>0</concentration>
       <degradationRate>0.2</degradationRate>
     </molecule>
     <molecule type="transcription_factor">
       <name>X</name>
       <description></description>
       <concentration>2</concentration>
-      <degradationRate>0.2</degradationRate>
+      <degradationRate>0.0</degradationRate>
     </molecule>
     <molecule type="transcription_factor">
-      <name>X*</name>
-      <description>Active form of X</description>
-      <concentration>2</concentration>
+      <name>Y</name>
+      <description></description>
+      <concentration>0</concentration>
       <degradationRate>0.2</degradationRate>
     </molecule>
-  
-    <molecule type="other">
-      <name>Lux</name>
-      <concentration>1.5</concentration>
-      <degradationRate>0.1</degradationRate>
-    </molecule>  
   </molecules>
 </Document>
