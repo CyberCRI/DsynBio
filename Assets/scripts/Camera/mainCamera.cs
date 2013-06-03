@@ -3,10 +3,10 @@ using System.Collections;
 
 public class mainCamera : MonoBehaviour {
 
-  public float cameraDistanceMax;
-  public float cameraDistanceMin;
+  //public float cameraDistanceMax;
+  //public float cameraDistanceMin;
   public float cameraDistance;
-  public float scrollSpeed;
+  //public float scrollSpeed;
   public Transform _target;
 
 	void LateUpdate(){
