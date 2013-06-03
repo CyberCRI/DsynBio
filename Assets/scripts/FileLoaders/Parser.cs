@@ -7,7 +7,7 @@ using System.Linq;
 using System.IO;
 using System.Text;
 
-public class Lexer
+public class PromoterLexer
 {
   public enum eToken
   {
@@ -47,7 +47,7 @@ public class Lexer
     };
 
   
-  public Lexer.Token getToken(char c)
+  public PromoterLexer.Token getToken(char c)
   {
     foreach (Token i in _tokenTab)
       {
@@ -115,18 +115,18 @@ public class Lexer
   }
 }
 
-public class NodeData
+public class PromoterNodeData
 {
-  public NodeData(Parser.eNodeType t = default(Parser.eNodeType), string v = default(string))
+  public PromoterNodeData(PromoterParser.eNodeType t = default(PromoterParser.eNodeType), string v = default(string))
   {
     token = t;
     value = v;
   }
-  public Parser.eNodeType   token  {get; set;}
+  public PromoterParser.eNodeType   token  {get; set;}
   public string         value  {get; set;}
 }
 
-public class Parser
+public class PromoterParser
 {
   public enum eNodeType
   {
@@ -140,34 +140,34 @@ public class Parser
   }
 
 
-  LinkedList<Lexer.Token>     _restoreList;
+  LinkedList<PromoterLexer.Token>     _restoreList;
   int                   _restoreStatus;
 
-  public Parser()
+  public PromoterParser()
   {
     _restoreStatus = 0;
-    _restoreList = new LinkedList<Lexer.Token>();
+    _restoreList = new LinkedList<PromoterLexer.Token>();
   }
 
 
 
-  public void           popToken(LinkedList<Lexer.Token> list)
+  public void           popToken(LinkedList<PromoterLexer.Token> list)
   {
-    Lexer.Token tok = list.First();
+    PromoterLexer.Token tok = list.First();
     list.RemoveFirst();
     _restoreList.AddFirst(tok);
     _restoreStatus += 1;
   }
 
-  public void           restoreToken(LinkedList<Lexer.Token> list)
+  public void           restoreToken(LinkedList<PromoterLexer.Token> list)
   {
-    Lexer.Token tok = _restoreList.First();
+    PromoterLexer.Token tok = _restoreList.First();
     _restoreList.RemoveFirst();
     list.AddFirst(tok);
     _restoreStatus -= 1;
   }
 
-  public void           restoreListState(LinkedList<Lexer.Token> list, int state)
+  public void           restoreListState(LinkedList<PromoterLexer.Token> list, int state)
   {
     while (_restoreStatus > state)
       restoreToken(list);
@@ -178,15 +178,15 @@ public class Parser
     return _restoreStatus;
   }
 
-  public TreeNode<NodeData>     ParseFormula(LinkedList<Lexer.Token> tokenList)
+  public TreeNode<PromoterNodeData>     ParseFormula(LinkedList<PromoterLexer.Token> tokenList)
   {
     return ParseORExpr(tokenList);
   }
-  public TreeNode<NodeData>     ParseORExpr(LinkedList<Lexer.Token> tokenList)
+  public TreeNode<PromoterNodeData>     ParseORExpr(LinkedList<PromoterLexer.Token> tokenList)
   {
-    NodeData data = new NodeData();
-    TreeNode<NodeData> left = null;
-    TreeNode<NodeData> right = null;
+    PromoterNodeData data = new PromoterNodeData();
+    TreeNode<PromoterNodeData> left = null;
+    TreeNode<PromoterNodeData> right = null;
     int restoreStatus;
 
     restoreStatus = getRestoreListStatus();
@@ -195,9 +195,9 @@ public class Parser
         restoreListState(tokenList, restoreStatus);
         return null;
       }
-    if (tokenList.First().token == Lexer.eToken.OP_OR)
+    if (tokenList.First().token == PromoterLexer.eToken.OP_OR)
       {
-        Lexer.Token tok = tokenList.First();
+        PromoterLexer.Token tok = tokenList.First();
         popToken(tokenList);
         if ((right = ParseORExpr(tokenList)) == null)
           {
@@ -205,19 +205,19 @@ public class Parser
             Debug.Log("Syntax error : bad OR expr");
             return null;
           }
-        data.token = Parser.eNodeType.OR;
+        data.token = PromoterParser.eNodeType.OR;
         data.value = tok.c;
-        return new TreeNode<NodeData>(data, left, right);
+        return new TreeNode<PromoterNodeData>(data, left, right);
       }
     else
       return left;
   }
 
-  public TreeNode<NodeData>     ParseAndExpr(LinkedList<Lexer.Token> tokenList)
+  public TreeNode<PromoterNodeData>     ParseAndExpr(LinkedList<PromoterLexer.Token> tokenList)
   {
-    NodeData data = new NodeData();
-    TreeNode<NodeData> left = null;
-    TreeNode<NodeData> right = null;
+    PromoterNodeData data = new PromoterNodeData();
+    TreeNode<PromoterNodeData> left = null;
+    TreeNode<PromoterNodeData> right = null;
     int restoreStatus;
 
     restoreStatus = getRestoreListStatus();
@@ -226,9 +226,9 @@ public class Parser
         restoreListState(tokenList, restoreStatus);
         return null;
       }
-    if (tokenList.First().token == Lexer.eToken.OP_AND)
+    if (tokenList.First().token == PromoterLexer.eToken.OP_AND)
       {
-        Lexer.Token tok = tokenList.First();
+        PromoterLexer.Token tok = tokenList.First();
         popToken(tokenList);
         if ((right = ParseAndExpr(tokenList)) == null)
           {
@@ -236,21 +236,21 @@ public class Parser
             Debug.Log("Syntax error : bad AND expr");
             return null;
           }
-        data.token = Parser.eNodeType.AND;
+        data.token = PromoterParser.eNodeType.AND;
         data.value = tok.c;
-        return new TreeNode<NodeData>(data, left, right);
+        return new TreeNode<PromoterNodeData>(data, left, right);
       }
     else
       return left;
   }
 
-  public TreeNode<NodeData>     ParseParExpr(LinkedList<Lexer.Token> tokenList)
+  public TreeNode<PromoterNodeData>     ParseParExpr(LinkedList<PromoterLexer.Token> tokenList)
   {
     int restoreStatus;
-    TreeNode<NodeData> node = null;        
+    TreeNode<PromoterNodeData> node = null;        
 
     restoreStatus = getRestoreListStatus();
-    if (tokenList.First().token == Lexer.eToken.LPAR)
+    if (tokenList.First().token == PromoterLexer.eToken.LPAR)
       {
         popToken(tokenList);
         if ((node = ParseORExpr(tokenList)) == null)
@@ -259,7 +259,7 @@ public class Parser
             Debug.Log("Syntax error : bad ParExpr");
             return null;
           }
-        if (tokenList.First().token != Lexer.eToken.RPAR)
+        if (tokenList.First().token != PromoterLexer.eToken.RPAR)
           {
             restoreListState(tokenList, restoreStatus);
             Debug.Log("Syntax error : bad ParExpr : missing closing parenthis");
@@ -277,16 +277,16 @@ public class Parser
   }
 
 
-  public TreeNode<NodeData>     ParseNotExpr(LinkedList<Lexer.Token> tokenList)
+  public TreeNode<PromoterNodeData>     ParseNotExpr(LinkedList<PromoterLexer.Token> tokenList)
   {
-    NodeData data = new NodeData();
-    TreeNode<NodeData> node = new TreeNode<NodeData>(data);
+    PromoterNodeData data = new PromoterNodeData();
+    TreeNode<PromoterNodeData> node = new TreeNode<PromoterNodeData>(data);
     int restoreStatus;
 
     restoreStatus = getRestoreListStatus();
-    if (tokenList.First().token == Lexer.eToken.OP_NOT)
+    if (tokenList.First().token == PromoterLexer.eToken.OP_NOT)
       {
-        Lexer.Token tok = tokenList.First();
+        PromoterLexer.Token tok = tokenList.First();
         popToken(tokenList);
         if ((node = ParseOperandExpr(tokenList)) == null)
           {
@@ -294,27 +294,27 @@ public class Parser
             Debug.Log("Syntax Error: Bad Not Expr");
             return null;
           }
-        data.token = Parser.eNodeType.NOT;
+        data.token = PromoterParser.eNodeType.NOT;
         data.value = tok.c;
-        return new TreeNode<NodeData>(data, node);
+        return new TreeNode<PromoterNodeData>(data, node);
       }
     return ParseOperandExpr(tokenList);
   }
 
-  public TreeNode<NodeData>     ParseOperandExpr(LinkedList<Lexer.Token> tokenList)
+  public TreeNode<PromoterNodeData>     ParseOperandExpr(LinkedList<PromoterLexer.Token> tokenList)
   {
-    TreeNode<NodeData> left;
-    TreeNode<NodeData> right;
-    NodeData    data = new NodeData();
+    TreeNode<PromoterNodeData> left;
+    TreeNode<PromoterNodeData> right;
+    PromoterNodeData    data = new PromoterNodeData();
     int restoreStatus;
 
     restoreStatus = getRestoreListStatus();
 
     if ((right = ParseBool(tokenList)) != null)
       {
-        data.token = Parser.eNodeType.CONSTANT;
+        data.token = PromoterParser.eNodeType.CONSTANT;
         data.value = "C";
-        return new TreeNode<NodeData>(data, null, right);
+        return new TreeNode<PromoterNodeData>(data, null, right);
       }
     if ((left = ParseConstants(tokenList)) == null)
       {
@@ -328,19 +328,19 @@ public class Parser
         Debug.Log("Syntax error : Need name for operand");
         return null; 
       }
-    data.token = Parser.eNodeType.CONSTANT;
+    data.token = PromoterParser.eNodeType.CONSTANT;
     data.value = "C";
-    return new TreeNode<NodeData>(data, left, right);
+    return new TreeNode<PromoterNodeData>(data, left, right);
   }
 
-  public TreeNode<NodeData>     ParseBool(LinkedList<Lexer.Token> tokenList)
+  public TreeNode<PromoterNodeData>     ParseBool(LinkedList<PromoterLexer.Token> tokenList)
   {
-    NodeData data = new NodeData();
+    PromoterNodeData data = new PromoterNodeData();
     int restoreStatus;
     string value = "";
 
     restoreStatus = getRestoreListStatus();
-    if (tokenList.First().token != Lexer.eToken.CHAR)
+    if (tokenList.First().token != PromoterLexer.eToken.CHAR)
       {
         restoreListState(tokenList, restoreStatus);
         Debug.Log("Syntax error : A word need to begin with a Character.");        
@@ -350,23 +350,23 @@ public class Parser
     popToken(tokenList);
 
     if (value == "T" || value == "F")
-      data.token = Parser.eNodeType.BOOL;
+      data.token = PromoterParser.eNodeType.BOOL;
     else
       {
         restoreListState(tokenList, restoreStatus);
         return null;        
       }
     data.value = value;
-    return new TreeNode<NodeData>(data);
+    return new TreeNode<PromoterNodeData>(data);
   }
 
-  public TreeNode<NodeData>     ParseConstants(LinkedList<Lexer.Token> tokenList)
+  public TreeNode<PromoterNodeData>     ParseConstants(LinkedList<PromoterLexer.Token> tokenList)
   {
-    TreeNode<NodeData> node;
+    TreeNode<PromoterNodeData> node;
     int restoreStatus;
 
     restoreStatus = getRestoreListStatus();
-    if (tokenList.First().token != Lexer.eToken.LHOOK)
+    if (tokenList.First().token != PromoterLexer.eToken.LHOOK)
       {
         Debug.Log("Syntax error : Need a '[' character to define constants");
         return null;
@@ -377,7 +377,7 @@ public class Parser
         restoreListState(tokenList, restoreStatus);
         return null;
       }
-    if (tokenList.First().token != Lexer.eToken.RHOOK)
+    if (tokenList.First().token != PromoterLexer.eToken.RHOOK)
       {
         restoreListState(tokenList, restoreStatus);
         Debug.Log("Syntax error : Need a ']' character to define constants");
@@ -387,14 +387,14 @@ public class Parser
     return node;
   }
 
-  public TreeNode<NodeData>     ParseWord(LinkedList<Lexer.Token> tokenList)
+  public TreeNode<PromoterNodeData>     ParseWord(LinkedList<PromoterLexer.Token> tokenList)
   {
-    NodeData data = new NodeData();
+    PromoterNodeData data = new PromoterNodeData();
     int restoreStatus;
     string value = "";
 
     restoreStatus = getRestoreListStatus();
-    if (tokenList.First().token != Lexer.eToken.CHAR)
+    if (tokenList.First().token != PromoterLexer.eToken.CHAR)
       {
         restoreListState(tokenList, restoreStatus);
         Debug.Log("Syntax error : A word need to begin with a Character.");        
@@ -402,24 +402,24 @@ public class Parser
       }
     value += tokenList.First().c;
     popToken(tokenList);
-    while (tokenList.First().token == Lexer.eToken.CHAR || tokenList.First().token == Lexer.eToken.NUM)
+    while (tokenList.First().token == PromoterLexer.eToken.CHAR || tokenList.First().token == PromoterLexer.eToken.NUM)
       {
         value += tokenList.First().c;
         popToken(tokenList);
       }
-    data.token = Parser.eNodeType.WORD;
+    data.token = PromoterParser.eNodeType.WORD;
     data.value = value;
-    return new TreeNode<NodeData>(data);
+    return new TreeNode<PromoterNodeData>(data);
   }
 
-  public TreeNode<NodeData>     ParseNumber(LinkedList<Lexer.Token> tokenList)
+  public TreeNode<PromoterNodeData>     ParseNumber(LinkedList<PromoterLexer.Token> tokenList)
   {
-    NodeData data = new NodeData();
+    PromoterNodeData data = new PromoterNodeData();
     int restoreStatus;
     string value = "";
 
     restoreStatus = getRestoreListStatus();
-    if (tokenList.First().token != Lexer.eToken.NUM)
+    if (tokenList.First().token != PromoterLexer.eToken.NUM)
       {
         restoreListState(tokenList, restoreStatus);
         Debug.Log("Syntax error : A Number need to begin with a number.");
@@ -427,24 +427,24 @@ public class Parser
       }
     value += tokenList.First().c;
     popToken(tokenList);
-    while (tokenList.First().token == Lexer.eToken.NUM)
+    while (tokenList.First().token == PromoterLexer.eToken.NUM)
       {
         value += tokenList.First().c;
         popToken(tokenList);
       }
-    data.token = Parser.eNodeType.WORD;
+    data.token = PromoterParser.eNodeType.WORD;
     data.value = value;
-    return new TreeNode<NodeData>(data);
+    return new TreeNode<PromoterNodeData>(data);
   }
 
 
-  public TreeNode<NodeData> Parse(string str)
+  public TreeNode<PromoterNodeData> Parse(string str)
   {
     clear();
-    Lexer lex = new Lexer();
-    LinkedList<Lexer.Token> tokenList = lex.lex(str);
+    PromoterLexer lex = new PromoterLexer();
+    LinkedList<PromoterLexer.Token> tokenList = lex.lex(str);
 //     lex.PPTokenList(tokenList);
-    TreeNode<NodeData> tree = ParseFormula(tokenList);
+    TreeNode<PromoterNodeData> tree = ParseFormula(tokenList);
     return tree;
   }
 
@@ -458,7 +458,7 @@ public class Parser
 
 // ========================== Pretty Print Tree =================================
 
-  public void  PPRecTree(TreeNode<NodeData> node, ref string str)
+  public void  PPRecTree(TreeNode<PromoterNodeData> node, ref string str)
   {
     if (node != null)
       {
@@ -475,7 +475,7 @@ public class Parser
       }
   }
 
-  public void PPTree(TreeNode<NodeData> tree)
+  public void PPTree(TreeNode<PromoterNodeData> tree)
   {
     string output;
     if (tree == null)
@@ -483,7 +483,7 @@ public class Parser
     output = "Digraph G {";
     PPRecTree(tree, ref output);
     output += "}";
-    string path = "graph.txt";
+//     string path = "graph.txt";
 
     // This text is added only once to the file. 
 //     if (!File.Exists(path))

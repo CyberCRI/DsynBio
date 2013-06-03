@@ -10,7 +10,7 @@ using UnityEngine;
 public class Promoter : IReaction
 {
   private float _terminatorFactor;
-  private TreeNode<NodeData> _formula;
+  private TreeNode<PromoterNodeData> _formula;
 
 //   public Promoter(string name = null, float beta = 0)
 //   {
@@ -19,8 +19,8 @@ public class Promoter : IReaction
 
   public void setTerminatorFactor(float v) { _terminatorFactor = v; }
   public float getTerminatorFactor() { return _terminatorFactor; }
-  public void setFormula(TreeNode<NodeData> tree) { _formula = tree; }
-  public TreeNode<NodeData> getFormula() { return _formula; }
+  public void setFormula(TreeNode<PromoterNodeData> tree) { _formula = tree; }
+  public TreeNode<PromoterNodeData> getFormula() { return _formula; }
 
   public static float hillFunc(float K, float concentration, double n)
   {
@@ -36,12 +36,12 @@ public class Promoter : IReaction
   }
 
 //   FIXME : Check all possible issues like product or molecule not exists;
-  private float execConstant(TreeNode<NodeData> node, ArrayList molecules)
+  private float execConstant(TreeNode<PromoterNodeData> node, ArrayList molecules)
   {
     if (node == null)
       return 0f;
 
-    if (node.getRightNode().getData().token == Parser.eNodeType.BOOL)
+    if (node.getRightNode().getData().token == PromoterParser.eNodeType.BOOL)
       return execBool(node.getRightNode());
     Molecule mol = execWord(node.getRightNode(), molecules);
     float K = execNum(node.getLeftNode(), molecules); 
@@ -55,13 +55,13 @@ public class Promoter : IReaction
   }
 
   // FIXME : check issues like node == null etc;
-  private Molecule execWord(TreeNode<NodeData> node, ArrayList molecules)
+  private Molecule execWord(TreeNode<PromoterNodeData> node, ArrayList molecules)
   {
     return ReactionEngine.getMoleculeFromName(node.getData().value, molecules);
   }
 
   // FIXME : check issues like node == null etc;
-  private float execBool(TreeNode<NodeData> node)
+  private float execBool(TreeNode<PromoterNodeData> node)
   {
     if (node.getData().value == "T")
       return 1f;
@@ -69,32 +69,32 @@ public class Promoter : IReaction
   }
 
   // FIXME : check issues like bad parse and node == null
-  private float execNum(TreeNode<NodeData> node, ArrayList molecules)
+  private float execNum(TreeNode<PromoterNodeData> node, ArrayList molecules)
   {
     return float.Parse(node.getData().value.Replace(",", "."));
   }
 
-  private float execNode(TreeNode<NodeData> node, ArrayList molecules)
+  private float execNode(TreeNode<PromoterNodeData> node, ArrayList molecules)
   {
     if (node != null)
       {
-        if (node.getData().token == Parser.eNodeType.OR)
+        if (node.getData().token == PromoterParser.eNodeType.OR)
           return execNode(node.getLeftNode(), molecules) + execNode(node.getRightNode(), molecules);
-        else if (node.getData().token == Parser.eNodeType.AND)
+        else if (node.getData().token == PromoterParser.eNodeType.AND)
           return Math.Min(execNode(node.getLeftNode(), molecules), execNode(node.getRightNode(), molecules));
-        else if (node.getData().token == Parser.eNodeType.NOT)
+        else if (node.getData().token == PromoterParser.eNodeType.NOT)
           return 1f - execNode(node.getLeftNode(), molecules);
-        else if (node.getData().token == Parser.eNodeType.CONSTANT)
+        else if (node.getData().token == PromoterParser.eNodeType.CONSTANT)
           return execConstant(node, molecules);
-        else if (node.getData().token == Parser.eNodeType.BOOL)
+        else if (node.getData().token == PromoterParser.eNodeType.BOOL)
           return execBool(node);
-        else if (node.getData().token == Parser.eNodeType.WORD)
+        else if (node.getData().token == PromoterParser.eNodeType.WORD)
           {
             Molecule mol = ReactionEngine.getMoleculeFromName(node.getData().value, molecules);
             if (mol != null)
               return mol.getConcentration();
           }
-        else if (node.getData().token == Parser.eNodeType.NUM)
+        else if (node.getData().token == PromoterParser.eNodeType.NUM)
           return float.Parse(node.getData().value.Replace(",", "."));
       }
     return 1.0f;

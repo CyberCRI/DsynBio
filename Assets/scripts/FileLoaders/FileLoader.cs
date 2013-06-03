@@ -6,16 +6,20 @@ using System.Collections.Generic;
 
 public class FileLoader
 {
-    public TextAsset _reactionFile;
+  private delegate void  StrSetter(string dst);
+  private delegate void  FloatSetter(float dst);
 
-  private Parser _parser;
+
+  public TextAsset _reactionFile;
+
+  private PromoterParser _parser;
 
   private LinkedList<IReaction> _reactions;
   private ArrayList             _molecules;
 
   public FileLoader()
   {
-    _parser = new Parser();
+    _parser = new PromoterParser();
     _reactions = new LinkedList<IReaction>();
     _molecules = new ArrayList();
   }
@@ -111,7 +115,7 @@ public class FileLoader
 
   private bool loadPromoterFormula(string formula, Promoter p)
   {
-    TreeNode<NodeData> tree = _parser.Parse(formula);
+    TreeNode<PromoterNodeData> tree = _parser.Parse(formula);
     
     if (tree == null)
       {
@@ -150,8 +154,8 @@ public class FileLoader
                 b = b && loadPromoterOperon(attr, p);
                 break;
               }
-            _reactions.AddLast(p);
           }
+        _reactions.AddLast(p);
       }
     return b;
   }
@@ -162,26 +166,26 @@ public class FileLoader
 
 // ================== ENZYME REACTIONS LOADING ==========================
 
-  private bool loadEnzymeReactionName(string value, EnzymeReaction er)
+  private bool loadEnzymeString(string value, StrSetter setter)
   {
     if (String.IsNullOrEmpty(value))
       {
-        Debug.Log("Error: Empty name field");
+//         Debug.Log("Error: Empty name field");
         return false;
       }
-    er.setName(value);
-    return true;
+    setter(value);
+    return true;    
   }
 
-  private bool loadEnzymeReactionProductionMax(string value, EnzymeReaction er)
+  private bool loadEnzymeFloat(string value, FloatSetter setter)
   {
     if (String.IsNullOrEmpty(value))
       {
         Debug.Log("Error: Empty productionMax field");
         return false;
       }
-    er.setBeta(float.Parse(value.Replace(",", ".")));
-    return true;
+    setter(float.Parse(value.Replace(",", ".")));
+    return true;    
   }
 
   private bool loadEnzymeReactionProducts(XmlNode node, EnzymeReaction er)
@@ -200,20 +204,6 @@ public class FileLoader
     return true;
   }
 
-  // FIXME : Determine what will be the syntax of EnzymeFormula
-  private bool loadEnzymeReactionFormula(string formula, EnzymeReaction er)
-  {
-//     TreeNode<NodeData> tree = _parser.Parse(formula);
-    
-//     if (tree == null)
-//       {
-//         Debug.Log("Syntax Error in promoter Formula");
-//         return false;
-//       }
-//     p.setFormula(tree);
-    return true;
-  }
-  
   private bool loadEnzymeReactions(XmlNode node)
   {
     XmlNodeList EReactionsList = node.SelectNodes("enzyme");
@@ -227,15 +217,33 @@ public class FileLoader
             switch (attr.Name)
               {
               case "name":
-                b = b && loadEnzymeReactionName(attr.InnerText, er);
+                b = b && loadEnzymeString(attr.InnerText, er.setName);
                 break;
-              case "productionMax":
-                b = b && loadEnzymeReactionProductionMax(attr.InnerText, er);
+              case "substrate":
+                b = b && loadEnzymeString(attr.InnerText, er.setSubstrate);
                 break;
-              case "formula":
-                b = b && loadEnzymeReactionFormula(attr.InnerText, er);
+              case "enzyme":
+                b = b && loadEnzymeString(attr.InnerText, er.setEnzyme);
                 break;
-              case "products":
+              case "Kcat":
+                b = b && loadEnzymeFloat(attr.InnerText, er.setKcat);
+                break;
+              case "effector":
+                b = b && loadEnzymeString(attr.InnerText, er.setEffector);
+                break;
+              case "alpha":
+                b = b && loadEnzymeFloat(attr.InnerText, er.setAlpha);
+                break;
+              case "beta":
+                b = b && loadEnzymeFloat(attr.InnerText, er.setBeta);
+                break;
+              case "Km":
+                b = b && loadEnzymeFloat(attr.InnerText, er.setKm);
+                break;
+              case "Ki":
+                b = b && loadEnzymeFloat(attr.InnerText, er.setKi);
+                break;
+              case "Products":
                 b = b && loadEnzymeReactionProducts(attr, er);
                 break;
               }
@@ -311,9 +319,13 @@ public class FileLoader
     return true;
   }
 
+//FIXME : patch parser to return correct boolean by checking if last node is a ending Token
   private bool loadReactions(XmlNode node)
   {
-    return loadPromoters(node) && loadEnzymeReactions(node);//  && loadChemicalReactions(node);
+    loadPromoters(node);
+    loadEnzymeReactions(node);
+    return true;
+//     return loadPromoters(node) && loadEnzymeReactions(node);//  && loadChemicalReactions(node);
   }
   
   public void loadReactionsFromFile(TextAsset filePath)

@@ -93,21 +93,3 @@ public class Degradation : IReaction
     mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * mol.getConcentration() * 0.05f);
   }
 }
-
-
-// ========================== EnzymeReaction ================================
-
-public class EnzymeReaction : IReaction
-{
-//   public EnzymeReaction(string name = null, float beta = 0)
-//   {
-//     _products = new LinkedList<Product>();
-//   }
-
-  public override void react(ArrayList molecules)
-  {
-    if (!_isActive)
-      return;
-//     Debug.Log("React enzyme");
-  }
-}

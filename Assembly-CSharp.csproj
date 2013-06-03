@@ -69,12 +69,15 @@
      <Compile Include="Assets\scripts\Misc\TreeNode.cs" />
      <Compile Include="Assets\scripts\MotilityChallenges\airFlowDown.cs" />
      <Compile Include="Assets\scripts\MotilityChallenges\airFlowUp.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\EnzymeReaction.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\Promoter.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\Reaction.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\ReactionEngine.cs" />
      <Compile Include="Assets\scripts\mainCamera.cs" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\data\repressillator.txt" />
+     <None Include="Assets\data\infinite_repressillator.txt" />
+     <None Include="Assets\data\test.txt" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
