@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class airFlowUp : MonoBehaviour {
+public class AirFlowUp : MonoBehaviour {
 
 	public Hero hero;
 
@@ -11,19 +11,18 @@ public class airFlowUp : MonoBehaviour {
 		_canFlow = false;
 	}
 	
+	//When the player colides with the flow block, he's propulsed upward.
 	void Update () {
-		if (_canFlow == true)
-			hero.transform.Translate(0, 0, 10 * Time.deltaTime);
+		if (_canFlow == true) {hero.transform.Translate(0, 0, 10 * Time.deltaTime);}
 	}
 
+	//Set-up an authorization for each gameObjects that might be in collision with the flow block.
 	void OnTriggerEnter(Collider col) {
-		if (col.gameObject.name == "Hero")
-			_canFlow = true;
-		if (col.gameObject.name == "Rock")
-			_canFlow = false;
+		if (col.gameObject.name == "Hero") {_canFlow = true;}
 	}
 
-	void OnTriggerExit(){
+	void OnTriggerExit() {
 		_canFlow = false;
 	}
+
 }

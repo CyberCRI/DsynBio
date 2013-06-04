@@ -1,20 +1,22 @@
 using UnityEngine;
 using System.Collections;
 
-public class mainCamera : MonoBehaviour {
+public class MainCamera : MonoBehaviour {
 
   //public float cameraDistanceMax;
   //public float cameraDistanceMin;
-  public float cameraDistance;
   //public float scrollSpeed;
-  public Transform _target;
+
+  public float cameraDistance;
+  public Transform target;
 
 	void LateUpdate(){
-//           cameraDistance += Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
-//           cameraDistance = Mathf.Clamp(cameraDistance, cameraDistanceMin, cameraDistanceMax);
-//           Debug.Log("ca marcheeeee pas");
-          Vector3 temp = _target.position;
-          temp.y += cameraDistance;
-          transform.position = temp;
+  //Zoom in & out with the scrollwheel.
+  //  cameraDistance += Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
+  //  cameraDistance = Mathf.Clamp(cameraDistance, cameraDistanceMin, cameraDistanceMax);
+
+    Vector3 temp = target.position;
+    temp.y += cameraDistance;
+    transform.position = temp;
 	}
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GUIManager : MonoBehaviour {
+public class GUIScript : MonoBehaviour {
 
 	public Hero hero;
 
@@ -18,17 +18,17 @@ public class GUIManager : MonoBehaviour {
 	}
 
 	void OnGUI(){
-		// top-right
+		//Top-right panel.
 		GUI.BeginGroup (new Rect (0, 0, 200, 110));
 		GUI.Box (new Rect (0, 0, 200, 120), "Gauges");
-			// ATP
+			//ATP gauge.
 			GUI.BeginGroup (new Rect (10, 60, 180, 32));
 				GUI.Box (new Rect (0, 0, 180, 32), atpBgImage);
 				GUI.BeginGroup (new Rect (0, 0, hero.getEnergy() * 180, 32));
 					GUI.Box (new Rect (0, 0, 180, 32), atpFgImage);
 				GUI.EndGroup ();
 			GUI.EndGroup ();
-			// HP
+			//HP gauge.
 			GUI.BeginGroup (new Rect (10, 30, 180, 32));
 				GUI.Box (new Rect (0, 0, 180, 32), lifeBgImage);
 				GUI.BeginGroup (new Rect (0, 0, hero.getLife() * 180, 32));
@@ -37,7 +37,7 @@ public class GUIManager : MonoBehaviour {
 			GUI.EndGroup ();
 		GUI.EndGroup ();
 
-		// top middle
+		//Top-middle panel.
 		if(GUI.Button(new Rect((Screen.width / 2 - 170), 0, 100, 50), "Game")) {
 			Debug.Log("test game button");
 			_characPanel = false;
@@ -53,23 +53,23 @@ public class GUIManager : MonoBehaviour {
 
 		}
 
-		// top-left
+		//Top-left panel.
 		GUI.BeginGroup (new Rect (Screen.width - 200, 0, 200, Screen.height / 2));
 			GUI.Box (new Rect (0, 0, 200, Screen.height / 2), "Devices equiped");
 		GUI.EndGroup();
 
-		// bot-right panel
-		GUI.BeginGroup (new Rect (Screen.width - 200, Screen.height - 300, 200, 300));
-			GUI.Box (new Rect (0, 0, 200, 300), "Monitoring tool");
-		GUI.EndGroup();
+		//Bot-right panel.
+		//	GUI.BeginGroup (new Rect (Screen.width - 200, Screen.height - 300, 200, 300));
+		//		GUI.Box (new Rect (0, 0, 200, 300), "Monitoring tool");
+		//	GUI.EndGroup();
 
-		// bot-left panel
-		GUI.BeginGroup (new Rect (0, Screen.height - 300, 200, 300));
-			GUI.Box (new Rect (0, 0, 200, 300), "Inventory");
-			GUI.Box(new Rect (10, 30, 180, 24), ("Biobricks collected: " + hero.getCollected()));
-		GUI.EndGroup();
+		//Bot-left panel.
+		//	GUI.BeginGroup (new Rect (0, Screen.height - 300, 200, 300));
+		//		GUI.Box (new Rect (0, 0, 200, 300), "Inventory");
+		//		GUI.Box(new Rect (10, 30, 180, 24), ("Biobricks collected: " + hero.getCollected()));
+		//	GUI.EndGroup();
 
-		// charac panel
+		//Character panel.
 		if (_characPanel == true){
 			GUI.BeginGroup (new Rect (Screen.width / 2 - 200, Screen.height / 2 - 300, 400, 600));
 				GUI.Box (new Rect (0, 0, 400, 600), "Bacterium summary");
@@ -79,9 +79,8 @@ public class GUIManager : MonoBehaviour {
 			GUI.EndGroup();
 		}
 
-		// lab panel
-		if (_labPanel == true)
-			GUI.Box (new Rect (Screen.width / 2 - 500, Screen.height / 2 - 300, 1000, 600), "Lab");
+		//Crafting panel.
+		if (_labPanel == true) {GUI.Box (new Rect (Screen.width / 2 - 500, Screen.height / 2 - 300, 1000, 600), "Lab");}
 
 	}
 

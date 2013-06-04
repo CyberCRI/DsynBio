@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class devImpMoti : MonoBehaviour {
+public class DevImpMoti : MonoBehaviour {
 
 	public Hero hero;
 
@@ -11,6 +11,7 @@ public class devImpMoti : MonoBehaviour {
 		gameObject.SetActive(true);
 	}
 
+	//The device rotates on itself.
 	void Update(){
 		transform.Rotate(rotationVelocity * Time.deltaTime);
 	}

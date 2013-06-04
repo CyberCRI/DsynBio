@@ -44,12 +44,12 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Managers\GUIManager.cs" />
-     <Compile Include="Assets\Scripts\Camera\mainCamera.cs" />
+     <Compile Include="Assets\Scripts\Camera\MainCamera.cs" />
      <Compile Include="Assets\Scripts\Charac\Hero.cs" />
      <Compile Include="Assets\Scripts\FileLoaders\FileLoader.cs" />
      <Compile Include="Assets\Scripts\FileLoaders\LevelScript.cs" />
      <Compile Include="Assets\Scripts\FileLoaders\Parser.cs" />
+     <Compile Include="Assets\Scripts\GUI\GUIScript.cs" />
      <Compile Include="Assets\Scripts\Graphs\Curve.cs" />
      <Compile Include="Assets\Scripts\Graphs\Graph.cs" />
      <Compile Include="Assets\Scripts\Graphs\GraphDrawer.cs" />
@@ -62,14 +62,14 @@
      <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VisibilityControl.cs" />
      <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VisibilityControlAlways.cs" />
      <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VisibilityControlStatic.cs" />
-     <Compile Include="Assets\Scripts\Level\MotilityChallenges\airFlowDown.cs" />
-     <Compile Include="Assets\Scripts\Level\MotilityChallenges\airFlowUp.cs" />
+     <Compile Include="Assets\Scripts\Level\MotilityChallenges\AirFlowDown.cs" />
+     <Compile Include="Assets\Scripts\Level\MotilityChallenges\AirFlowUp.cs" />
      <Compile Include="Assets\Scripts\Level\Toxic.cs" />
      <Compile Include="Assets\Scripts\Misc\Tools.cs" />
      <Compile Include="Assets\Scripts\Misc\TreeNode.cs" />
      <Compile Include="Assets\Scripts\Objects\Collectibles.cs" />
+     <Compile Include="Assets\Scripts\Objects\DevImpMoti.cs" />
      <Compile Include="Assets\Scripts\Objects\Glucose.cs" />
-     <Compile Include="Assets\Scripts\Objects\devImpMoti.cs" />
      <Compile Include="Assets\Scripts\ReactionEngine\EnzymeReaction.cs" />
      <Compile Include="Assets\Scripts\ReactionEngine\Promoter.cs" />
      <Compile Include="Assets\Scripts\ReactionEngine\Reaction.cs" />
