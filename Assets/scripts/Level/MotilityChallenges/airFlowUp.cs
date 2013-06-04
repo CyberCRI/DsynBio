@@ -16,8 +16,11 @@ public class airFlowUp : MonoBehaviour {
 			hero.transform.Translate(0, 0, 10 * Time.deltaTime);
 	}
 
-	void OnTriggerEnter(){
-		_canFlow = true;
+	void OnTriggerEnter(Collider col) {
+		if (col.gameObject.name == "Hero")
+			_canFlow = true;
+		if (col.gameObject.name == "Rock")
+			_canFlow = false;
 	}
 
 	void OnTriggerExit(){
