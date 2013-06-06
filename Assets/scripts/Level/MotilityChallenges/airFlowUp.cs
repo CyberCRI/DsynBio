@@ -1,6 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// TO BE UPDATE - CF. AIRFLOWDOWN
+/// <summary>
+
 public class AirFlowUp : MonoBehaviour {
 
 	public Hero hero;

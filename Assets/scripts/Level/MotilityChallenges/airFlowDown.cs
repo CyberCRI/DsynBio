@@ -3,12 +3,13 @@ using System.Collections;
 
 public class AirFlowDown : MonoBehaviour {
 
-	public Hero hero;
+	private GameObject _hero;
 
 	private bool _canFlow;
 	private bool _flowPlayer;
 
 	void Start () {
+		_hero = GameObject.Find("Hero");
 		_canFlow = true;
 		_flowPlayer = false;
 	}
@@ -17,7 +18,7 @@ public class AirFlowDown : MonoBehaviour {
 	void Update () {
 		if (_canFlow == true)
 			if (_flowPlayer == true)
-				hero.transform.Translate(0, 0, -5 * Time.deltaTime);
+				_hero.transform.Translate(0, 0, -5 * Time.deltaTime);
 	}
 
 	//Set-up an authorization for each gameObjects that might be in collision with the flow block.
