@@ -3,27 +3,12 @@ using System.Collections;
 
 public class Toxic : MonoBehaviour {
 
-	public Hero hero;
+	public const float toxicDrain = .3f;
 
-	private bool _drainLife;
 
-	void Start () {
-		_drainLife = false;
-	}
-	
-	void Update () {
-		if (_drainLife == true)
-			hero.setLife(hero.getLife() - Time.deltaTime * .8f);
-		if (_drainLife == false) 
-			hero.setLife(hero.getLife() + Time.deltaTime * .1f);
+	void OnTriggerStay(Collider col) {
+		if (col.gameObject.name == "Hero") 
+			col.gameObject.SendMessage("subLife", Time.deltaTime * toxicDrain);
 	}
 
-	void OnTriggerEnter(Collider col) {
-		if (col.gameObject.name == "Hero")
-			_drainLife = true;
-	}
-
-	void OnTriggerExit(){
-		_drainLife = false;
-	}
 }

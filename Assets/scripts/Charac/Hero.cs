@@ -47,6 +47,8 @@ public class Hero : MonoBehaviour{
 		}
 		_life = life;
 	}
+
+	public void subLife(float life) {_life -= life;}
   
 	void Start (){
 		//Click to move variable.
@@ -58,6 +60,7 @@ public class Hero : MonoBehaviour{
 
 		//When the player is idle his energy gets drained.
 		setEnergy(getEnergy() - Time.deltaTime * .01f);
+		setLife(getLife() + Time.deltaTime * .1f);
 		
 		//Keyboard controls.
 	 	transform.Translate((Input.GetAxis("Horizontal") * this._moveSpeed * Time.deltaTime), 0, (Input.GetAxis("Vertical") * this._moveSpeed * Time.deltaTime));
