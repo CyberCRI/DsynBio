@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Collectibles : MonoBehaviour {
+public class DevImpMoti : MonoBehaviour {
 
 	public Hero hero;
 
@@ -11,12 +11,13 @@ public class Collectibles : MonoBehaviour {
 		gameObject.SetActive(true);
 	}
 
+	//The device rotates on itself.
 	void Update(){
 		transform.Rotate(rotationVelocity * Time.deltaTime);
 	}
 
 	void OnTriggerEnter(){
-		hero.Collect();
+		hero.equipImpMoti();
 		gameObject.SetActive(false);
 	}
 }

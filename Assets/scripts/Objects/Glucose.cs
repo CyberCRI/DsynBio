@@ -11,6 +11,7 @@ public class Glucose : MonoBehaviour {
 		gameObject.SetActive(true);
 	}
 
+	//The collectible rotates on itself.
 	void Update(){
 		transform.Rotate(rotationVelocity * Time.deltaTime);
 	}

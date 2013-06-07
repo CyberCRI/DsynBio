@@ -18,8 +18,9 @@ public class Toxic : MonoBehaviour {
 			hero.setLife(hero.getLife() + Time.deltaTime * .1f);
 	}
 
-	void OnTriggerEnter(){
-		_drainLife = true;
+	void OnTriggerEnter(Collider col) {
+		if (col.gameObject.name == "Hero")
+			_drainLife = true;
 	}
 
 	void OnTriggerExit(){
