@@ -1,12 +1,12 @@
 <Document>
-  <reactions>
+  <reactions id="CelliaReactions">
 
 
     <promoter>
       <name>PromX</name>
       <productionMax>10</productionMax>
       <terminatorFactor>1</terminatorFactor>
-      <formula>![0.1]X*</formula>
+      <formula>![100]X*</formula>
       <operon>
 	<gene>
 	  <name>X</name>
@@ -32,24 +32,24 @@
 
   </reactions>
   
-  <molecules>
+  <molecules id="CelliaMolecules">
     <molecule type="enzyme">
       <name>E</name>
       <description></description>
       <concentration>1</concentration>
-      <degradationRate>0.2</degradationRate>
+      <degradationRate>0.0</degradationRate>
     </molecule>
     <molecule type="other">
       <name>X</name>
       <description></description>
-      <concentration>0.001</concentration>
+      <concentration>2</concentration>
       <degradationRate>0.1</degradationRate>
     </molecule>
     <molecule type="transcription_factor">
       <name>X*</name>
       <description>Active form of X</description>
       <concentration>0</concentration>
-      <degradationRate>0.1</degradationRate>
+      <degradationRate>0.9</degradationRate>
     </molecule>
   </molecules>
 </Document>

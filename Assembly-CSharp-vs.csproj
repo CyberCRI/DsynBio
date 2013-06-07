@@ -50,6 +50,7 @@
      <Compile Include="Assets\scripts\Collectibles\devImpMoti.cs" />
      <Compile Include="Assets\scripts\FileLoaders\FileLoader.cs" />
      <Compile Include="Assets\scripts\FileLoaders\LevelScript.cs" />
+     <Compile Include="Assets\scripts\FileLoaders\MediumLoader.cs" />
      <Compile Include="Assets\scripts\FileLoaders\Parser.cs" />
      <Compile Include="Assets\scripts\Graphs\Curve.cs" />
      <Compile Include="Assets\scripts\Graphs\Graph.cs" />
@@ -65,14 +66,18 @@
      <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VisibilityControlStatic.cs" />
      <Compile Include="Assets\scripts\Grounds\Toxic.cs" />
      <Compile Include="Assets\scripts\Hero.cs" />
+     <Compile Include="Assets\scripts\Map\MapGenerator.cs" />
+     <Compile Include="Assets\scripts\Misc\LinkedListExtensions.cs" />
      <Compile Include="Assets\scripts\Misc\Tools.cs" />
      <Compile Include="Assets\scripts\Misc\TreeNode.cs" />
      <Compile Include="Assets\scripts\MotilityChallenges\airFlowDown.cs" />
      <Compile Include="Assets\scripts\MotilityChallenges\airFlowUp.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\EnzymeReaction.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\Medium.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\Promoter.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\Reaction.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\ReactionEngine.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\Sets.cs" />
      <Compile Include="Assets\scripts\mainCamera.cs" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\data\repressillator.txt" />
@@ -85,6 +90,7 @@
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
      <None Include="Assets\data\reactions.txt" />
+     <None Include="Assets\data\mediums.txt" />
      <None Include="Assets\data\map.txt" />
  <Reference Include="Library\ScriptAssemblies\Assembly-UnityScript-firstpass">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>

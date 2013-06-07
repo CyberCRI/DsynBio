@@ -65,6 +65,7 @@
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
      <None Include="Assets\data\reactions.txt" />
+     <None Include="Assets\data\mediums.txt" />
      <None Include="Assets\data\map.txt" />
  <Reference Include="Assets\Plugins\Vectrosity\Vectrosity_Unity4">
  <HintPath>Assets\Plugins\Vectrosity\Vectrosity_Unity4.dll</HintPath>

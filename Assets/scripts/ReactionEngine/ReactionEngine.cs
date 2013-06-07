@@ -6,23 +6,18 @@ using System.Collections.Generic;
 
 public class ReactionEngine : MonoBehaviour {
 
-  public TextAsset _reactionFile;
-  public GraphDrawer _graphic;
-  private FileLoader _fileLoader;
+  private LinkedList<Medium>    _mediums;
+  private LinkedList<ReactionsSet> _reactionsSets;
+  private LinkedList<MoleculesSet> _moleculesSets;
+  public string[]        _mediumsFiles;
+  public TextAsset[]         _reactionsFiles;
+  public TextAsset[]         _moleculesFiles;
 
-  private LinkedList<IReaction> _reactions;
-  private ArrayList             _molecules;
-  
-  // Graphic Stuff
-  private LinkedList<Curve>    _curves;
+  public GraphDrawer    _graphDrawer;
 
   public ReactionEngine()
   {
-    _fileLoader = new FileLoader();
-
-    _curves = new LinkedList<Curve>();
   }
-
 
   public static Molecule        getMoleculeFromName(string name, ArrayList molecules)
   {
@@ -32,65 +27,67 @@ public class ReactionEngine : MonoBehaviour {
     return null;
  }
 
-	// Use this for initialization
-  void Start () {
-
-    _fileLoader.loadReactionsFromFile(_reactionFile);
-    _reactions = _fileLoader.getReactions();
-    _molecules = _fileLoader.getMolecules();
-
-//     graphic stuff
-    for (int i = 0; i < _molecules.Count; i++)
-      {
-        Curve c = new Curve();
-        _curves.AddLast(c);
-        _graphic.addCurve(c);
-      }
+  public static ReactionsSet    getReactionsSetFromId(string id, LinkedList<ReactionsSet> list)
+  {
+    foreach (ReactionsSet reactSet in list)
+      if (reactSet.id == id)
+        return reactSet;
+    return null;
   }
 
-  //   private int _i = 0;
-  // Update is called once per frame
-  void Update ()
+  public static bool    isMoleculeIsDuplicated(Molecule mol, ArrayList list)
   {
-    foreach (IReaction reaction in _reactions)
-        reaction.react(_molecules);
+    foreach (Molecule mol2 in list)
+      if (mol2.getName() == mol.getName())
+        return true;
+    return false;
+  }
 
-//     Vector2 p = default(Vector2);
-//     Time.fixedDeltaTime = 0.0000000002f;
-    //FIXME : To delete
-//     _i = 0;
-//     if (_i % 100 == 0)
-//       {
-    if (Input.GetKey (KeyCode.UpArrow))
-      {
-        Molecule mole = ReactionEngine.getMoleculeFromName("X", _molecules);
-        mole.setConcentration(mole.getConcentration() + 0.2f);
-      }
-    if (Input.GetKey (KeyCode.DownArrow))
-      {
-        Molecule mole = ReactionEngine.getMoleculeFromName("X", _molecules);
-        mole.setConcentration(mole.getConcentration() - 0.2f);
-      }
-    if (Input.GetKey (KeyCode.LeftArrow))
-      {
-        Molecule mole = ReactionEngine.getMoleculeFromName("Y", _molecules);
-        mole.setConcentration(mole.getConcentration() - 0.2f);
-      }
-    if (Input.GetKey (KeyCode.RightArrow))
-      {
-        Molecule mole = ReactionEngine.getMoleculeFromName("Y", _molecules);
-        mole.setConcentration(mole.getConcentration() + 0.2f);
-      }
+  public static ArrayList    getAllMoleculesFromMoleculeSets(LinkedList<MoleculesSet> list)
+  {
+    ArrayList molecules = new ArrayList();
 
-        LinkedListNode<Curve> node = _curves.First;
-        foreach (Molecule mol in _molecules)
-          {
-            Vector2 p = new Vector2((float)Time.timeSinceLevelLoad*200f, mol.getConcentration() *100f);
-            node.Value.addPoint(p);
-//             node.Value.updatePts();
-            node = node.Next;
-          }
-//       }
-//     _i++;
+    
+    foreach (MoleculesSet molSet in list)
+      {
+        foreach (Molecule mol in molSet.molecules)
+          if (!isMoleculeIsDuplicated(mol, molecules))
+            molecules.Add(mol);
+      }
+    return molecules;
+  }
+
+  public static MoleculesSet    getMoleculesSetFromId(string id, LinkedList<MoleculesSet> list)
+  {
+    foreach (MoleculesSet molSet in list)
+      if (molSet.id == id)
+        return molSet;
+    return null;
+  }
+
+  public void Start ()
+  {
+    FileLoader fileLoader = new FileLoader();
+    _reactionsSets = new LinkedList<ReactionsSet>();
+    _moleculesSets = new LinkedList<MoleculesSet>();
+    _mediums = new LinkedList<Medium>();
+    
+    foreach (TextAsset file in _reactionsFiles)
+      LinkedListExtensions.AppendRange<ReactionsSet>(_reactionsSets, fileLoader.loadReactionsFromFile(file));
+    foreach (TextAsset file in _moleculesFiles)
+      LinkedListExtensions.AppendRange<MoleculesSet>(_moleculesSets, fileLoader.loadMoleculesFromFile(file));
+
+    MediumLoader mediumLoader = new MediumLoader();
+    foreach (string file in _mediumsFiles)
+      LinkedListExtensions.AppendRange<Medium>(_mediums, mediumLoader.loadMediumsFromFile(file));
+    foreach (Medium medium in _mediums)
+      medium.Init(_reactionsSets, _moleculesSets, _graphDrawer);
+//     Debug.Log("salut les coco2");
+  }
+
+  public void Update ()
+  {
+    foreach (Medium medium in _mediums)
+      medium.Update();
   }
 }

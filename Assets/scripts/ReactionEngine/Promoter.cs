@@ -11,12 +11,15 @@ public class Promoter : IReaction
 {
   private float _terminatorFactor;
   private TreeNode<PromoterNodeData> _formula;
+  protected float _beta;
 
 //   public Promoter(string name = null, float beta = 0)
 //   {
 //     _products = new LinkedList<GeneProduct>();
 //   }
 
+  public void setBeta(float beta) { _beta = beta; }
+  public float getBeta() { return _beta; }
   public void setTerminatorFactor(float v) { _terminatorFactor = v; }
   public float getTerminatorFactor() { return _terminatorFactor; }
   public void setFormula(TreeNode<PromoterNodeData> tree) { _formula = tree; }

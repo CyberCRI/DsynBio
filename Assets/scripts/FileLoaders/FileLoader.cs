@@ -14,18 +14,18 @@ public class FileLoader
 
   private PromoterParser _parser;
 
-  private LinkedList<IReaction> _reactions;
-  private ArrayList             _molecules;
+//   private LinkedList<IReaction> _reactions;
+//   private ArrayList             _molecules;
 
   public FileLoader()
   {
     _parser = new PromoterParser();
-    _reactions = new LinkedList<IReaction>();
-    _molecules = new ArrayList();
+//     _reactions = new LinkedList<IReaction>();
+//     _molecules = new ArrayList();
   }
 
-  public LinkedList<IReaction>  getReactions() { return _reactions; }
-  public ArrayList  getMolecules() { return _molecules; }
+//   public LinkedList<IReaction>  getReactions() { return _reactions; }
+//   public ArrayList  getMolecules() { return _molecules; }
 
 // ====================== PROMOTER LOADING ===========================
 
@@ -126,7 +126,7 @@ public class FileLoader
     return true;
   }
 
-  private bool loadPromoters(XmlNode node)
+  private bool loadPromoters(XmlNode node, LinkedList<IReaction> reactions)
   {
     XmlNodeList promotersList = node.SelectNodes("promoter");
     bool b = true;
@@ -155,7 +155,7 @@ public class FileLoader
                 break;
               }
           }
-        _reactions.AddLast(p);
+        reactions.AddLast(p);
       }
     return b;
   }
@@ -204,7 +204,7 @@ public class FileLoader
     return true;
   }
 
-  private bool loadEnzymeReactions(XmlNode node)
+  private bool loadEnzymeReactions(XmlNode node, LinkedList<IReaction> reactions)
   {
     XmlNodeList EReactionsList = node.SelectNodes("enzyme");
     bool b = true;
@@ -248,7 +248,7 @@ public class FileLoader
                 break;
               }
           }
-        _reactions.AddLast(er);
+        reactions.AddLast(er);
       }
     return b;
   }
@@ -265,7 +265,7 @@ public class FileLoader
 //       return true;
 //   }
 
-  private bool storeMolecule(XmlNode node, Molecule.eType type)
+  private bool storeMolecule(XmlNode node, Molecule.eType type, ArrayList molecules)
   {
     Molecule mol = new Molecule();
 
@@ -288,59 +288,107 @@ public class FileLoader
             break;
           }
      }
-    _molecules.Add(mol);
-    _reactions.AddLast(new Degradation(mol.getDegradationRate(), mol.getName()));
+    molecules.Add(mol);
+    //FIXME : create a real reaction for degradation with rate and name
+//     _reactions.AddLast(new Degradation(mol.getDegradationRate(), mol.getName()));
     return true;
   }
 
-  private bool loadMolecule(XmlNode node)
+  private bool loadMolecule(XmlNode node, ArrayList molecules)
   {
     if (node.Attributes["type"] == null)
       return false;
     switch (node.Attributes["type"].Value)
       {
       case "enzyme":
-        return storeMolecule(node, Molecule.eType.ENZYME);
+        return storeMolecule(node, Molecule.eType.ENZYME, molecules);
       case "transcription_factor":
-        return storeMolecule(node, Molecule.eType.TRANSCRIPTION_FACTOR);
+        return storeMolecule(node, Molecule.eType.TRANSCRIPTION_FACTOR, molecules);
       case "other":
-        return storeMolecule(node, Molecule.eType.OTHER);
+        return storeMolecule(node, Molecule.eType.OTHER, molecules);
       }
     return true;
   }
 
-  private bool loadMolecules(XmlNode node)
+  private bool loadMolecules(XmlNode node, ArrayList molecules)
   {
     foreach (XmlNode mol in node)
       {
         if (mol.Name == "molecule")
-          loadMolecule(mol);
+          loadMolecule(mol, molecules);
       }
     return true;
   }
 
 //FIXME : patch parser to return correct boolean by checking if last node is a ending Token
-  private bool loadReactions(XmlNode node)
+  private bool loadReactions(XmlNode node, LinkedList<IReaction> reactions)
   {
-    loadPromoters(node);
-    loadEnzymeReactions(node);
+    loadPromoters(node, reactions);
+    loadEnzymeReactions(node, reactions);
     return true;
 //     return loadPromoters(node) && loadEnzymeReactions(node);//  && loadChemicalReactions(node);
   }
   
-  public void loadReactionsFromFile(TextAsset filePath)
+  public LinkedList<ReactionsSet> loadReactionsFromFile(TextAsset filePath)
   {
     bool b = true;
+    ReactionsSet reactionSet;
+    string setId;
+    LinkedList<ReactionsSet> reactionSets = new LinkedList<ReactionsSet>();
 
     XmlDocument xmlDoc = new XmlDocument();
     xmlDoc.LoadXml(filePath.text);
     XmlNodeList reactionsLists = xmlDoc.GetElementsByTagName("reactions");
     foreach (XmlNode reactionsNode in reactionsLists)
-      b &= loadReactions(reactionsNode);
+      {
+        setId = reactionsNode.Attributes["id"].Value;
+        if (setId != "" && setId != null)
+          {
+            LinkedList<IReaction> reactions = new LinkedList<IReaction>();
+            b &= loadReactions(reactionsNode, reactions);
+            reactionSet = new ReactionsSet();
+            reactionSet.id = setId;
+            reactionSet.reactions = reactions;
+            reactionSets.AddLast(reactionSet);
+          }
+        else
+          {
+            Debug.Log("Error : missing attribute id in reactions node");
+            b = false;
+          }
+      }
+    return reactionSets;
+  }
 
+  public LinkedList<MoleculesSet> loadMoleculesFromFile(TextAsset filePath)
+  {
+    bool b = true;
+    MoleculesSet moleculeSet;
+    string setId;
+    LinkedList<MoleculesSet> moleculesSets = new LinkedList<MoleculesSet>();
+
+    XmlDocument xmlDoc = new XmlDocument();
+    xmlDoc.LoadXml(filePath.text);
     XmlNodeList moleculesLists = xmlDoc.GetElementsByTagName("molecules");
     foreach (XmlNode moleculesNode in moleculesLists)
-      b &= loadMolecules(moleculesNode);
+      {
+        setId = moleculesNode.Attributes["id"].Value;
+        if (setId != "" && setId != null)
+          {
+            ArrayList molecules = new ArrayList();
+            b &= loadMolecules(moleculesNode, molecules);
+            moleculeSet = new MoleculesSet();
+            moleculeSet.id = setId;
+            moleculeSet.molecules = molecules;
+            moleculesSets.AddLast(moleculeSet);
+          }
+        else
+          {
+            Debug.Log("Error : missing attribute id in reactions node");
+            b = false;
+          }
+      }
+    return moleculesSets;
   }
 
 }

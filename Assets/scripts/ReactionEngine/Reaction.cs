@@ -17,6 +17,18 @@ public class Molecule
   private float _concentration;
   private float _degradationRate;
 
+  public Molecule(Molecule mol = null)
+  {
+    if (mol != null)
+      {
+        _name = mol._name;
+        _type = mol._type;
+        _description = mol._description;
+        _concentration = mol._concentration;
+        _degradationRate = mol._degradationRate;
+      }
+  }
+
   public string getName() {return _name; }
   public eType getType() {return _type; }
   public string getDescription() {return _description; }
@@ -52,7 +64,6 @@ public class GeneProduct : Product
 public abstract class IReaction
 {
   protected string _name;
-  protected float _beta;
   protected LinkedList<Product> _products;
   protected bool _isActive;
 
@@ -64,8 +75,6 @@ public abstract class IReaction
 
   public void setName(string name) { _name = Tools.epurStr(name); }
   public string getName() { return _name; }
-  public void setBeta(float beta) { _beta = beta; }
-  public float getBeta() { return _beta; }
 
   public abstract void react(ArrayList molecules);
   public void addProduct(Product prod) { if (prod != null) _products.AddLast(prod); }
@@ -84,11 +93,12 @@ public class Degradation : IReaction
     _molName = molName;
   }
 
+// FIXME : use _degradationRate
   public override void react(ArrayList molecules)
   {
     if (!_isActive)
       return;
-//     Debug.Log("React degradation");
+//     Debug.Log("React degradation");s
     Molecule mol = ReactionEngine.getMoleculeFromName(_molName, molecules);
     mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * mol.getConcentration() * 0.05f);
   }
