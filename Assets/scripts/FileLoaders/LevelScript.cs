@@ -189,20 +189,20 @@ public class LevelScript : MonoBehaviour
       {
         //To be edited to add new blocks.
         if (level.map[i] == CellType.WALL)
-          createCube(i % level.sizeX + 1, 0, i / level.sizeX, 1, _wallCell);
-        else if (level.map[i] == CellType.EMPTY)
-          createCube(i % level.sizeX + 1, 0, i / level.sizeX,  1, _groundCell);
-        else if (level.map[i] == CellType.START)
-          createCube(i % level.sizeX + 1, 0, i / level.sizeX, 1, _groundCell);
+          createCube(i % level.sizeX + 1, 0, level.sizeY - i / level.sizeX, 1, _wallCell);
+        //else if (level.map[i] == CellType.EMPTY)
+        //  createCube(i % level.sizeX + 1, 0, i / level.sizeX,  1, _groundCell);
+        //else if (level.map[i] == CellType.START)
+        //  createCube(i % level.sizeX + 1, 0, i / level.sizeX, 1, _groundCell);
         
         else if (level.map[i] == CellType.TOXIC)
-          createCube(i % level.sizeX + 1, 0, i / level.sizeX, 1, _toxicCell);
+          createCube(i % level.sizeX + 1, 0,  level.sizeY - i / level.sizeX, 1, _toxicCell);
         else if (level.map[i] == CellType.AIRFLOWUP)
-          createCube(i % level.sizeX + 1, 0, i / level.sizeX, 1, _airFlowUpCell);
+          createCube(i % level.sizeX + 1, 0,  level.sizeY - i / level.sizeX, 1, _airFlowUpCell);
         else if (level.map[i] == CellType.AIRFLOWDOWN)
-          createCube(i % level.sizeX + 1, 0, i / level.sizeX, 1, _airFlowDownCell);
+          createCube(i % level.sizeX + 1, 0,  level.sizeY - i / level.sizeX, 1, _airFlowDownCell);
         else if (level.map[i] == CellType.ROCK)
-          createCube(i % level.sizeX + 1, 0, i / level.sizeX, 1, _rockCell);
+          createCube(i % level.sizeX + 1, 0,  level.sizeY - i / level.sizeX, 1, _rockCell);
       }
     
   }
