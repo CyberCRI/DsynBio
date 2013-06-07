@@ -18,7 +18,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_WEBPLAYER;WEBPLUG;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_CLOTH;ENABLE_MOVIES;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;ENABLE_DUCK_TYPING;UNITY_4_0_1;UNITY_4_0;ENABLE_PROFILER;UNITY_EDITOR</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_WEBPLAYER;WEBPLUG;ENABLE_MICROPHONE;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;ENABLE_AUDIO_FMOD;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PHYSICS;ENABLE_TERRAIN;ENABLE_CACHING;ENABLE_SUBSTANCE;ENABLE_GENERICS;ENABLE_CLOTH;ENABLE_MOVIES;ENABLE_AUDIO;ENABLE_WWW;ENABLE_SHADOWS;ENABLE_DUCK_TYPING;UNITY_4_1_2;UNITY_4_1;ENABLE_PROFILER;UNITY_EDITOR</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -37,56 +37,62 @@
     <Reference Include="System.XML" />
 	<Reference Include="System.Core" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Programmes/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Programmes/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Camera\MainCamera.cs" />
-     <Compile Include="Assets\Scripts\Charac\Hero.cs" />
-     <Compile Include="Assets\Scripts\FileLoaders\FileLoader.cs" />
-     <Compile Include="Assets\Scripts\FileLoaders\LevelScript.cs" />
-     <Compile Include="Assets\Scripts\FileLoaders\Parser.cs" />
-     <Compile Include="Assets\Scripts\GUI\GUIScript.cs" />
-     <Compile Include="Assets\Scripts\Graphs\Curve.cs" />
-     <Compile Include="Assets\Scripts\Graphs\Graph.cs" />
-     <Compile Include="Assets\Scripts\Graphs\GraphDrawer.cs" />
-     <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\BrightnessControl.cs" />
-     <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\LineManager.cs" />
-     <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\RefInt.cs" />
-     <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VectorChar.cs" />
-     <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VectorLine.cs" />
-     <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VectorManager.cs" />
-     <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VisibilityControl.cs" />
-     <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VisibilityControlAlways.cs" />
-     <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VisibilityControlStatic.cs" />
-     <Compile Include="Assets\Scripts\Level\MotilityChallenges\AirFlowDown.cs" />
-     <Compile Include="Assets\Scripts\Level\MotilityChallenges\AirFlowUp.cs" />
-     <Compile Include="Assets\Scripts\Level\Toxic.cs" />
-     <Compile Include="Assets\Scripts\Misc\Tools.cs" />
-     <Compile Include="Assets\Scripts\Misc\TreeNode.cs" />
-     <Compile Include="Assets\Scripts\Objects\Collectibles.cs" />
-     <Compile Include="Assets\Scripts\Objects\DevImpMoti.cs" />
-     <Compile Include="Assets\Scripts\Objects\Glucose.cs" />
-     <Compile Include="Assets\Scripts\ReactionEngine\EnzymeReaction.cs" />
-     <Compile Include="Assets\Scripts\ReactionEngine\Promoter.cs" />
-     <Compile Include="Assets\Scripts\ReactionEngine\Reaction.cs" />
-     <Compile Include="Assets\Scripts\ReactionEngine\ReactionEngine.cs" />
+     <Compile Include="Assets\scripts\Camera\mainCamera.cs" />
+     <Compile Include="Assets\scripts\Charac\Hero.cs" />
+     <Compile Include="Assets\scripts\FileLoaders\FileLoader.cs" />
+     <Compile Include="Assets\scripts\FileLoaders\LevelScript.cs" />
+     <Compile Include="Assets\scripts\FileLoaders\MediumLoader.cs" />
+     <Compile Include="Assets\scripts\FileLoaders\Parser.cs" />
+     <Compile Include="Assets\scripts\GUI\GUIScript.cs" />
+     <Compile Include="Assets\scripts\Graphs\Curve.cs" />
+     <Compile Include="Assets\scripts\Graphs\Graph.cs" />
+     <Compile Include="Assets\scripts\Graphs\GraphDrawer.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\BrightnessControl.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\LineManager.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\RefInt.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VectorChar.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VectorLine.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VectorManager.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VisibilityControl.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VisibilityControlAlways.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VisibilityControlStatic.cs" />
+     <Compile Include="Assets\scripts\Level\MotilityChallenges\airFlowDown.cs" />
+     <Compile Include="Assets\scripts\Level\MotilityChallenges\airFlowUp.cs" />
+     <Compile Include="Assets\scripts\Level\Toxic.cs" />
+     <Compile Include="Assets\scripts\Map\MapGenerator.cs" />
+     <Compile Include="Assets\scripts\Misc\LinkedListExtensions.cs" />
+     <Compile Include="Assets\scripts\Misc\Tools.cs" />
+     <Compile Include="Assets\scripts\Misc\TreeNode.cs" />
+     <Compile Include="Assets\scripts\Objects\Collectibles.cs" />
+     <Compile Include="Assets\scripts\Objects\Glucose.cs" />
+     <Compile Include="Assets\scripts\Objects\devImpMoti.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\EnzymeReaction.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\Medium.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\Promoter.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\Reaction.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\ReactionEngine.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\Sets.cs" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
-     <None Include="Assets\Data\repressillator.txt" />
-     <None Include="Assets\Data\infinite_repressillator.txt" />
+     <None Include="Assets\data\repressillator.txt" />
+     <None Include="Assets\data\infinite_repressillator.txt" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
-     <None Include="Assets\Data\reactions2.txt" />
+     <None Include="Assets\data\reactions2.txt" />
      <None Include="Assets\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
-     <None Include="Assets\Data\reactions.txt" />
-     <None Include="Assets\Data\map.txt" />
- <Reference Include="Vectrosity_Unity4">
+     <None Include="Assets\data\reactions.txt" />
+     <None Include="Assets\data\mediums.txt" />
+     <None Include="Assets\data\map.txt" />
+ <Reference Include="Assets\Plugins\Vectrosity\Vectrosity_Unity4">
  <HintPath>Assets\Plugins\Vectrosity\Vectrosity_Unity4.dll</HintPath>
  </Reference>
   </ItemGroup>

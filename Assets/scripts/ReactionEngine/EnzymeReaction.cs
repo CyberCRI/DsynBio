@@ -57,12 +57,11 @@ public class EnzymeReaction : IReaction
     Molecule substrate = ReactionEngine.getMoleculeFromName(_substrate, molecules);
     if (substrate == null)
       return ;
-    float delta = execEnzymeReaction(molecules);
+    float delta = execEnzymeReaction(molecules) * 0.01f;
     substrate.setConcentration(substrate.getConcentration() - delta);
     foreach (Product pro in _products)
       {
         Molecule mol = ReactionEngine.getMoleculeFromName(pro.getName(), molecules);
-        Debug.Log(mol.getName());
         mol.setConcentration(mol.getConcentration() + delta);
       }
   }
