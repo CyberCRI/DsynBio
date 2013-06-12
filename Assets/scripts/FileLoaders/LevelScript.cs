@@ -15,12 +15,17 @@ public class Misc
 
 public class LevelScript : MonoBehaviour
 {
+  //To be edited to add new blocks.
   public enum CellType
   {
     EMPTY = 0,
     WALL = 1,
     START = 2,
-    UNKNOWN = 3
+    TOXIC = 3,
+    AIRFLOWUP = 4,
+    AIRFLOWDOWN = 5,
+    ROCK = 6,
+    UNKNOWN = 7
   }
 
   public struct Level
@@ -35,13 +40,18 @@ public class LevelScript : MonoBehaviour
   }
 
   private readonly char[]   MapSeparators = {' ', '\t'};
-  private readonly char[]   MapToStripChar = {' ', '\t', '\n'};
+  private readonly char[]   MapToStripChar = {' ', '\t', '\n', '\r'};
   
   private List<Level>   _levels {get; set;}
 
+  //To be edited to add new blocks.
   public TextAsset      _levelsPath;
   public GameObject     _groundCell;
   public GameObject     _wallCell;
+  public GameObject     _toxicCell;
+  public GameObject     _airFlowUpCell;
+  public GameObject     _airFlowDownCell;
+  public GameObject     _rockCell;
 
   private void  setMapSizeAttrs(ref Level level, string map)
   {
@@ -85,6 +95,7 @@ public class LevelScript : MonoBehaviour
         j = 0;
         foreach (string c in cols)
           {
+            //To be edited to add new blocks.
             switch (Convert.ToInt32(c))
               {
               case (int)CellType.EMPTY:
@@ -95,6 +106,18 @@ public class LevelScript : MonoBehaviour
                 break;
               case (int)CellType.START:
                 level.map[level.sizeX * i + j] = CellType.START;
+                break;
+              case (int)CellType.TOXIC:
+                level.map[level.sizeX * i + j] = CellType.TOXIC;
+                break;
+              case (int)CellType.AIRFLOWUP:
+                level.map[level.sizeX * i + j] = CellType.AIRFLOWUP;
+                break;
+              case (int)CellType.AIRFLOWDOWN:
+                level.map[level.sizeX * i + j] = CellType.AIRFLOWDOWN;
+                break;
+              case (int)CellType.ROCK:
+                level.map[level.sizeX * i + j] = CellType.ROCK;
                 break;
               default:
                 level.map[level.sizeX * i + j] = CellType.UNKNOWN;
@@ -196,7 +219,7 @@ public class LevelScript : MonoBehaviour
   {
     Vector3 aPosition = new Vector3(x, y, z);
     Quaternion rot = Quaternion.identity;
-    rot = Quaternion.Euler(90, 0, 0);
+    rot = Quaternion.Euler(0, 0, 0);
     Instantiate(cell, aPosition, rot);
   }
 
@@ -206,12 +229,22 @@ public class LevelScript : MonoBehaviour
 
     for (i = 0; i < level.map.Length; i++)
       {
+        //To be edited to add new blocks.
         if (level.map[i] == CellType.WALL)
-          createCube(i % level.sizeX + 1, 0, i / level.sizeX, 1, _wallCell);
-        else if (level.map[i] == CellType.EMPTY)
-          createCube(i % level.sizeX + 1, 0, i / level.sizeX,  1, _groundCell);
-        else if (level.map[i] == CellType.START)
-          createCube(i % level.sizeX + 1, 0, i / level.sizeX, 1, _groundCell);
+          createCube(i % level.sizeX + 1, 0, level.sizeY - i / level.sizeX, 1, _wallCell);
+        //else if (level.map[i] == CellType.EMPTY)
+        //  createCube(i % level.sizeX + 1, 0, i / level.sizeX,  1, _groundCell);
+        //else if (level.map[i] == CellType.START)
+        //  createCube(i % level.sizeX + 1, 0, i / level.sizeX, 1, _groundCell);
+        
+        else if (level.map[i] == CellType.TOXIC)
+          createCube(i % level.sizeX + 1, 0,  level.sizeY - i / level.sizeX, 1, _toxicCell);
+        else if (level.map[i] == CellType.AIRFLOWUP)
+          createCube(i % level.sizeX + 1, 0,  level.sizeY - i / level.sizeX, 1, _airFlowUpCell);
+        else if (level.map[i] == CellType.AIRFLOWDOWN)
+          createCube(i % level.sizeX + 1, 0,  level.sizeY - i / level.sizeX, 1, _airFlowDownCell);
+        else if (level.map[i] == CellType.ROCK)
+          createCube(i % level.sizeX + 1, 0,  level.sizeY - i / level.sizeX, 1, _rockCell);
       }
     
   }
