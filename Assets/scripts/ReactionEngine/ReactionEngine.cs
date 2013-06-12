@@ -6,12 +6,14 @@ using System.Collections.Generic;
 
 public class ReactionEngine : MonoBehaviour {
 
+  private Fick _fick;
   private LinkedList<Medium>    _mediums;
   private LinkedList<ReactionsSet> _reactionsSets;
   private LinkedList<MoleculesSet> _moleculesSets;
   public string[]        _mediumsFiles;
   public TextAsset[]         _reactionsFiles;
   public TextAsset[]         _moleculesFiles;
+  public string[]       _fickFiles;
 
   public GraphDrawer    _graphDrawer;
 
@@ -19,13 +21,21 @@ public class ReactionEngine : MonoBehaviour {
   {
   }
 
+  public static Medium        getMediumFromId(int id, LinkedList<Medium> list)
+  {
+    foreach (Medium med in list)
+      if (med.getId() == id)
+        return med;
+    return null;
+  }
+  
   public static Molecule        getMoleculeFromName(string name, ArrayList molecules)
   {
     foreach (Molecule mol in molecules)
       if (mol.getName() == name)
         return mol;
     return null;
- }
+  }
 
   public static ReactionsSet    getReactionsSetFromId(string id, LinkedList<ReactionsSet> list)
   {
@@ -82,11 +92,15 @@ public class ReactionEngine : MonoBehaviour {
       LinkedListExtensions.AppendRange<Medium>(_mediums, mediumLoader.loadMediumsFromFile(file));
     foreach (Medium medium in _mediums)
       medium.Init(_reactionsSets, _moleculesSets, _graphDrawer);
+
+    _fick = new Fick();
+    _fick.loadFicksReactionsFromFiles(_fickFiles, _mediums);
 //     Debug.Log("salut les coco2");
   }
 
   public void Update ()
   {
+    _fick.react();
     foreach (Medium medium in _mediums)
       medium.Update();
   }

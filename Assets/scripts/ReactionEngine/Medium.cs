@@ -10,7 +10,7 @@ public class Medium
   private LinkedList<IReaction> _reactions;
   private ArrayList             _molecules;
 
-  private string        _id;
+  private int           _id;
   private string        _name;
   private string        _reactionsSet;
   private string        _moleculesSet;
@@ -24,19 +24,36 @@ public class Medium
     _curves = new LinkedList<Curve>();
   }
 
-  public void setId(string id) { _id = id;}
-  public string getId() { return _id;}
+  public void setId(int id) { _id = id;}
+  public int getId() { return _id;}
   public void setName(string name) { _name = name;}
   public string getName() { return _name;}
   public void setReactionsSet(string reactionsSet) { _reactionsSet = reactionsSet;}
   public string getReactionsSet() { return _reactionsSet;}
   public void setMoleculesSet(string moleculesSet) { _moleculesSet = moleculesSet;}
   public string getMoleculesSet() { return _moleculesSet;}
+  public ArrayList getMolecules() { return _molecules; }
+
+  public void subMolConcentration(string name, float value)
+  {
+    Molecule mol = ReactionEngine.getMoleculeFromName(name, _molecules);
+
+    if (mol != null)
+      mol.setConcentration(mol.getConcentration() - value);
+  }
+
+  public void addMolConcentration(string name, float value)
+  {
+    Molecule mol = ReactionEngine.getMoleculeFromName(name, _molecules);
+
+    if (mol != null)
+      mol.setConcentration(mol.getConcentration() + value);
+  }
 
   public void initReactionsFromReactionsSet(ReactionsSet reactionsSet)
   {
-    _reactions = new LinkedList<IReaction>();
-
+    if (reactionsSet == null)
+      return;
     foreach (IReaction reactions in reactionsSet.reactions)
       _reactions.AddLast(reactions);
   }
@@ -69,6 +86,7 @@ public class Medium
 
   public void Init(LinkedList<ReactionsSet> reactionsSets, LinkedList<MoleculesSet> moleculesSets, GraphDrawer drawer = null)
   {
+    _reactions = new LinkedList<IReaction>();
     ReactionsSet reactSet = ReactionEngine.getReactionsSetFromId(_reactionsSet, reactionsSets);
     MoleculesSet molSet = ReactionEngine.getMoleculesSetFromId(_moleculesSet, moleculesSets);
     ArrayList allMolecules = ReactionEngine.getAllMoleculesFromMoleculeSets(moleculesSets);
@@ -100,29 +118,6 @@ public class Medium
 
 
 
-    if (Input.GetKey (KeyCode.UpArrow))
-      {
-        
-        Molecule mole = ReactionEngine.getMoleculeFromName("X", _molecules);
-        mole.setConcentration(mole.getConcentration() + 0.2f);
-      }
-    if (Input.GetKey (KeyCode.DownArrow))
-      {
-        
-        Molecule mole = ReactionEngine.getMoleculeFromName("X", _molecules);
-        mole.setConcentration(mole.getConcentration() - 0.2f);
-      }
-    if (Input.GetKey (KeyCode.LeftArrow))
-      {
-        
-        Molecule mole = ReactionEngine.getMoleculeFromName("E", _molecules);
-        mole.setConcentration(mole.getConcentration() - 0.2f);
-      }
-    if (Input.GetKey (KeyCode.RightArrow))
-      {
-        Molecule mole = ReactionEngine.getMoleculeFromName("E", _molecules);
-        mole.setConcentration(mole.getConcentration() + 0.2f);
-      }
     // Graphic Stuff
     LinkedListNode<Curve> node = _curves.First;
     foreach (Molecule mol in _molecules)

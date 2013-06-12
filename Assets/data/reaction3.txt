@@ -1,0 +1,21 @@
+<Document>
+
+
+  <molecules id="CelliaMolecules">
+    <molecule type="other">
+      <name>X</name>
+      <description></description>
+      <concentration>2</concentration>
+      <degradationRate>0.0</degradationRate>
+    </molecule>
+  </molecules>
+
+  <molecules id="Room1Molecules">
+      <molecule type="transcription_factor">
+      <name>X</name>
+      <description></description>
+      <concentration>5</concentration>
+      <degradationRate>0.0</degradationRate>
+    </molecule>
+  </molecules>
+</Document>

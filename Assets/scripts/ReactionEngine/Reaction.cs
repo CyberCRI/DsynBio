@@ -96,6 +96,7 @@ public class Degradation : IReaction
 // FIXME : use _degradationRate
   public override void react(ArrayList molecules)
   {
+
     if (!_isActive)
       return;
 //     Debug.Log("React degradation");s
