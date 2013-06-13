@@ -1,11 +1,32 @@
 <Document>
 
+  <reactions id="CelliaReactions">
+    <promoter>
+      <name>PromZ</name>
+      <productionMax>1</productionMax>
+      <terminatorFactor>1</terminatorFactor>
+      <formula>![0.1,1]X</formula>
+      <operon>
+	<gene>
+	  <name>Z</name>
+	  <RBSFactor>1</RBSFactor>
+	</gene>
+      </operon>
+    </promoter>
+  </reactions>
+
 
   <molecules id="CelliaMolecules">
     <molecule type="other">
       <name>X</name>
       <description></description>
       <concentration>7</concentration>
+      <degradationRate>0.0</degradationRate>
+    </molecule>
+    <molecule type="other">
+      <name>Z</name>
+      <description></description>
+      <concentration>0</concentration>
       <degradationRate>0.0</degradationRate>
     </molecule>
   </molecules>

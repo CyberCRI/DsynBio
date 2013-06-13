@@ -20,6 +20,8 @@ public class Promoter : IReaction
 
   public void setBeta(float beta) { _beta = beta; }
   public float getBeta() { return _beta; }
+//   public void setN(float n) { _n = n; }
+//   public float getN() { return _n; }
   public void setTerminatorFactor(float v) { _terminatorFactor = v; }
   public float getTerminatorFactor() { return _terminatorFactor; }
   public void setFormula(TreeNode<PromoterNodeData> tree) { _formula = tree; }
@@ -47,14 +49,17 @@ public class Promoter : IReaction
     if (node.getRightNode().getData().token == PromoterParser.eNodeType.BOOL)
       return execBool(node.getRightNode());
     Molecule mol = execWord(node.getRightNode(), molecules);
-    float K = execNum(node.getLeftNode(), molecules); 
+    float K = execNum(node.getLeftNode(), molecules);
+    float n = 1f;
+    if (node.getLeftNode() != null && node.getLeftNode().getLeftNode() != null)
+      n = execNum(node.getLeftNode().getLeftNode(), molecules);
 //     Debug.Log("concentration de " + mol.getName() + " = " + mol.getConcentration());
 //     return stepFunc(K, mol.getConcentration());
 //     if (mol.getName() == "Y")
 //       Debug.Log("hill : " + hillFunc(K, mol.getConcentration(), 4));
 //     else
 //       Debug.Log(mol.getName());
-    return hillFunc(K, mol.getConcentration(), 2);
+    return hillFunc(K, mol.getConcentration(), n);
   }
 
   // FIXME : check issues like node == null etc;

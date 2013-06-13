@@ -5,17 +5,4 @@
     <P>0.05</P>
     <surface>0.003</surface>
   </fickProp>
-
-  <fickProp>
-    <MediumId1>3</MediumId1>
-    <MediumId2>2</MediumId2>
-    <P>0.5</P>
-    <surface>0.01</surface>
-  </fickProp>
-  <fickProp>
-    <MediumId1>3</MediumId1>
-    <MediumId2>1</MediumId2>
-    <P>0.5</P>
-    <surface>0.01</surface>
-  </fickProp>
 </ficks>
