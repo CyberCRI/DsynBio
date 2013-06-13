@@ -132,7 +132,9 @@ class FickReaction : IReaction
     float c1;
     float c2;
     float result;
-    
+
+    if (_P == 0f || _surface == 0f)
+      return;
     foreach (Molecule mol1 in molMed1)
       {
         c1 = mol1.getConcentration();
@@ -141,18 +143,8 @@ class FickReaction : IReaction
           {
             c2 = mol2.getConcentration();
             result = (c2 - c1) * _P * _surface;
-            if (result < 0) // go to c2
-              {
-                Debug.Log("dans un sens");
-                mol2.setConcentration(c2 + result);
-                mol1.setConcentration(c1 - result);
-              }
-            else // go to c1
-              {
-                mol1.setConcentration(c1 + result);
-                Debug.Log("et dans lautre");
-                mol2.setConcentration(c2 - result);
-              }
+            mol2.setConcentration(c2 - result);
+            mol1.setConcentration(c1 + result);
           }
       }
   }

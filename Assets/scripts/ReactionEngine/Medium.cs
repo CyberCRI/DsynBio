@@ -116,7 +116,13 @@ public class Medium
       reaction.react(_molecules);
 
 
-
+    if (_name == "Cellia")
+      {
+        if (Input.GetKey(KeyCode.UpArrow))
+          ReactionEngine.getMoleculeFromName("X", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("X", _molecules).getConcentration() + 0.1f);
+        if (Input.GetKey(KeyCode.DownArrow))
+          ReactionEngine.getMoleculeFromName("X", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("X", _molecules).getConcentration() - 0.1f);
+      }
 
     // Graphic Stuff
     LinkedListNode<Curve> node = _curves.First;
