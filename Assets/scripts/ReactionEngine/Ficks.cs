@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
+//!  This class is a descriptive class of a FickReaction
 public class FickProprieties
 {
   public int MediumId1 {get; set;}
@@ -10,20 +11,32 @@ public class FickProprieties
   public float surface  {get; set;}
 }
 
+//!  The class that manage all the diffusions reactions using Fick model.
+/*!
+  This class initialize from files and execute all the FickReaction.
+*/
 class Fick
 {
-  private LinkedList<FickReaction>      _reactions;
-  FickLoader                            _loader;
+  public const float MaximumMoleculeSize = 0.25f;       //!< Limit size of molecules that can cross the membrane of the Medium
+
+  private LinkedList<FickReaction>      _reactions;     //!< The list of FickReaction
+  FickLoader                            _loader;        //!< The class that load the FickReaction propieties
 //   LinkedList<Medium>                    _mediums;
 
-  public Fick(// LinkedList<Medium> mediums
-              )
+  //! Default constructor.
+  public Fick()
   {
     _reactions = new LinkedList<FickReaction>();
     _loader = new FickLoader();
 //     _mediums = mediums;
   }
 
+  //! return a FickReaction reference that correspondond to the two given ids
+  /*!
+      \param id1 The first id.
+      \param id2 The second id.
+      \param list The list of FickReaction where to search in.
+    */
   public static FickReaction   getFickReactionFromIds(int id1, int id2, LinkedList<FickReaction> list)
   {
     foreach (FickReaction react in list)
@@ -37,6 +50,11 @@ class Fick
     return null;
   }
 
+  //! Set attributes of FickReactions by using a list of FickProprieties
+  /*!
+      \param propsList The list of Proprieties.
+      \param FRList The list of FickReactions.
+    */
   public static void           finalizeFickReactionFromProps(LinkedList<FickProprieties> propsList, LinkedList<FickReaction> FRList)
   {
     FickReaction react;
@@ -54,12 +72,28 @@ class Fick
       }
   }
 
+  //! Load the diffusions reactions from a array of files and a Mediums list
+  /*!
+      \param files Array of files which contain information about diffusion reaction.
+      \param mediums The list of all the medium.
+
+This function load the diffusions reactions based on Fick model. It take a Array of file paths
+and a list of Medium that should contain all the mediums of the simulation.
+This function create the list of all the reactions between each Medium wich exist and initialize their parameters to 0.
+Only the reactions explicitly defined in files are initialized to the values explicited in files.
+If a parameter of a fick reaction is not specified in files then this parameter will be equal to 0.
+    */
   public void           loadFicksReactionsFromFiles(string[] files, LinkedList<Medium> mediums)
   {
     LinkedList<FickProprieties> propsList = new LinkedList<FickProprieties>();
+    LinkedList<FickProprieties> newPropList;
 
     foreach (string file in files)
-      LinkedListExtensions.AppendRange<FickProprieties>(propsList, _loader.loadFickProprietiesFromFile(file));
+      {
+        newPropList = _loader.loadFickProprietiesFromFile(file);
+        if (newPropList != null)
+          LinkedListExtensions.AppendRange<FickProprieties>(propsList, newPropList);
+      }
 //     foreach (string file in files)
 //       {
 //         propsList = _loader.loadFickProprietiesFromFile(file);
@@ -70,6 +104,7 @@ class Fick
     // replace values in _reactions by values in reactionsList;
   }
 
+  //! This function is called at each frame and do all the reaction of type FickReaction.
   public void react()
   {
     foreach (FickReaction fr in _reactions)
@@ -79,11 +114,12 @@ class Fick
 
 class FickReaction : IReaction
 {
-  private float _surface;
-  private float _P;
-  private Medium _medium1;
-  private Medium _medium2;
+  private float _surface;       //!< Contact surface size bwtween the two mediums
+  private float _P;             //!< Permeability coefficient
+  private Medium _medium1;      //!< The first Medium
+  private Medium _medium2;      //!< The second Medium
 
+//! Default constructor.
   public FickReaction()
   {
     _surface = 0;
@@ -101,6 +137,14 @@ class FickReaction : IReaction
   public void setMedium2(Medium medium) { _medium2 = medium;}
   public Medium getMedium2() { return _medium2;}
 
+  //! Return all the FickReactions possible from a Medium list.
+  /*!
+      \param mediums The list of mediums.
+
+This function return all the possible combinaisons of FickReaction in Medium list.
+Example :
+        - Medium1 + Medium2 + Medium3 = FickReaction(1, 2) + FickReaction(1, 3) + FickReaction(2, 3)
+  */
   public static LinkedList<FickReaction> getFickReactionsFromMediumList(LinkedList<Medium> mediums)
   {
     FickReaction                newReaction;
@@ -124,6 +168,18 @@ class FickReaction : IReaction
     return fickReactions;
   }
 
+//! Processing a reaction.
+  /*!
+      \param molecules A list of molecules (not usefull here)
+
+A diffusion reaction based on fick model is calculated by using this formula :
+ dn/dt = c1 - c2 * P * A
+Where:
+        - dn is the difference of concentration that will be applied
+        - c1 and c2 the concentration the molecules in the 2 Mediums
+        - P is the permeability coefficient
+        - A is the contact surface size between the two Mediums
+  */
   public override void react(ArrayList molecules)
   {
     ArrayList molMed1 = _medium1.getMolecules();
@@ -139,10 +195,10 @@ class FickReaction : IReaction
       {
         c1 = mol1.getConcentration();
         mol2 = ReactionEngine.getMoleculeFromName(mol1.getName(), molMed2);
-        if (mol2 != null)
+        if (mol2 != null && mol2.getSize() <= Fick.MaximumMoleculeSize)
           {
             c2 = mol2.getConcentration();
-            result = (c2 - c1) * _P * _surface;
+            result = (c2 - c1) * _P * _surface * Time.deltaTime;
             mol2.setConcentration(c2 - result);
             mol1.setConcentration(c1 + result);
           }
