@@ -345,7 +345,7 @@ public class PromoterParser
     if (tokenList.First().token != PromoterLexer.eToken.CHAR)
       {
         restoreListState(tokenList, restoreStatus);
-        Debug.Log("Syntax error : A word need to begin with a Character.");        
+        Debug.Log("Syntax error : A word need to begin with a Character.");
         return null;
       }
     value += tokenList.First().c;
@@ -478,7 +478,10 @@ public class PromoterParser
     LinkedList<PromoterLexer.Token> tokenList = lex.lex(str);
 //     lex.PPTokenList(tokenList);
     TreeNode<PromoterNodeData> tree = ParseFormula(tokenList);
-    return tree;
+    if (tokenList.First().token == PromoterLexer.eToken.END)
+      return tree;
+    Debug.Log("Parsing Error for expression " + str);
+    return null;
   }
 
   public void clear()

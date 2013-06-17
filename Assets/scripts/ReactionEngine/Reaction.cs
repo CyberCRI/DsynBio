@@ -16,6 +16,7 @@ public class Molecule
   private string _description;
   private float _concentration;
   private float _degradationRate;
+  private float _size;
 
   public Molecule(Molecule mol = null)
   {
@@ -26,6 +27,7 @@ public class Molecule
         _description = mol._description;
         _concentration = mol._concentration;
         _degradationRate = mol._degradationRate;
+        _size = mol._size;
       }
   }
 
@@ -34,12 +36,14 @@ public class Molecule
   public string getDescription() {return _description; }
   public float getConcentration() {return _concentration; }
   public float getDegradationRate() {return _degradationRate; }
+  public float getSize() { return _size; }
 
   public void setName(string name) { _name = name; }
   public void setType(eType type) { _type = type; }
   public void setDescription(string description) { _description = description; }
   public void setConcentration(float concentration) { _concentration = concentration; if (_concentration < 0) _concentration = 0;}
   public void setDegradationRate(float degradationRate) { _degradationRate = degradationRate; }
+  public void setSize(float size) { _size = size; }
 }
 
 public class Product
@@ -101,6 +105,7 @@ public class Degradation : IReaction
       return;
 //     Debug.Log("React degradation");s
     Molecule mol = ReactionEngine.getMoleculeFromName(_molName, molecules);
-    mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * mol.getConcentration() * 0.05f);
+    mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * mol.getConcentration() * 1f//  * 0.05f
+                         );
   }
 }

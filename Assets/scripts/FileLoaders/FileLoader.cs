@@ -254,16 +254,69 @@ public class FileLoader
   }
 
 // ================== END ENZYME REACTIONS LOADING =======================
-// FIXME : check if we need to implement other chemical reactions
-//   private bool loadChemicalReactions(XmlNode node)
-//   {
-//     XmlNodeList CReactionsList = node.SelectNodes("chemical");
-//     foreach (XmlNode CReaction in CReactionsList)
-//       {
-//         Debug.Log("Chemical reaction");
-//       }
-//       return true;
-//   }
+
+  private bool loadAllosteryString(string value, StrSetter setter)
+  {
+    if (String.IsNullOrEmpty(value))
+      {
+        Debug.Log("Error: Empty name field");
+        return false;
+      }
+    setter(value);
+    return true;    
+  }
+
+  private bool loadAllosteryFloat(string value, FloatSetter setter)
+  {
+    if (String.IsNullOrEmpty(value))
+      {
+        Debug.Log("Error: Empty productionMax field");
+        return false;
+      }
+    setter(float.Parse(value.Replace(",", ".")));
+    return true;    
+  }
+
+
+  private bool loadAllostericReactions(XmlNode node, LinkedList<IReaction> reactions)
+  {
+    XmlNodeList AReactionsList = node.SelectNodes("allostery");
+    bool b = true;
+    
+    foreach (XmlNode AReaction in AReactionsList)
+      {
+        Allostery ar = new Allostery();
+        foreach (XmlNode attr in AReaction)
+          {
+            switch (attr.Name)
+              {
+              case "name":
+                b = b && loadAllosteryString(attr.InnerText, ar.setName);
+                break;
+              case "effector":
+                b = b && loadAllosteryString(attr.InnerText, ar.setEffector);
+                break;
+              case "K":
+                b = b && loadAllosteryFloat(attr.InnerText, ar.setK);
+                break;
+              case "n":
+                ar.setN(Convert.ToInt32(attr.InnerText));
+                break;
+              case "protein":
+                b = b && loadAllosteryString(attr.InnerText, ar.setProtein);
+                break;
+              case "products":
+                b = b && loadAllosteryString(attr.InnerText, ar.setProduct);
+                break;
+              }
+          }
+        reactions.AddLast(ar);
+      }
+    return b;
+  }
+
+// ================== END ALLOSTERY LOADING =======================
+
 
   private bool storeMolecule(XmlNode node, Molecule.eType type, ArrayList molecules)
   {
@@ -285,6 +338,9 @@ public class FileLoader
             break;
           case "degradationRate":
             mol.setDegradationRate(float.Parse(attr.InnerText.Replace(",", ".")));
+            break;
+          case "size":
+            mol.setSize(float.Parse(attr.InnerText.Replace(",", ".")));
             break;
           }
      }
@@ -325,6 +381,7 @@ public class FileLoader
   {
     loadPromoters(node, reactions);
     loadEnzymeReactions(node, reactions);
+    loadAllostericReactions(node, reactions);
     return true;
 //     return loadPromoters(node) && loadEnzymeReactions(node);//  && loadChemicalReactions(node);
   }

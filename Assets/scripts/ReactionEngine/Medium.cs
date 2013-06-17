@@ -79,9 +79,7 @@ public class Medium
         else
           newMol.setConcentration(startingMolStatus.getConcentration());
         _molecules.Add(newMol);
-      }
-
-      
+      }   
   }
 
   public void Init(LinkedList<ReactionsSet> reactionsSets, LinkedList<MoleculesSet> moleculesSets, GraphDrawer drawer = null)
@@ -119,16 +117,21 @@ public class Medium
     if (_name == "Cellia")
       {
         if (Input.GetKey(KeyCode.UpArrow))
-          ReactionEngine.getMoleculeFromName("X", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("X", _molecules).getConcentration() + 0.1f);
+          ReactionEngine.getMoleculeFromName("LacI", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("LacI", _molecules).getConcentration() + 10f);
         if (Input.GetKey(KeyCode.DownArrow))
-          ReactionEngine.getMoleculeFromName("X", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("X", _molecules).getConcentration() - 0.1f);
+          ReactionEngine.getMoleculeFromName("LacI", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("LacI", _molecules).getConcentration() - 10f);
+        if (Input.GetKey(KeyCode.RightArrow))
+          ReactionEngine.getMoleculeFromName("IPTG", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("IPTG", _molecules).getConcentration() + 100f);
+        if (Input.GetKey(KeyCode.LeftArrow))
+          ReactionEngine.getMoleculeFromName("IPTG", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("IPTG", _molecules).getConcentration() - 100f);
       }
 
     // Graphic Stuff
     LinkedListNode<Curve> node = _curves.First;
     foreach (Molecule mol in _molecules)
       {
-        Vector2 p = new Vector2((float)Time.timeSinceLevelLoad*200f, mol.getConcentration() *100f);
+        Debug.Log("[" + mol.getName() + "] = " + mol.getConcentration());
+        Vector2 p = new Vector2((float)Time.timeSinceLevelLoad*200f, mol.getConcentration() * 3.0f);
         node.Value.addPoint(p);
         node = node.Next;
       }
