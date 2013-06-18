@@ -63,6 +63,7 @@
      <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VisibilityControl.cs" />
      <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VisibilityControlAlways.cs" />
      <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VisibilityControlStatic.cs" />
+     <Compile Include="Assets\Scripts\Level\FluorescenceChallenges\DoorScript.cs" />
      <Compile Include="Assets\Scripts\Level\FluorescenceChallenges\LampBlue.cs" />
      <Compile Include="Assets\Scripts\Level\MotilityChallenges\AirFlowDown.cs" />
      <Compile Include="Assets\Scripts\Level\MotilityChallenges\AirFlowUp.cs" />
