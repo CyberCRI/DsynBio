@@ -54,6 +54,8 @@ public class Hero : MonoBehaviour{
 		//Click to move variable.
       	//	_destination = mover.position;
       	gameObject.SetActive(true);
+      	
+      	this.light.enabled = false;
 	}
   
 	void Update(){
