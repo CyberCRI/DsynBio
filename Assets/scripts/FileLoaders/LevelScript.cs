@@ -34,6 +34,7 @@ public class LevelScript : MonoBehaviour
     public string       name;
     public string       description;
     public CellType[]  map;
+    public int[]       mediumMap;
     public Int32       sizeX;
     public Int32       sizeY;
   }
@@ -128,6 +129,34 @@ public class LevelScript : MonoBehaviour
       }
   }
 
+
+  private void  convertStringMapToInt(ref Level level, string map)
+  {
+    String[]    lines;
+    String[]    cols;
+    String      strippedLine;
+    Int32      i = 0;
+    Int32      j;
+
+    level.mediumMap = Enumerable.Repeat(0, level.sizeY * level.sizeX).ToArray();
+    level.mediumMap = new int[level.sizeY * level.sizeX];
+    lines = map.Split('\n');
+    foreach (string l in lines)
+      {
+        strippedLine = l.TrimStart(MapToStripChar);
+        strippedLine = strippedLine.TrimEnd(MapToStripChar);
+        cols = strippedLine.Split(MapSeparators);
+        j = 0;
+        foreach (string c in cols)
+          {
+            level.mediumMap[level.sizeX * i + j] = Convert.ToInt32(c);
+            j++;
+          }
+        i++;                        
+      }
+  }
+
+
   private void  setMapAttrs(ref Level level, string map)
   {
     String strippedLine;
@@ -137,6 +166,17 @@ public class LevelScript : MonoBehaviour
     
     setMapSizeAttrs(ref level, strippedLine);
     convertStringMapToCellType(ref level, strippedLine);
+  }
+
+  private void  setMediumMapAttrs(ref Level level, string map)
+  {
+    String strippedLine;
+
+    strippedLine = map.TrimStart(MapToStripChar);
+    strippedLine = strippedLine.TrimEnd(MapToStripChar);
+    
+    setMapSizeAttrs(ref level, strippedLine);
+    convertStringMapToInt(ref level, strippedLine);
   }
   
   private void  loadLevelsFromFile(TextAsset path)
@@ -150,7 +190,7 @@ public class LevelScript : MonoBehaviour
         XmlNodeList levelLists = levelsList.SelectNodes("level");
         foreach (XmlNode levelNode in levelLists)
           {
-            Level l;
+            Level l = new Level();
             l.id = 0;
             l.name = "";
             l.description = "";
@@ -167,6 +207,8 @@ public class LevelScript : MonoBehaviour
                   l.description = item.InnerText;
                 else if (item.Name == "map")
                   setMapAttrs(ref l, item.InnerText);
+                else if (item.Name == "mediumMap")
+                  setMediumMapAttrs(ref l, item.InnerText);
               }
             _levels.Add(l);
           }

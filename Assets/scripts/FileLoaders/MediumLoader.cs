@@ -1,6 +1,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Xml;
+using System;
 using UnityEngine;
 
 
@@ -22,7 +23,7 @@ public class MediumLoader
         switch (attr.Name)
           {
           case "Id":
-            medium.setId(attr.InnerText);
+            medium.setId(Convert.ToInt32(attr.InnerText));
             break;
           case "Name":
             medium.setName(attr.InnerText);

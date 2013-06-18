@@ -4,29 +4,60 @@ using System.Xml;
 using System;
 using System.Collections.Generic;
 
+//!  The main class that compute all the reactions. 
+/*!
+  This class initialize from files and execute all the reactions.
+  The reactions that are currently implemented are :
+   - Degradation
+   - Diffusion (Fick)
+   - Enzyme reaction with effectors (EnzymeReaction)
+   - Promoter expressions (Promoter)
+*/
 public class ReactionEngine : MonoBehaviour {
 
-  private LinkedList<Medium>    _mediums;
-  private LinkedList<ReactionsSet> _reactionsSets;
-  private LinkedList<MoleculesSet> _moleculesSets;
-  public string[]        _mediumsFiles;
-  public TextAsset[]         _reactionsFiles;
-  public TextAsset[]         _moleculesFiles;
+  private Fick _fick;                                   //!< The Fick class that manage molecules diffusions between medium
+  private LinkedList<Medium>    _mediums;               //!< The list that contain all the mediums
+  private LinkedList<ReactionsSet> _reactionsSets;      //!< The list that contain the reactions sets
+  private LinkedList<MoleculesSet> _moleculesSets;      //!< The list that contain the molecules sets
+  public string[]        _mediumsFiles;                 //!< all the medium files
+  public TextAsset[]         _reactionsFiles;           //!< all the reactions files
+  public TextAsset[]         _moleculesFiles;           //!< all the molecules files
+  public string[]       _fickFiles;                     //!< all the Fick diffusion files
 
-  public GraphDrawer    _graphDrawer;
+  public GraphDrawer    _graphDrawer;                   //!< Graphic class that draw with Vectrosity
 
-  public ReactionEngine()
+
+  //! Return the Medium reference corresponding to the given id
+  /*!
+      \param id The id of searched Medium.
+      \param list The Medium list where to search in.
+  */
+  public static Medium        getMediumFromId(int id, LinkedList<Medium> list)
   {
+    foreach (Medium med in list)
+      if (med.getId() == id)
+        return med;
+    return null;
   }
-
+  
+//! Return the Molecule reference corresponding to the given name
+  /*!
+      \param name The name of the molecule
+      \param molecules The molecule list where to search in.
+  */
   public static Molecule        getMoleculeFromName(string name, ArrayList molecules)
   {
     foreach (Molecule mol in molecules)
       if (mol.getName() == name)
         return mol;
     return null;
- }
+  }
 
+//! Return the ReactionSet reference corresponding to the given id
+  /*!
+      \param id The id of the ReactionSet
+      \param list The list of ReactionSet where to search in
+  */
   public static ReactionsSet    getReactionsSetFromId(string id, LinkedList<ReactionsSet> list)
   {
     foreach (ReactionsSet reactSet in list)
@@ -35,6 +66,11 @@ public class ReactionEngine : MonoBehaviour {
     return null;
   }
 
+//! Tell if a Molecule is already present in a Molecule list (based on the name attribute)
+  /*!
+      \param mol Molecule to match.
+      \param list Molecule list where to search in.
+  */
   public static bool    isMoleculeIsDuplicated(Molecule mol, ArrayList list)
   {
     foreach (Molecule mol2 in list)
@@ -43,6 +79,10 @@ public class ReactionEngine : MonoBehaviour {
     return false;
   }
 
+//! Return an ArrayList that contain all the differents molecules an list of MoleculesSet
+  /*!
+      \param list the list of MoleculesSet
+  */
   public static ArrayList    getAllMoleculesFromMoleculeSets(LinkedList<MoleculesSet> list)
   {
     ArrayList molecules = new ArrayList();
@@ -57,6 +97,11 @@ public class ReactionEngine : MonoBehaviour {
     return molecules;
   }
 
+  //! Return the MoleculesSet of a list of MoleculesSet corresponding to an id
+  /*!
+    \param id The id of the MoleculesSet
+    \param list The list of MoleculesSet
+  */
   public static MoleculesSet    getMoleculesSetFromId(string id, LinkedList<MoleculesSet> list)
   {
     foreach (MoleculesSet molSet in list)
@@ -65,6 +110,7 @@ public class ReactionEngine : MonoBehaviour {
     return null;
   }
 
+  //! This function is called at the initialisation of the simulation (like a Constructor)
   public void Start ()
   {
     FileLoader fileLoader = new FileLoader();
@@ -82,11 +128,16 @@ public class ReactionEngine : MonoBehaviour {
       LinkedListExtensions.AppendRange<Medium>(_mediums, mediumLoader.loadMediumsFromFile(file));
     foreach (Medium medium in _mediums)
       medium.Init(_reactionsSets, _moleculesSets, _graphDrawer);
+
+    _fick = new Fick();
+    _fick.loadFicksReactionsFromFiles(_fickFiles, _mediums);
 //     Debug.Log("salut les coco2");
   }
 
+  //! This function is called at each frame
   public void Update ()
   {
+    _fick.react();
     foreach (Medium medium in _mediums)
       medium.Update();
   }

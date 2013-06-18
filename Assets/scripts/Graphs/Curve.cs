@@ -21,12 +21,13 @@ public class Curve
     _minY = 0;
     _maxY = 0;
     _color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-    _line = new VectorLine("test", _pts, _color, null, 5.0f, LineType.Continuous, Joins.Weld);
+    _line = new VectorLine("test", _pts, _color, null, 2.0f, LineType.Continuous, Joins.Weld);
+
     _line.Draw();
   }
 
-  private float getMinX() { return _points.First.Value.x; }
-  private float getMaxX() { return _points.Last.Value.x; }
+  private float getMinX() { if (_points.Count > 0) return _points.First.Value.x; return 0;}
+  private float getMaxX() { if (_points.Count > 0) return _points.Last.Value.x; return 0;}
   public float getMaxY() { return _maxY; }
   public float getMinY() { return _minY; }
   public Color getColor() { return _color; }
@@ -48,7 +49,6 @@ public class Curve
     _minY = min;
   }
   
-  
   public void removeFirstPoint()
   {
     if (_maxY == _points.First.Value.y || _minY == _points.First.Value.y)
@@ -68,6 +68,7 @@ public class Curve
     _points.AddLast(pt);
   }
 
+
   public void updatePts()
   {
     int i = 0;
@@ -79,7 +80,7 @@ public class Curve
         tmpPt.x -= getMinX();
         _pts[i] = tmpPt;
         i++;
-      }
+      }    
     _line.drawStart = 0;
     _line.drawEnd = _points.Count - 1;
     _line.Draw();

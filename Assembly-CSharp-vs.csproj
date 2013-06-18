@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
      <Compile Include="Assets\Scripts\Camera\MainCamera.cs" />
      <Compile Include="Assets\Scripts\Charac\Hero.cs" />
      <Compile Include="Assets\Scripts\FileLoaders\FileLoader.cs" />
@@ -84,17 +85,71 @@
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
      <None Include="Assets\Data\repressillator.txt" />
      <None Include="Assets\Data\infinite_repressillator.txt" />
+=======
+     <Compile Include="Assets\scripts\Camera\mainCamera.cs" />
+     <Compile Include="Assets\scripts\Charac\Hero.cs" />
+     <Compile Include="Assets\scripts\FileLoaders\FickLoader.cs" />
+     <Compile Include="Assets\scripts\FileLoaders\FileLoader.cs" />
+     <Compile Include="Assets\scripts\FileLoaders\LevelScript.cs" />
+     <Compile Include="Assets\scripts\FileLoaders\MediumLoader.cs" />
+     <Compile Include="Assets\scripts\FileLoaders\Parser.cs" />
+     <Compile Include="Assets\scripts\GUI\GUIScript.cs" />
+     <Compile Include="Assets\scripts\Graphs\Curve.cs" />
+     <Compile Include="Assets\scripts\Graphs\Graph.cs" />
+     <Compile Include="Assets\scripts\Graphs\GraphDrawer.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\BrightnessControl.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\LineManager.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\RefInt.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VectorChar.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VectorLine.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VectorManager.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VisibilityControl.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VisibilityControlAlways.cs" />
+     <Compile Include="Assets\scripts\Graphs\VectrosityScripts\VisibilityControlStatic.cs" />
+     <Compile Include="Assets\scripts\Level\MotilityChallenges\airFlowDown.cs" />
+     <Compile Include="Assets\scripts\Level\MotilityChallenges\airFlowUp.cs" />
+     <Compile Include="Assets\scripts\Level\Toxic.cs" />
+     <Compile Include="Assets\scripts\Map\MapGenerator.cs" />
+     <Compile Include="Assets\scripts\Misc\LinkedListExtensions.cs" />
+     <Compile Include="Assets\scripts\Misc\Tools.cs" />
+     <Compile Include="Assets\scripts\Misc\TreeNode.cs" />
+     <Compile Include="Assets\scripts\Objects\Collectibles.cs" />
+     <Compile Include="Assets\scripts\Objects\Glucose.cs" />
+     <Compile Include="Assets\scripts\Objects\devImpMoti.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\Allostery.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\EnzymeReaction.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\Ficks.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\Medium.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\Promoter.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\Reaction.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\ReactionEngine.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\Sets.cs" />
+     <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Basic.shader" />
+     <None Include="Assets\data\repressillator.txt" />
+     <None Include="Assets\data\infinite_repressillator.txt" />
+     <None Include="Assets\data\Fick2.txt" />
+     <None Include="Assets\data\Fick.txt" />
+>>>>>>> 79fdcd5f7e86317ef8b79541c8157057b2f0c5df
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\Data\reactions2.txt" />
      <None Include="Assets\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
+     <None Include="Assets\data\reactions4.txt" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
+<<<<<<< HEAD
      <None Include="Assets\Data\reactions.txt" />
      <None Include="Assets\Data\mediums.txt" />
      <None Include="Assets\Data\map.txt" />
  <Reference Include="Assembly-UnityScript-firstpass">
+=======
+     <None Include="Assets\data\reaction3.txt" />
+     <None Include="Assets\data\reactions.txt" />
+     <None Include="Assets\data\mediums.txt" />
+     <None Include="Assets\data\map.txt" />
+ <Reference Include="Library\ScriptAssemblies\Assembly-UnityScript-firstpass">
+>>>>>>> 79fdcd5f7e86317ef8b79541c8157057b2f0c5df
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
  <Reference Include="Vectrosity_Unity4">

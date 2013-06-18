@@ -18,6 +18,7 @@ public class PromoterLexer
     OP_NOT,
     LHOOK,
     RHOOK,
+    COMMA,
     NUM,
     CHAR,
     END
@@ -43,6 +44,7 @@ public class PromoterLexer
       new Token(eToken.OP_NOT, "!"),
       new Token(eToken.LHOOK, "["),
       new Token(eToken.RHOOK, "]"),
+      new Token(eToken.COMMA, ","),
       new Token(eToken.NUM, "0123456789."),
     };
 
@@ -343,7 +345,7 @@ public class PromoterParser
     if (tokenList.First().token != PromoterLexer.eToken.CHAR)
       {
         restoreListState(tokenList, restoreStatus);
-        Debug.Log("Syntax error : A word need to begin with a Character.");        
+        Debug.Log("Syntax error : A word need to begin with a Character.");
         return null;
       }
     value += tokenList.First().c;
@@ -360,6 +362,37 @@ public class PromoterParser
     return new TreeNode<PromoterNodeData>(data);
   }
 
+  public TreeNode<PromoterNodeData>     ParseConstantsNumList(LinkedList<PromoterLexer.Token> tokenList)
+  {
+    int restoreStatus;
+    TreeNode<PromoterNodeData> nodeK;
+    TreeNode<PromoterNodeData> nodeN;
+
+    restoreStatus = getRestoreListStatus();
+    if ((nodeK = ParseNumber(tokenList)) == null)
+      {
+        Debug.Log("Synthax error : Missing Beta parameter constant number list in formula");
+        restoreListState(tokenList, restoreStatus);
+        return null;
+      }
+
+    if (tokenList.First().token != PromoterLexer.eToken.COMMA)
+      {
+        restoreListState(tokenList, restoreStatus);
+        Debug.Log("Syntax error : Need a ',' character to separate constants numbers");
+        return null;
+      }
+    popToken(tokenList);
+    if ((nodeN = ParseNumber(tokenList)) == null)
+      {
+        Debug.Log("Synthax error : Missing \"n\" parameter constant number list in formula");
+        restoreListState(tokenList, restoreStatus);
+        return null;
+      }
+    nodeK.setLeftNode(nodeN);
+    return nodeK;
+  }
+
   public TreeNode<PromoterNodeData>     ParseConstants(LinkedList<PromoterLexer.Token> tokenList)
   {
     TreeNode<PromoterNodeData> node;
@@ -372,7 +405,7 @@ public class PromoterParser
         return null;
       }
     popToken(tokenList);
-    if ((node = ParseNumber(tokenList)) == null)
+    if ((node = ParseConstantsNumList(tokenList)) == null)
       {
         restoreListState(tokenList, restoreStatus);
         return null;
@@ -445,7 +478,10 @@ public class PromoterParser
     LinkedList<PromoterLexer.Token> tokenList = lex.lex(str);
 //     lex.PPTokenList(tokenList);
     TreeNode<PromoterNodeData> tree = ParseFormula(tokenList);
-    return tree;
+    if (tokenList.First().token == PromoterLexer.eToken.END)
+      return tree;
+    Debug.Log("Parsing Error for expression " + str);
+    return null;
   }
 
   public void clear()
