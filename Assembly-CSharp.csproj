@@ -77,6 +77,7 @@
      <Compile Include="Assets\scripts\ReactionEngine\Allostery.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\EnzymeReaction.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\Ficks.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\InstantReaction.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\Medium.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\Promoter.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\Reaction.cs" />
@@ -88,6 +89,7 @@
      <None Include="Assets\data\Fick2.txt" />
      <None Include="Assets\data\Fick.txt" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
+     <None Include="Assets\data\reactions5.txt" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\data\reactions2.txt" />

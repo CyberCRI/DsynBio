@@ -118,7 +118,7 @@ public class Promoter : IReaction
 //         Debug.Log(pro.getName());
         Molecule mol = ReactionEngine.getMoleculeFromName(pro.getName(), molecules);
         mol.setConcentration(mol.getConcentration() + delta * 1f
-                             * pro.getProductionFactor() * _terminatorFactor * _beta);
+                             * pro.getQuantityFactor() * _terminatorFactor * _beta);
       }
     //       pro.setConcentration(pro.getConcentration() * delta);
   }
