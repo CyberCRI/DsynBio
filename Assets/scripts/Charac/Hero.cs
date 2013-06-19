@@ -9,7 +9,9 @@ public class Hero : MonoBehaviour{
 	
 	//Getter & setter for the move speed.
 	private float _moveSpeed = 3f;
-	public float getMoveSpeed() {return _moveSpeed;}
+	public float getMoveSpeed() {
+		return _moveSpeed;
+	}
 	public void setMoveSpeed(float moveSpeed) {
 		if (moveSpeed < 0)
 			moveSpeed = 0; 
@@ -22,12 +24,18 @@ public class Hero : MonoBehaviour{
 
 	//Getter & setter for the inventory.
 	private int _collected;
-	public int getCollected() {return _collected;}
-	public void setCollected(int collected) {_collected = collected;}
+	public int getCollected() {
+		return _collected;
+	}
+	public void setCollected(int collected) {
+		_collected = collected;
+	}
 	
 	//Getter & setter for the energy.
 	private float _energy = 1f;
-	public float getEnergy() {return _energy;}
+	public float getEnergy() {
+		return _energy;
+	}
 	public void setEnergy(float energy) {
 		if (energy > 1f) {energy = 1f;}
 		if(energy < 0) 
@@ -37,9 +45,12 @@ public class Hero : MonoBehaviour{
 
 	//Getter & setter for the life.
 	private float _life = 1f;
-	public float getLife() {return _life;}
+	public float getLife() {
+		return _life;
+	}
 	public void setLife(float life) {
-		if (life > 1f) {life = 1;}
+		if (life > 1f)
+			life = 1;
 		if (life < 0) {
 			life = 0;
 			gameObject.SetActive(false);
@@ -48,12 +59,16 @@ public class Hero : MonoBehaviour{
 		_life = life;
 	}
 
-	public void subLife(float life) {_life -= life;}
+	public void subLife(float life) {
+		_life -= life;
+	}
   
 	void Start (){
 		//Click to move variable.
       	//	_destination = mover.position;
       	gameObject.SetActive(true);
+      	
+      	light.enabled = false;
 	}
   
 	void Update(){
@@ -63,7 +78,7 @@ public class Hero : MonoBehaviour{
 		setLife(getLife() + Time.deltaTime * .1f);
 		
 		//Keyboard controls.
-	 	transform.Translate((Input.GetAxis("Horizontal") * this._moveSpeed * Time.deltaTime), 0, (Input.GetAxis("Vertical") * this._moveSpeed * Time.deltaTime));
+	 	transform.Translate((Input.GetAxis("Horizontal") * _moveSpeed * Time.deltaTime), 0, (Input.GetAxis("Vertical") * _moveSpeed * Time.deltaTime));
 
 		//Click to move controls.
 		//	if (Input.GetMouseButtonDown(0)){
@@ -76,11 +91,24 @@ public class Hero : MonoBehaviour{
 	}
 
 	//When the player collects a biobrick.
-	public void Collect() {this.setCollected(this.getCollected() + 1);}
+	public void Collect() {
+		setCollected(getCollected() + 1);
+	}
 
 	//When the player collects glucose.
-	public void winEnergy() {this.setEnergy(this.getEnergy() + .2f);}
+	public void winEnergy() {
+		setEnergy(getEnergy() + .2f);
+	}
 
 	//When the player equiped the improved motility device.
-	public void equipImpMoti() {this.setMoveSpeed(this.getMoveSpeed() + 3f);}
+	public void equipImpMoti() {
+		setMoveSpeed(getMoveSpeed() + 3f);
+	}
+
+	//When the player reacts to the light and emits colors.
+	public void emitLight(bool boolean, Color color) {
+		light.enabled = boolean;
+		light.color = color;
+	}
+	
 }
