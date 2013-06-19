@@ -6,7 +6,7 @@ public class DoorScript : MonoBehaviour {
 	public Vector2 _closePosition;
 	public Vector2 _openPosition;
 
-	private bool _isOpen;
+	//	private bool _isOpen;
 	private Vector2 _direction;
 	private Vector2 _endPosition;
 	private Vector2 _startPosition;
@@ -20,8 +20,8 @@ public class DoorScript : MonoBehaviour {
 		_endPosition.y = transform.position.z;
 		_startPosition.x = transform.position.x;
 		_startPosition.y = transform.position.z;
-		_doorSpeed = .2f;
-		//_isOpen = true;
+		_doorSpeed = .5f;
+		//	_isOpen = true;
 	}
 	
 	// Update is called once per frame
@@ -34,7 +34,7 @@ public class DoorScript : MonoBehaviour {
 		_direction.y = _closePosition.y - _openPosition.y;
 		_endPosition = _closePosition;
 		_startPosition = _openPosition;
-		//_isOpen = false;
+		//	_isOpen = false;
 	}
 
 	public void closeDoor() {
@@ -42,7 +42,7 @@ public class DoorScript : MonoBehaviour {
 		_direction.y = _openPosition.y - _closePosition.y;
 		_startPosition = _closePosition;
 		_endPosition = _openPosition;
-		//_isOpen = true;
+		//	_isOpen = true;
 	}
 
 }
