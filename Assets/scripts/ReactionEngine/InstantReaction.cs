@@ -3,11 +3,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+//!  This class represent all the reactions that are instantaneous
+/*!
+   The reactions that look like :
+
+   2H + O = H2O should be managed by this class.
+   see react() method for more details.
+  */
 public class InstantReaction : IReaction
 {
-  private string _name;
-  private LinkedList<Product> _reactants;
+  private LinkedList<Product> _reactants;       //! the list of reactants
 
+  //! Default Constructor
   public InstantReaction()
   {
     _reactants = new LinkedList<Product>();
@@ -18,6 +25,12 @@ public class InstantReaction : IReaction
   public void addReactant(Product reactant) { if (reactant != null) _reactants.AddLast(reactant); }
 
 
+  /*!
+   Find the Limiting reactant in the attribute _reactant
+   and return the factor as following :
+
+        [MinReactant] / CoefReactant
+  */
   private float getLimitantFactor(ArrayList molecules)
   {
     Product minReact = null;
@@ -48,6 +61,18 @@ public class InstantReaction : IReaction
     return (molMin.getConcentration() / minReact.getQuantityFactor());
   }
 
+
+  /*!
+   This function is called at each frame.
+   It find the limiting reactant and consume as reactant and produce product
+   as much as possible.
+
+   The formula is :
+
+        delta =  Min(Reactant_1 / Coef_1, Reactant_2 / Coef_2, ... , Reactant_n / Coef_n)
+        for each product P : [P] += delta * Coef_P
+        for each reactant R : [R] -= delta * Coef_R
+  */
   public override void react(ArrayList molecules)
   {
     if (!_isActive)

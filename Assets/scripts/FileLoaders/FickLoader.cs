@@ -4,15 +4,20 @@ using System.Xml;
 using System;
 using System.IO;
 
+
+/*!
+ *  \brief     Load fick reaction files
+ *  \details   Load files that describe FickReaction.
+ *  \author    Pierre COLLET
+ */
 public class FickLoader
 {
 
 
-  public FickLoader()
-  {
-    
-  }
 
+  //! Create from an XML node a FickProprieties.
+  //! \param node The XML node
+  //! \return A FickProprieties (descriptor of FickReaction)
   public FickProprieties   loadFickProprieties(XmlNode node)
   {
     FickProprieties props = new FickProprieties();
@@ -38,6 +43,9 @@ public class FickLoader
     return props;
   }
 
+  //! Create a LinkedList of FickProprieties from a file path.
+  //! \param filePath the path to the file
+  //! \return A list of all FickReaction descriptor (FickProprieties) present in a file
   public LinkedList<FickProprieties>     loadFickProprietiesFromFile(string filePath)
   {
     LinkedList<FickProprieties> ficksProps = new LinkedList<FickProprieties>();

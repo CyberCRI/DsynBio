@@ -2,19 +2,40 @@ using UnityEngine;
 using System;
 using System.Collections;
 
+/*!
+ *  \brief     Manage allostery reactions
+ *  \details   This class manage all the alorstery reactions.
+ An allostery reaction correspond to the binding of an effector to a protein.
+ In this simulation, the allostery reactions produces a new product and consume
+ the reactants (protein and effector) in order to create a new molecular complexe.
+For example :
+
+        P + E -> PE (consume P (protein) and E(enzyme) in order to produce PE (product))
+ 
+Allostery reactions should be describe in a reaction file inside a xml node named <reactions>
+
+See example of definition :
+
+        <allostery>
+         <name>inhibitLacI</name>
+         <effector>IPTG</effector>
+         <K>0.1</K>
+         <n>2</n>
+         <protein>LacI</protein>
+         <products>LacI*</products>
+        </allostery>
+
+    \attention All the molecules use in this reaction should be defined in a reaction file
+ *  \author    Pierre COLLET
+ */
 public class Allostery : IReaction
 {
-  private string _name;
-  private string _effector;
-  private float _K;
-  private int _n;
-  private string _protein;
-  private string _product;
+  private string _effector;             //! The name of the effector
+  private float _K;                     //! The binding affinity between the effector and the protein
+  private int _n;                       //! Stepness of the HillFunction
+  private string _protein;              //! The name of the protein
+  private string _product;              //! The name of the product
 
-  public Allostery()
-  {
-    Debug.Log("Construction");
-  }
 
   public string getName() { return _name; }
   public void setName(string str) { _name = str; }
@@ -29,6 +50,25 @@ public class Allostery : IReaction
   public void setProduct(string str) { _product = str;}
   public string getProduct() { return _product; }
 
+
+  
+  //! \brief Do all the allostery reaction for one tick
+  /*! \details This function do this calculus :
+   
+       delta = ( ([E] / K)^n ) / ( 1 + (([E] / K)^n) ) * [P]
+       [P] -= delta
+       [E] -= delta
+       [Prod] += delta
+
+       With:
+                P -> Protein
+                E -> Effector
+                Prod -> Product
+                
+
+    Reference : http://2007.igem.org/wiki/index.php?title=ETHZ/Model#Mathematical_Model
+    \param molecules Molecule list of the medium where the reaction take place
+   */
   public override void react(ArrayList molecules)
   {
     if (!_isActive)
@@ -54,7 +94,6 @@ public class Allostery : IReaction
         protein.setConcentration(protein.getConcentration() - delta * 1f);
         effector.setConcentration(effector.getConcentration() - delta * 1f);
       }
-        Debug.Log("ca marche coco");
   }
 
 }
