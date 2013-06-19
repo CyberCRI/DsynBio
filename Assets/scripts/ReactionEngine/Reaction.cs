@@ -44,26 +44,21 @@ public class Molecule
   public void setConcentration(float concentration) { _concentration = concentration; if (_concentration < 0) _concentration = 0;}
   public void setDegradationRate(float degradationRate) { _degradationRate = degradationRate; }
   public void setSize(float size) { _size = size; }
+  public void addConcentration(float concentration) { _concentration += concentration; if (_concentration < 0) _concentration = 0;}
+  public void subConcentration(float concentration) { _concentration -= concentration; if (_concentration < 0) _concentration = 0;}
 }
 
 public class Product
 {
-  protected string _name;
+  protected string      _name;
+  protected float       _quantityFactor;
+
   // FIXME : Potentially add a ptr to the molecule
   public void setName(string name) { _name = Tools.epurStr(name); }
   public string getName() { return _name; }
-  public virtual float getProductionFactor() { return 1f;}
+  public void setQuantityFactor(float quantity) { _quantityFactor = quantity; }
+  public float getQuantityFactor() { return _quantityFactor; }
 }
-
-public class GeneProduct : Product
-{
-  private float _RBSf;
-  
-  public void setRBSFactor(float value) { _RBSf = value; }
-  public float getRBSFactor() { return _RBSf; }  
-  public override float getProductionFactor() { return _RBSf;}
-}
-
 
 public abstract class IReaction
 {
@@ -105,7 +100,8 @@ public class Degradation : IReaction
       return;
 //     Debug.Log("React degradation");s
     Molecule mol = ReactionEngine.getMoleculeFromName(_molName, molecules);
-    mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * mol.getConcentration() * 1f//  * 0.05f
-                         );
+    mol.subConcentration(mol.getDegradationRate() * mol.getConcentration() * 1f);
+//     mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * mol.getConcentration() * 1f//  * 0.05f
+//                          );
   }
 }

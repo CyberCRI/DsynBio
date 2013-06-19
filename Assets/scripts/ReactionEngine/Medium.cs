@@ -117,13 +117,13 @@ public class Medium
     if (_name == "Cellia")
       {
         if (Input.GetKey(KeyCode.UpArrow))
-          ReactionEngine.getMoleculeFromName("LacI", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("LacI", _molecules).getConcentration() + 10f);
+          ReactionEngine.getMoleculeFromName("H", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("H", _molecules).getConcentration() + 5f);
         if (Input.GetKey(KeyCode.DownArrow))
-          ReactionEngine.getMoleculeFromName("LacI", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("LacI", _molecules).getConcentration() - 10f);
+          ReactionEngine.getMoleculeFromName("H", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("H", _molecules).getConcentration() - 5f);
         if (Input.GetKey(KeyCode.RightArrow))
-          ReactionEngine.getMoleculeFromName("IPTG", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("IPTG", _molecules).getConcentration() + 100f);
+          ReactionEngine.getMoleculeFromName("O", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("O", _molecules).getConcentration() + 5f);
         if (Input.GetKey(KeyCode.LeftArrow))
-          ReactionEngine.getMoleculeFromName("IPTG", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("IPTG", _molecules).getConcentration() - 100f);
+          ReactionEngine.getMoleculeFromName("O", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("O", _molecules).getConcentration() - 5f);
       }
 
     // Graphic Stuff

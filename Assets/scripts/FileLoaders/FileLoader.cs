@@ -64,7 +64,7 @@ public class FileLoader
 
   private bool loadGene(Promoter prom, string name, string RBSf)
   {
-    GeneProduct gene = new GeneProduct();
+    Product gene = new Product();
 
     if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(RBSf))
       {
@@ -72,7 +72,7 @@ public class FileLoader
         return false;
       }
     gene.setName(name);
-    gene.setRBSFactor(float.Parse(RBSf.Replace(",", ".")));
+    gene.setQuantityFactor(float.Parse(RBSf.Replace(",", ".")));
     prom.addProduct(gene);
     return true;
   }
@@ -318,6 +318,100 @@ public class FileLoader
 // ================== END ALLOSTERY LOADING =======================
 
 
+  private bool loadInstantReactionReactants(XmlNode node, InstantReaction ir)
+  {
+    foreach (XmlNode attr in node)
+      if (attr.Name == "reactant")
+        loadInstantReactionReactant(attr, ir);
+    return true;
+  }
+
+
+  private bool loadInstantReactionReactant(XmlNode node, InstantReaction ir)
+  {
+    Product prod = new Product();
+    foreach (XmlNode attr in node)
+      {
+        if (attr.Name == "name")
+          {
+            if (String.IsNullOrEmpty(attr.InnerText))
+              Debug.Log("Warning : Empty name field in instant reaction reactant definition");
+            prod.setName(attr.InnerText);
+          }
+        else if (attr.Name == "quantity")
+          {
+            if (String.IsNullOrEmpty(attr.InnerText))
+              Debug.Log("Warning : Empty quantity field in instant reaction reactant definition");
+            prod.setQuantityFactor(float.Parse(attr.InnerText.Replace(",", ".")));
+          }
+      }
+    ir.addReactant(prod);
+    return true;
+  }
+
+  private bool loadInstantReactionProducts(XmlNode node, InstantReaction ir)
+  {
+    foreach (XmlNode attr in node)
+      if (attr.Name == "product")
+        loadInstantReactionProduct(attr, ir);
+    return true;
+  }
+
+
+  private bool loadInstantReactionProduct(XmlNode node, InstantReaction ir)
+  {
+    Product prod = new Product();
+    foreach (XmlNode attr in node)
+      {
+        if (attr.Name == "name")
+          {
+            if (String.IsNullOrEmpty(attr.InnerText))
+              Debug.Log("Warning : Empty name field in instant reaction product definition");
+            prod.setName(attr.InnerText);
+          }
+        else if (attr.Name == "quantity")
+          {
+            if (String.IsNullOrEmpty(attr.InnerText))
+              Debug.Log("Warning : Empty quantity field in instant reaction product definition");
+            prod.setQuantityFactor(float.Parse(attr.InnerText.Replace(",", ".")));
+          }
+      }
+    ir.addProduct(prod);
+    return true;
+  }
+
+
+  private bool loadInstantReactions(XmlNode node, LinkedList<IReaction> reactions)
+  {
+    XmlNodeList IReactionsList = node.SelectNodes("instantReaction");
+    bool b = true;
+    
+    foreach (XmlNode IReaction in IReactionsList)
+      {
+        InstantReaction ir = new InstantReaction();
+        foreach (XmlNode attr in IReaction)
+          {
+            switch (attr.Name)
+              {
+              case "name":
+                ir.setName(attr.InnerText);
+                break;
+              case "reactants":
+                loadInstantReactionReactants(attr, ir);
+                break;
+              case "products":
+                loadInstantReactionProducts(attr, ir);
+                break;
+              }
+          }
+        reactions.AddLast(ir);
+      }
+    return b;
+  }
+
+// ================== END INSTANT REACTIONS LOADING =======================
+
+
   private bool storeMolecule(XmlNode node, Molecule.eType type, ArrayList molecules)
   {
     Molecule mol = new Molecule();
@@ -382,6 +476,7 @@ public class FileLoader
     loadPromoters(node, reactions);
     loadEnzymeReactions(node, reactions);
     loadAllostericReactions(node, reactions);
+    loadInstantReactions(node, reactions);
     return true;
 //     return loadPromoters(node) && loadEnzymeReactions(node);//  && loadChemicalReactions(node);
   }
