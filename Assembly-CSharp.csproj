@@ -66,8 +66,7 @@
      <Compile Include="Assets\Scripts\Graphs\VectrosityScripts\VisibilityControlStatic.cs" />
      <Compile Include="Assets\Scripts\Level\FluorescenceChallenges\DoorScript.cs" />
      <Compile Include="Assets\Scripts\Level\FluorescenceChallenges\LampScript.cs" />
-     <Compile Include="Assets\Scripts\Level\MotilityChallenges\AirFlowDown.cs" />
-     <Compile Include="Assets\Scripts\Level\MotilityChallenges\AirFlowUp.cs" />
+     <Compile Include="Assets\Scripts\Level\MotilityChallenges\AirFlowScript.cs" />
      <Compile Include="Assets\Scripts\Level\Toxic.cs" />
      <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
      <Compile Include="Assets\Scripts\Misc\LinkedListExtensions.cs" />

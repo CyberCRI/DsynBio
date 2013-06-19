@@ -106,9 +106,12 @@ public class Hero : MonoBehaviour{
 	}
 
 	//When the player reacts to the light and emits colors.
-	public void emitLight(bool boolean, Color color) {
+	public void emitLight(bool boolean) {
 		light.enabled = boolean;
+	}
+
+	public void changeColor(Color color) {
 		light.color = color;
 	}
-	
+
 }

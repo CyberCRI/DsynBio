@@ -1,24 +1,35 @@
 using UnityEngine;
 using System.Collections;
 
-public class AirFlowUp : MonoBehaviour {
+public class AirFlowScript : MonoBehaviour {
 
+	/*
 	private GameObject _hero;
-
 	private bool _canFlow;
 	private bool _flowPlayer;
+	*/
 
+	void OnTriggerStay(Collider col) {
+		//When the player colides with the flow block, he's propulsed downward.
+		if (col.gameObject.name == "Hero" && gameObject.name == "airFlowDown")
+			col.transform.Translate(0, 0, -5 * Time.deltaTime);
+		if (col.gameObject.name == "Hero" && gameObject.name == "airFlowUp")
+			col.transform.Translate(0, 0, 5 * Time.deltaTime);
+	}
+
+
+	/*
 	void Start () {
 		_hero = GameObject.Find("Hero");
 		_canFlow = true;
 		_flowPlayer = false;
 	}
-	
+
 	//When the player colides with the flow block, he's propulsed downward.
 	void Update () {
 		if (_canFlow == true)
 			if (_flowPlayer == true)
-				_hero.transform.Translate(0, 0, 5 * Time.deltaTime);
+				_hero.transform.Translate(0, 0, -5 * Time.deltaTime);
 	}
 
 	//Set-up an authorization for each gameObjects that might be in collision with the flow block.
@@ -38,5 +49,6 @@ public class AirFlowUp : MonoBehaviour {
 			particleSystem.Play();
 		}
 	}
+	*/
 
 }
