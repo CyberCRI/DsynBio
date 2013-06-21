@@ -60,7 +60,7 @@
      <None Include="Assets\Data\Fick2.txt" />
      <None Include="Assets\Data\Fick.txt" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
-     <None Include="Assets\data\reactions5.txt" />
+     <None Include="Assets\Data\reactions5.txt" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\Data\reactions2.txt" />
