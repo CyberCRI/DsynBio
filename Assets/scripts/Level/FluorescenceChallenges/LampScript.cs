@@ -10,6 +10,8 @@ public class LampScript : MonoBehaviour {
 			gameObject.light.color = Color.red;
 		if (gameObject.name == "lampBlue")
 			gameObject.light.color = Color.blue;
+		if (gameObject.name == "lampBlack")
+			gameObject.light.color = Color.black;
 	}
 
 	void OnTriggerEnter(Collider col) {
@@ -29,6 +31,11 @@ public class LampScript : MonoBehaviour {
 
 			DoorScript door = GameObject.Find("doorRed").GetComponent<DoorScript>();
 			door.openDoor();
+		}
+		if (col.gameObject.name == "Hero" && gameObject.name == "lampBlack") {
+			Hero hero = GameObject.Find("Hero").GetComponent<Hero>();
+			hero.emitLight(true);
+			hero.changeColor(Color.green);
 		}
 	}
 
