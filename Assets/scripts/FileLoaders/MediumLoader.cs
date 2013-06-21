@@ -4,16 +4,15 @@ using System.Xml;
 using System;
 using UnityEngine;
 
-
+/*! 
+ *  \brief     Load medium files
+ *  \details   This class load everything about mediums from medium files
+ *  \author    Pierre COLLET
+ */
 public class MediumLoader
 {
 
-
-  public MediumLoader()
-  {
-    
-  }
-
+  
   public Medium   loadMedium(XmlNode node)
   {
     Medium medium = new Medium();

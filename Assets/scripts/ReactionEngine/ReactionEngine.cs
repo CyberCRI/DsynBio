@@ -4,15 +4,17 @@ using System.Xml;
 using System;
 using System.Collections.Generic;
 
-//!  The main class that compute all the reactions. 
+//!
 /*!
-  This class initialize from files and execute all the reactions.
-  The reactions that are currently implemented are :
-   - Degradation
-   - Diffusion (Fick)
-   - Enzyme reaction with effectors (EnzymeReaction)
-   - Promoter expressions (Promoter)
-*/
+ *  \brief     The main class that compute all the reactions.
+ *  \details     This class initialize from files and execute all the reactions.
+ The reactions that are currently implemented are :
+ - Degradation
+ - Diffusion (Fick)
+ - Enzyme reaction with effectors (EnzymeReaction)
+ - Promoter expressions (Promoter)
+ *  \author    Pierre COLLET
+ */
 public class ReactionEngine : MonoBehaviour {
 
   private Fick _fick;                                   //!< The Fick class that manage molecules diffusions between medium

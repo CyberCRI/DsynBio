@@ -7,21 +7,130 @@ using UnityEngine;
 
 // ========================== Promoter ================================
 
+/*!
+ *  \brief     Manage promoter reactions
+ *  \details   This class manage all the promoter reactions
+
+ A promoter reaction represent the behaviour of a promoter and of the transcription that it manage (Device).
+ The promoter responds to a logic input function that should respect the synthax below.
+
+ Input function:
+ ==============
+
+        Grammar :
+
+                EXPR ::= ANDEXPR [OP_OR OREXPR]
+                ANDEXPR ::= PAREXPR [OP_AND ANDEXPR]
+                PAREXPR ::= (NOTEXPR | OP_LPAR OREXPR OP_RPAR)
+                NOTEXPR ::= [OP_NOT] (OPERANDEXPR | BOOL_EXPR)
+                BOOL_EXPR :: = (OP_TRUE | OP_FALSE)
+                OPERANDEXPR ::= CONSTANTEXPR WORD
+                CONSTANTEXPR ::= OP_LHOOK FLOATNUMBER OP_COMMA FLOATNUMBER OP_RHOOK
+                WORD ::= CHAR [CHAR | NUMBER]
+                NUMBER ::= (0|1|2|3|4|5|6|7|8|9) [NUMBER]
+                CHAR ::= (a-z,A-Z)
+                FLOATNUMBER ::= NUMBER [OP_DOT NUMBER]
+                
+        Default Operators:
+
+                OP_OR ::= "+"
+                OP_AND ::= "*"
+                OP_LPAR ::= "("
+                OP_RPAR ::= ")"
+                OP_NOT ::= "!"
+                OP_TRUE :: = "T"
+                OP_FALSE ::= "F"
+                OP_LHOOK ::= "["
+                OP_RHOOK ::= "]"
+                OP_COMMA ::= ","
+                OP_DOT ::= "."
+                
+
+        Examples :
+
+                - T                             Always true
+                - F                             Always false
+                - [1.2,1]X                      Activated when  [X] >= 1.2 with Stepness = 1
+
+                - [1.3,1]X*([2.4,2]Y+[2.5,1]Z)  Activated when  [X] >= 1.3 with Stepness = 1 AND
+                                                                 ([Y] >= 2.4 with Stepness = 2 OR
+                                                                  [Z] >= 2.5 with stepness = 1)
+
+                - !([1.3,2]X|[1.4,1]Y)          Activated when  [X] <= 1.3 with stepness = 2 OR
+                                                                [Y] <= 1.4 with stepness = 1
+                                                                ... But not only. See below to understand
+
+                - ![0.8,1]LacI*[3.4,2]GFP       Activated when  [LacI] <= 0.8 with stepness = 1 AND
+                                                                [GFP] >= 3.4 with stepness = 2
+        
+
+Synthax tree and execution:
+==========================
+
+A tree is build from the grammar above.
+
+        Example :
+
+                - [1.3,2]X*![1.4,1]Y create the tree below:
+
+
+                                 AND
+                                  |
+                        ---------------------
+                        |                   |
+                        C                  NOT
+                  ------------              |
+                  |          |              C
+                  1.4        X        ------------                 
+                  |                   |          |
+                  2                   1.4        Y
+                                      |
+                                      1
+
+Execution :
+
+Here, the tree is left recursive executed.
+Each node is executed by a specific function.
+
+See below how each kind of node ares executed :
+
+        - AND (*) node:                         return Min(leftNode, RightNode)
+        - OR (+) node:                          return leftNode + rightNode
+        - Not (!) node:                         return 1 - leftNode
+        - constant (C) node:                    return hill_function with  K parameter = leftNode  and  n parameter = leftNode of leftNode
+        - Transcription factor:                 return concentration of concerned transcription factor
+          (X or Y in the tree above) node
+        - Value (1.4, 2, 1.4 and 1 above) node: return the value that it contain.
+        
+        /!\ hill_function = [X]^n / (K + [X]^n)
+        This function can be replaced by a stepfunction that correspond to a Hill function with n = +inf
+
+
+
+A Device will transcript all the operon and so increase concentration of molecules that it produces.
+In order to do this, it needs this parameters:
+
+                - Beta -> maximal production rate
+                - Terminator factor -> between 0-1 that describe the probability that the terminator stop the transcription
+                - formula -> the result value of the tree above
+                - Operon :      - The Molecule that is transcripted
+                                - The RBS factor (RBSf), between 0-1 that correspond to the RBS affinity with the ribosomes
+
+To see how the calculus is done, refer you to the react() function of this class.
+
+
+\attention To understand how to build a PromoterReaction refer you to the PromoterLoader class
+
+ *  \author    Pierre COLLET
+ */
 public class Promoter : IReaction
 {
   private float _terminatorFactor;
   private TreeNode<PromoterNodeData> _formula;
   protected float _beta;
 
-//   public Promoter(string name = null, float beta = 0)
-//   {
-//     _products = new LinkedList<GeneProduct>();
-//   }
-
   public void setBeta(float beta) { _beta = beta; }
   public float getBeta() { return _beta; }
-//   public void setN(float n) { _n = n; }
-//   public float getN() { return _n; }
   public void setTerminatorFactor(float v) { _terminatorFactor = v; }
   public float getTerminatorFactor() { return _terminatorFactor; }
   public void setFormula(TreeNode<PromoterNodeData> tree) { _formula = tree; }
@@ -37,7 +146,6 @@ public class Promoter : IReaction
     if (concentration > K)
       return 1f;
     return 0f;
-//     return (float)(Math.Pow(concentration, n) / (K + Math.Pow(concentration, n)));
   }
 
 //   FIXME : Check all possible issues like product or molecule not exists;

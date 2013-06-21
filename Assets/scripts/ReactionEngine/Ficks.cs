@@ -2,7 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-//!  This class is a descriptive class of a FickReaction
+//!  
+/*!                                                                                                                                                                                                                                                                                                                        
+ *  \brief     Describe a FickReaction
+ *  \details   This class is a descriptive class of a FickReaction
+ *  \author    Pierre COLLET                                                                                                                                                                                                                                                                                               
+ */
 public class FickProprieties
 {
   public int MediumId1 {get; set;}
@@ -11,10 +16,11 @@ public class FickProprieties
   public float surface  {get; set;}
 }
 
-//!  The class that manage all the diffusions reactions using Fick model.
 /*!
-  This class initialize from files and execute all the FickReaction.
-*/
+ *  \brief     The class that manage all the diffusions reactions using Fick model.
+ *  \details   This class initialize from files and execute all the FickReaction.
+ *  \author    Pierre COLLET
+ */
 class Fick
 {
   public const float MaximumMoleculeSize = 0.25f;       //!< Limit size of molecules that can cross the membrane of the Medium
