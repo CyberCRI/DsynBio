@@ -10,8 +10,6 @@ public class LampScript : MonoBehaviour {
 			gameObject.light.color = Color.red;
 		if (gameObject.name == "lampBlue")
 			gameObject.light.color = Color.blue;
-		if (gameObject.name == "lampBlack")
-			gameObject.light.color = Color.black;
 	}
 
 	void OnTriggerEnter(Collider col) {
