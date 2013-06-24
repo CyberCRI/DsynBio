@@ -68,7 +68,7 @@
      <Compile Include="Assets\Scripts\Level\FluorescenceChallenges\LampScript.cs" />
      <Compile Include="Assets\Scripts\Level\FluorescenceChallenges\MineScript.cs" />
      <Compile Include="Assets\Scripts\Level\MotilityChallenges\AirFlowScript.cs" />
-     <Compile Include="Assets\Scripts\Level\Toxic.cs" />
+     <Compile Include="Assets\Scripts\Level\MotilityChallenges\ToxicScript.cs" />
      <Compile Include="Assets\Scripts\Map\MapGenerator.cs" />
      <Compile Include="Assets\Scripts\Misc\LinkedListExtensions.cs" />
      <Compile Include="Assets\Scripts\Misc\Tools.cs" />
