@@ -1,9 +1,11 @@
+//! This class is a simple binary tree
 public class TreeNode<T>
 {
-  private T             _data;
-  private TreeNode<T>       _left;
-  private TreeNode<T>       _right;
+  private T             _data;          //! Data that the node contains
+  private TreeNode<T>       _left;      //! left node
+  private TreeNode<T>       _right;     //! right node
 
+  //! Default constructor
   public TreeNode(T data, TreeNode<T> left = null, TreeNode<T> right = null)
   {
     _data = data;
