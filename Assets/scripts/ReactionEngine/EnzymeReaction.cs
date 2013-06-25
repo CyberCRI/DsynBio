@@ -2,15 +2,23 @@ using UnityEngine;
 using System;
 using System.Collections;
 
+/*!
+  \brief This class manage enzyme reactions
+  \details
+
+  Manage enzyme reactions.
+  \attention HELENA NEEDS TO CORRECT THE DESCRIPTION
+
+ */
 public class EnzymeReaction : IReaction
 {
-  private string _substrate;
-  private string _enzyme;
-  private float _Kcat;
-  private string  _effector;
-  private float _alpha;
-  private float _beta;
-  private float _Km;
+  private string _substrate;            //! The substrate of the reaction
+  private string _enzyme;               //! The enzyme of the reaction
+  private float _Kcat;                  //! The affinity between the substrate and the enzyme coefficient
+  private string  _effector;            //! The effector of the reaction
+  private float _alpha;                 //! Alpha descriptor of the effector
+  private float _beta;                  //! Beta descriptor of the effector
+  private float _Km;                    //! Affinity coefficient between
   private float _Ki;
 
   public void setSubstrate(string str) { _substrate = str; }
@@ -30,7 +38,35 @@ public class EnzymeReaction : IReaction
   public void setKi(float value) { _Ki = value;}
   public float getKi() { return _Ki; }
 
-  private float execEnzymeReaction(ArrayList molecules)
+  /*!
+    Execute an enzyme reaction.
+    \details This function do all the calcul of an enzymatic reaction.
+    The formula is :
+
+                           [S]                      [S] * [I]
+                   Vmax * ----  + beta * Vmax * ----------------
+                           Km                    alpha * Km * Ki
+          delta = -------------------------------------------------
+                              [S]    [I]      [S] * [I]
+                         1 + ---- + ---- + -----------------
+                              Km     Ki     alpha * Km * Ki
+
+          with : Vmax -> Maximal production
+                 S -> Substrate
+                 I -> Effector
+                 Km -> affinity between substrate and enzyme
+                 Ki -> affinity between effector and enzyme
+                 alpha -> Describe the competitivity of the effector (I) with the substrate (S). a >> 1 = competitive inhibition
+                                                                                                 a << 1 Uncompetitive inhibition
+                                                                                                 a = 1 Noncompetitive inhibition
+                 beta -> Describe the extend of inhibition (< 1) or the extend of activation (> 1)
+                 others configuration of beta and alpha are mixed inhibition.
+
+    \reference http://depts.washington.edu/wmatkins/kinetics/inhibition.html
+    \return return the value that will be produce.
+    \param molecules The list of molecules.
+   */
+  public float execEnzymeReaction(ArrayList molecules)
   {
     Molecule substrate = ReactionEngine.getMoleculeFromName(_substrate, molecules);
     Molecule enzyme = ReactionEngine.getMoleculeFromName(_enzyme, molecules);
@@ -49,6 +85,12 @@ public class EnzymeReaction : IReaction
     return v;
   }
 
+  /*!
+    \brief this fonction execute all the enzyme reactions
+    \details It's call execEnzymeReaction and substract to the substrate concentration what this function return.
+    This function also add this returned value to all the producted molecules.
+    \param molecules The list of molecules
+   */
   public override void react(ArrayList molecules)
   {
     if (!_isActive)

@@ -125,9 +125,9 @@ To see how the calculus is done, refer you to the react() function of this class
  */
 public class Promoter : IReaction
 {
-  private float _terminatorFactor;
-  private TreeNode<PromoterNodeData> _formula;
-  protected float _beta;
+  private float _terminatorFactor;                      //! Determine the fiability of the terminator (0-1 wich correspond to 0% to 100%)
+  private TreeNode<PromoterNodeData> _formula;          //! The formula describe in the detailled description
+  protected float _beta;                                //! The maximal production of the promoter
 
   public void setBeta(float beta) { _beta = beta; }
   public float getBeta() { return _beta; }
@@ -136,11 +136,23 @@ public class Promoter : IReaction
   public void setFormula(TreeNode<PromoterNodeData> tree) { _formula = tree; }
   public TreeNode<PromoterNodeData> getFormula() { return _formula; }
 
+
+  /*! 
+Implementation of a Hill function
+\param K Threshold value
+\param concentration Quantity of the molecule
+\param n Stepness parameter
+  */
   public static float hillFunc(float K, float concentration, double n)
   {
     return (float)(Math.Pow(concentration, n) / (K + Math.Pow(concentration, n)));
   }
 
+  /*! 
+Implementation of a step function function
+\param K Threshold value
+\param concentration Quantity of the molecule
+  */
   public static float stepFunc(float K, float concentration)
   {
     if (concentration > K)
@@ -149,6 +161,12 @@ public class Promoter : IReaction
   }
 
 //   FIXME : Check all possible issues like product or molecule not exists;
+  /*! 
+Execute a Node of type : Constant
+\param node The node of the tree to execute
+\param molecules The list of molecules
+\return The result of the hill function.
+  */
   private float execConstant(TreeNode<PromoterNodeData> node, ArrayList molecules)
   {
     if (node == null)
@@ -171,12 +189,23 @@ public class Promoter : IReaction
   }
 
   // FIXME : check issues like node == null etc;
+  /*! 
+Execute a Node of type : Word
+\param node The node of the tree to execute
+\param molecules The list of molecules
+\return return the concentration of the molecule in the node.
+  */
   private Molecule execWord(TreeNode<PromoterNodeData> node, ArrayList molecules)
   {
     return ReactionEngine.getMoleculeFromName(node.getData().value, molecules);
   }
 
   // FIXME : check issues like node == null etc;
+  /*! 
+Execute a Node of type : Bool
+\param node The node of the tree to execute
+\return 1 if the value of the node is True, 0 else
+  */
   private float execBool(TreeNode<PromoterNodeData> node)
   {
     if (node.getData().value == "T")
@@ -185,11 +214,23 @@ public class Promoter : IReaction
   }
 
   // FIXME : check issues like bad parse and node == null
+  /*! 
+Execute a Node of type : Num
+\param node The node of the tree to execute
+\param molecules The list of molecules
+\return The value that contain the node
+  */
   private float execNum(TreeNode<PromoterNodeData> node, ArrayList molecules)
   {
     return float.Parse(node.getData().value.Replace(",", "."));
   }
 
+  /*! 
+Execute a Node.
+\param node The node of the tree to execute
+\param molecules The list of molecules
+\return The result of the function
+  */
   private float execNode(TreeNode<PromoterNodeData> node, ArrayList molecules)
   {
     if (node != null)
@@ -216,6 +257,16 @@ public class Promoter : IReaction
     return 1.0f;
   }
 
+  /*! 
+\brief Execute a promoter reaction as describe in the detailled reaction
+\details Once the tree is executed, the result is put in delta and used as follow :
+
+For each Product P in the operon :
+
+        [P] += delta * RBSf * TerminatorFactor * beta(Maximal production)
+
+\param molecules The list of molecules
+  */
   public override void react(ArrayList molecules)
   {
     if (!_isActive)

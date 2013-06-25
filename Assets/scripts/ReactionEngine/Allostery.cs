@@ -3,16 +3,31 @@ using System;
 using System.Collections;
 
 /*!
- *  \brief     Manage allostery reactions
- *  \details   This class manage all the alorstery reactions.
- An allostery reaction correspond to the binding of an effector to a protein.
- In this simulation, the allostery reactions produces a new product and consume
- the reactants (protein and effector) in order to create a new molecular complexe.
-For example :
+ *  \brief     Manages "allostery" reactions
+ *  \details   This class manages all the "allostery" reactions.
+
+Manages allosteric regulations.
+
+This class manages allosteric regulation of an enzyme, or any other protein, by
+an effector molecule that binds to the protein's allosteric site.
+This site is different from its active site, and the effector's binding can
+enhance (allosteric activators) or decrease (allosteric inhibitors) the protein's activity.
+Allosteric regulations allow the design of control loops within the cell's
+activity (such as feedback or feedforward from upstream substrates).
+In this simulation, the allosteric reaction between a protein (P.) and its effector (E)
+ produces a new product (complex PE), and consumes the reactants (P and E).
+The complex PE can therefore be designed in order to have increased or decreased activity that the protein P.
 
         P + E -> PE (consume P (protein) and E(enzyme) in order to produce PE (product))
+
+Biological example:
+P: LacI (transcription factor that binds to pLac promoter)
+E: IPTG
+PE: LacI-IPTG (LacI is not longer able to bind to pLac with the same affinity)
+
+
  
-Allostery reactions should be describe in a reaction file inside a xml node named <reactions>
+Allosteric reactions should be describe in a reaction file inside a xml node named <reactions>
 
 See example of definition :
 
