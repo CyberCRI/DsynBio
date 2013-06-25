@@ -99,12 +99,15 @@ public class Medium
     initDegradationReactions(allMolecules);
 
     _graphic = drawer;
-    for (int i = 0; i < _molecules.Count; i++)
+    int i = 0;
+//     for (int i = 0; i < _molecules.Count; i++)
+    foreach (Molecule m in _molecules)
       {
-        Curve c = new Curve();
+        Curve c = new Curve(m.getName());
         _curves.AddLast(c);
         if (_graphic != null)
           _graphic.addCurve(c);
+        i++;
       }    
   }
 

@@ -52,6 +52,7 @@
      <Compile Include="Assets\scripts\FileLoaders\MediumLoader.cs" />
      <Compile Include="Assets\scripts\FileLoaders\Parser.cs" />
      <Compile Include="Assets\scripts\GUI\GUIScript.cs" />
+     <Compile Include="Assets\scripts\GUI\graphGUI.cs" />
      <Compile Include="Assets\scripts\Graphs\Curve.cs" />
      <Compile Include="Assets\scripts\Graphs\Graph.cs" />
      <Compile Include="Assets\scripts\Graphs\GraphDrawer.cs" />
