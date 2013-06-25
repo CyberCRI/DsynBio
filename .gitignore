@@ -9,3 +9,4 @@ build
 *.sln
 *.userprefs
 *.exe
+*.csproj

@@ -7,6 +7,7 @@ public class Curve
 {
 
   public const int _maxPoints = 200;
+  private string _label;
   private LinkedList<Vector2> _points;
   private VectorLine _line;
   private Vector2[] _pts;
@@ -14,8 +15,9 @@ public class Curve
   private float _maxY;
   private Color _color;
 
-  public Curve()
+  public Curve(string label = "")
   {
+    _label = label;
     _points = new LinkedList<Vector2>();
     _pts = new Vector2[_maxPoints];
     _minY = 0;
@@ -26,11 +28,13 @@ public class Curve
     _line.Draw();
   }
 
-  private float getMinX() { if (_points.Count > 0) return _points.First.Value.x; return 0;}
-  private float getMaxX() { if (_points.Count > 0) return _points.Last.Value.x; return 0;}
+  public float getLastY() { return _points.Last.Value.y; }
+  public float getMinX() { if (_points.Count > 0) return _points.First.Value.x; return 0;}
+  public float getMaxX() { if (_points.Count > 0) return _points.Last.Value.x; return 0;}
   public float getMaxY() { return _maxY; }
   public float getMinY() { return _minY; }
   public Color getColor() { return _color; }
+  public string getLabel() { return _label; }
   public LinkedList<Vector2> getPointsList() { return _points; }
 
   public void updateMinMax()
