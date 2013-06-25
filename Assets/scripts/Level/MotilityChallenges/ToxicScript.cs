@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Toxic : MonoBehaviour {
+public class ToxicScript : MonoBehaviour {
 
 	public const float toxicDrain = .3f;
 
