@@ -24,11 +24,11 @@ public class Curve
     _maxY = 0;
     _color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
     _line = new VectorLine("test", _pts, _color, null, 2.0f, LineType.Continuous, Joins.Weld);
-
+//     _line.SetCamera("mainCamera");
     _line.Draw();
   }
 
-  public float getLastY() { return _points.Last.Value.y; }
+  public float getLastY() { if (_points != null && _points.Last != null) return _points.Last.Value.y; return 0;}
   public float getMinX() { if (_points.Count > 0) return _points.First.Value.x; return 0;}
   public float getMaxX() { if (_points.Count > 0) return _points.Last.Value.x; return 0;}
   public float getMaxY() { return _maxY; }

@@ -81,6 +81,11 @@ public class ReactionEngine : MonoBehaviour {
     return false;
   }
 
+  public LinkedList<Medium>    getMediumList()
+  {
+    return _mediums;
+  }
+
 //! Return an ArrayList that contain all the differents molecules an list of MoleculesSet
   /*!
       \param list the list of MoleculesSet
@@ -113,7 +118,7 @@ public class ReactionEngine : MonoBehaviour {
   }
 
   //! This function is called at the initialisation of the simulation (like a Constructor)
-  public void Start ()
+  public void Awake()
   {
     FileLoader fileLoader = new FileLoader();
     _reactionsSets = new LinkedList<ReactionsSet>();
