@@ -133,7 +133,7 @@ public class Medium
     LinkedListNode<Curve> node = _curves.First;
     foreach (Molecule mol in _molecules)
       {
-        Debug.Log("[" + mol.getName() + "] = " + mol.getConcentration());
+//         Debug.Log("[" + mol.getName() + "] = " + mol.getConcentration());
         Vector2 p = new Vector2((float)Time.timeSinceLevelLoad*200f, mol.getConcentration() * 3.0f);
         node.Value.addPoint(p);
         node = node.Next;

@@ -3,12 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+/*!
+ \brief A phenotype class that represent a light reaction in function of the concentration in Water (H2O)
+ in the Midium
+ \author Pierre COLLET
+ */
 public class PhenoLight : Phenotype {
 
-  public Color         _color;
-  public bool isActive;
+  public Color         _color;          //! Color of the Light
+  public bool isActive;                 //! Activity of the light
 
 
+  //! Called at the begening
   public override void StartPhenotype()
   {
     gameObject.AddComponent<Light>();
@@ -19,6 +25,12 @@ public class PhenoLight : Phenotype {
     gameObject.light.intensity = 1;
   }
 
+  /*!
+    \brief This function is called as Update in Monobehaviour.
+    \details This function is called in the Phenotype class in the Update function
+    This function should be implemented and all the graphical action has to be implemented in it.
+    \sa Phenotype
+   */
   public override void UpdatePhenotype()
   {
     gameObject.light.enabled = true;
@@ -27,8 +39,7 @@ public class PhenoLight : Phenotype {
     Molecule mol = ReactionEngine.getMoleculeFromName("H2O", _molecules);
     if (mol == null)
       return ;
-//     gameObject.light.intensity = 1;    
-    float intensity = (float)(Math.Pow((double)(mol.getConcentration()), 0.5) / (40.0 + Math.Pow((double)mol.getConcentration(), 0.5))) * 8f;
+    float intensity = Phenotype.hill(mol.getConcentration(), 100.0f, 1f, 2f, 8f);
     gameObject.light.intensity = intensity;
   }
 }
