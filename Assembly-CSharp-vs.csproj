@@ -79,6 +79,7 @@
      <Compile Include="Assets\scripts\Objects\Glucose.cs" />
      <Compile Include="Assets\scripts\Objects\devImpMoti.cs" />
      <Compile Include="Assets\scripts\Phenotypes\PhenoLight.cs" />
+     <Compile Include="Assets\scripts\Phenotypes\PhenoToxic.cs" />
      <Compile Include="Assets\scripts\Phenotypes\Phenotype.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\ActiveTransport.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\ActiveTransportReaction.cs" />
