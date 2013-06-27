@@ -41,7 +41,8 @@ See example of definition :
         </allostery>
 
     \attention All the molecules use in this reaction should be defined in a reaction file
- *  \author    Pierre COLLET
+    \author    Pierre COLLET
+    \mail      pierre.collet91@gmail.com
  */
 public class Allostery : IReaction
 {

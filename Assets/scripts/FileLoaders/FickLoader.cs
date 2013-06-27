@@ -9,12 +9,10 @@ using System.IO;
  *  \brief     Load fick reaction files
  *  \details   Load files that describe FickReaction.
  *  \author    Pierre COLLET
+ *  \mail      pierre.collet91@gmail.com
  */
 public class FickLoader
 {
-
-
-
   //! Create from an XML node a FickProprieties.
   //! \param node The XML node
   //! \return A FickProprieties (descriptor of FickReaction)

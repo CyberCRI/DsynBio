@@ -46,6 +46,7 @@
   <ItemGroup>
      <Compile Include="Assets\scripts\Camera\MainCamera.cs" />
      <Compile Include="Assets\scripts\Charac\Hero.cs" />
+     <Compile Include="Assets\scripts\FileLoaders\ActiveTransportLoader.cs" />
      <Compile Include="Assets\scripts\FileLoaders\FickLoader.cs" />
      <Compile Include="Assets\scripts\FileLoaders\FileLoader.cs" />
      <Compile Include="Assets\scripts\FileLoaders\LevelScript.cs" />
@@ -79,6 +80,8 @@
      <Compile Include="Assets\scripts\Objects\devImpMoti.cs" />
      <Compile Include="Assets\scripts\Phenotypes\PhenoLight.cs" />
      <Compile Include="Assets\scripts\Phenotypes\Phenotype.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\ActiveTransport.cs" />
+     <Compile Include="Assets\scripts\ReactionEngine\ActiveTransportReaction.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\Allostery.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\EnzymeReaction.cs" />
      <Compile Include="Assets\scripts\ReactionEngine\Ficks.cs" />
@@ -97,6 +100,7 @@
      <None Include="Assets\data\reactions5.txt" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-BasicOutline.shader" />
+     <None Include="Assets\data\ActiveTransport.txt" />
      <None Include="Assets\data\reactions2.txt" />
      <None Include="Assets\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
      <None Include="Assets\data\reactions4.txt" />

@@ -3,16 +3,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-//!  This class represent all the reactions that are instantaneous
 /*!
-   The reactions that look like :
+  This class represent all the reactions that are instantaneous
+  The reactions that look like :
 
-   2H + O = H2O should be managed by this class.
-   see react() method for more details.
+  2H + O = H2O should be managed by this class.
+  see react() method for more details.
+
+  \sa react()
+  \author Pierre COLLET
+  \mail pierre.collet91@gmail.com
   */
 public class InstantReaction : IReaction
 {
-  private LinkedList<Product> _reactants;       //! the list of reactants
+  private LinkedList<Product> _reactants;       //!< the list of reactants
 
   //! Default Constructor
   public InstantReaction()

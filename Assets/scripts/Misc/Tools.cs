@@ -2,7 +2,11 @@ using System;
 using System.IO;
 using System.Text;
 
-//! This class contains some usefull functions
+/*!
+  \brief This class contains some usefull functions
+  \author Pierre COLLET
+  \mail pierre.collet91@gmail.com
+ */
 class Tools
 {
   /*!

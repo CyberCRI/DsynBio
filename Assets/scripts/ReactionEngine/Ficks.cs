@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Collections;
 
 //!  
-/*!                                                                                                                                                                                                                                                                                                                        
- *  \brief     Describe a FickReaction
- *  \details   This class is a descriptive class of a FickReaction
- *  \author    Pierre COLLET                                                                                                                                                                                                                                                                                               
+/*!
+  \brief     Describe a FickReaction
+  \details   This class is a descriptive class of a FickReaction
+  \author    Pierre COLLET
+  \mail      pierre.collet91@gmail.com
  */
 public class FickProprieties
 {
@@ -20,6 +21,7 @@ public class FickProprieties
  *  \brief     The class that manage all the diffusions reactions using Fick model.
  *  \details   This class initialize from files and execute all the FickReaction.
  *  \author    Pierre COLLET
+ *  \mail      pierre.collet91@gmail.com
  */
 class Fick
 {
@@ -27,7 +29,6 @@ class Fick
 
   private LinkedList<FickReaction>      _reactions;     //!< The list of FickReaction
   FickLoader                            _loader;        //!< The class that load the FickReaction propieties
-//   LinkedList<Medium>                    _mediums;
 
   //! Default constructor.
   public Fick()
@@ -74,7 +75,7 @@ class Fick
             react.setSurface(prop.surface);
           }
         else
-          Debug.Log("What da fuck dude!?");
+          Debug.Log("da fuck dude!?");
       }
   }
 
@@ -107,10 +108,9 @@ If a parameter of a fick reaction is not specified in files then this parameter 
 //       }
     _reactions = FickReaction.getFickReactionsFromMediumList(mediums);
     finalizeFickReactionFromProps(propsList, _reactions);
-    // replace values in _reactions by values in reactionsList;
   }
 
-  //! This function is called at each frame and do all the reaction of type FickReaction.
+  //! This function is called at each frame and do all the reaction of type FickReactiono.
   public void react()
   {
     foreach (FickReaction fr in _reactions)
@@ -118,6 +118,30 @@ If a parameter of a fick reaction is not specified in files then this parameter 
   }
 }
 
+/*!
+  \brief Represent a Fick's law 'reactions'.
+  \details Manages Fick's law 'reactions'.
+  This class manages a Fick's first law 'reaction', corresponding to the diffusion of
+  small molecules across the cell membrane or between two different media.
+
+  In this simulation, we model the rate of passive transport by diffusion across membranes.
+  This rate depends on the concentration gradient between the two media and the (semi-)permeability
+  of the membrane that separates them.  Diffusion moves materials from an area of higher concentration
+  to the lower according to first Fick's law.
+  A diffusion reaction, based on Fick's first law model, estimates the speed of diffusion of
+  a molecule according to this formula : 
+
+        dn/dt = (C1 - C2) * P * A
+
+  - dn/dt: speed of diffusion
+  - C1-C2: difference of concentration between both media
+  - P: permeability coefficient
+  - A exchange surface
+
+  \reference http://books.google.fr/books?id=fXZW1REM0YEC&pg=PA636&lpg=PA636&dq=vitesse+de+diffusion+loi+de+fick&source=bl&ots=3eKv2NYYtx&sig=ciSW-RNAr0RTieE2oZfdBa73nT8&hl=en&sa=X&ei=bTufUcw4sI7sBqykgOAL&sqi=2&ved=0CD0Q6AEwAQ#v=onepage&q=vitesse%20de%20diffusion%20loi%20de%20fick&f=false
+  \author Pierre COLLET
+  \mail pierre.collet91@gmail.com
+ */
 class FickReaction : IReaction
 {
   private float _surface;       //!< Contact surface size bwtween the two mediums
@@ -147,8 +171,10 @@ class FickReaction : IReaction
   /*!
       \param mediums The list of mediums.
 
-This function return all the possible combinaisons of FickReaction in Medium list.
-Example :
+      \details
+      This function return all the possible combinaisons of FickReaction in Medium list.
+
+      Example :
         - Medium1 + Medium2 + Medium3 = FickReaction(1, 2) + FickReaction(1, 3) + FickReaction(2, 3)
   */
   public static LinkedList<FickReaction> getFickReactionsFromMediumList(LinkedList<Medium> mediums)

@@ -6,20 +6,29 @@ using System.Collections;
   \brief This class manage enzyme reactions
   \details
 
-  Manage enzyme reactions.
-  \attention HELENA NEEDS TO CORRECT THE DESCRIPTION
+Manage enzymatic reactions.
+This class manages enzymatic reactions that convert specific molecules, called substrates (S)
+into different ones, called products (P.). An enzyme (E) is a highly selective catalyst for a defined substrate,
+and accelerates both the rate and specificity of metabolic reactions. The enzyme activity can be affected by other
+ molecules called activators (increased activity) or inhibitors (decreased activity).
 
+In this simulation we have used a model that can describe enzymes kinetics (Michaelis-Menten)
+ as well as common models of enzyme inhibition and activation by other molecules (different from the substrate).
+The following scheme is a generalized model of inhibition that can describe competitive,
+ uncompetitive, mixed and non-competitive inhibition, as well as heterotropic activation.
+ \author Pierre COLLET
+ \mail pierre.collet91@gmail.com
  */
 public class EnzymeReaction : IReaction
 {
-  private string _substrate;            //! The substrate of the reaction
-  private string _enzyme;               //! The enzyme of the reaction
-  private float _Kcat;                  //! The affinity between the substrate and the enzyme coefficient
-  private string  _effector;            //! The effector of the reaction
-  private float _alpha;                 //! Alpha descriptor of the effector
-  private float _beta;                  //! Beta descriptor of the effector
-  private float _Km;                    //! Affinity coefficient between
-  private float _Ki;
+  protected string _substrate;            //!< The substrate of the reaction
+  protected string _enzyme;               //!< The enzyme of the reaction
+  protected float _Kcat;                  //!< The affinity between the substrate and the enzyme coefficient
+  protected string  _effector;            //!< The effector of the reaction
+  protected float _alpha;                 //!< Alpha descriptor of the effector
+  protected float _beta;                  //!< Beta descriptor of the effector
+  protected float _Km;                    //!< Affinity coefficient between substrate and enzyme
+  protected float _Ki;                    //!< Affinity coefficient between effector and enzyme
 
   public void setSubstrate(string str) { _substrate = str; }
   public string getSubstrate() { return _substrate; }
@@ -79,9 +88,12 @@ public class EnzymeReaction : IReaction
         if (effector != null)
           effectorConcentration = effector.getConcentration();
       }
+    if (_Ki == 0)
+      _Ki = 0.0000000001f;
+    if (_Km == 0)
+      _Km = 0.0000000001f;
     float v = ((Vmax * (substrate.getConcentration() / _Km)) + (_beta * Vmax * substrate.getConcentration() * effectorConcentration / (_alpha * _Km * _Ki)))
       / (1f + (substrate.getConcentration() / _Km) + (effectorConcentration / _Ki) + (substrate.getConcentration() * effectorConcentration / (_alpha * _Km * _Ki)));
-
     return v;
   }
 

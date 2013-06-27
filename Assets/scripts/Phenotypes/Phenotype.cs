@@ -16,6 +16,7 @@ using System.Collections.Generic;
 
  This class also implement so usefull functions like a hill function.
  \author Pierre COLLET
+ \mail pierre.collet91@gmail.com
  \sa ReactionEngine
  \sa Medium
  */

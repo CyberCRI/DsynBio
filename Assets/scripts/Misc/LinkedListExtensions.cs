@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 
-//! Usefull functions for LinkedList
+/*!
+  \brief Usefull functions for LinkedList
+ */
 public static class LinkedListExtensions   
 {
   /*!

@@ -7,6 +7,7 @@ using System;
  \brief A phenotype class that represent a light reaction in function of the concentration in Water (H2O)
  in the Midium
  \author Pierre COLLET
+ \mail pierre.collet91@gmail.com
  */
 public class PhenoLight : Phenotype {
 
@@ -39,7 +40,7 @@ public class PhenoLight : Phenotype {
     Molecule mol = ReactionEngine.getMoleculeFromName("H2O", _molecules);
     if (mol == null)
       return ;
-    float intensity = Phenotype.hill(mol.getConcentration(), 100.0f, 1f, 2f, 8f);
+    float intensity = Phenotype.hill(mol.getConcentration(), 100.0f, 1f, 0f, 8f);
     gameObject.light.intensity = intensity;
   }
 }

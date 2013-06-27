@@ -12,6 +12,9 @@ using System.Collections;
         - A concentration
         - A degradation rate -> used for degradation reaction
         - A Size -> used for fick reaction (not implemented yet)
+
+   \author Pierre COLLET
+   \mail pierre.collet91@gmail.com
  */
 public class Molecule
 {
@@ -72,11 +75,13 @@ public class Molecule
 
 /*!
   \brief This classe describe a Product
+  \author Pierre COLLET
+  \mail pierre.collet91@gmail.com
  */
 public class Product
 {
   protected string      _name;                  //! The name of the molecule
-  protected float       _quantityFactor;        //! The factor of proudction
+  protected float       _quantityFactor;        //! The factor of production
 
   // FIXME : Potentially add a ptr to the molecule
   public void setName(string name) { _name = Tools.epurStr(name); }
@@ -88,6 +93,9 @@ public class Product
 /*!
   \brief This class is an interface that each reaction has to inherit.
   \details It contains a name a list of products an a activation boolean.
+  The react() function should be implemented in inheritant classes.
+  \author Pierre COLLET
+  \mail pierre.collet91@gmail.com
  */
 public abstract class IReaction
 {
@@ -122,6 +130,8 @@ public abstract class IReaction
   \details
   Manage the degradation of a specific molecule inside the cell or in a specific medium.
   In this simulation, the degradation is determined by the degradation constant (half-life) of a specific chemical or protein.
+  \author Pierre COLLET
+  \mail pierre.collet91@gmail.com
  */
 public class Degradation : IReaction
 {

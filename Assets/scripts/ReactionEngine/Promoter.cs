@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Collections;
 using System;
-
-
 using UnityEngine;
 
 // ========================== Promoter ================================
@@ -121,7 +119,8 @@ To see how the calculus is done, refer you to the react() function of this class
 
 \attention To understand how to build a PromoterReaction refer you to the PromoterLoader class
 
- *  \author    Pierre COLLET
+\author    Pierre COLLET
+\mail pierre.collet91@gmail.com
  */
 public class Promoter : IReaction
 {
