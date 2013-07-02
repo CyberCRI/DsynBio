@@ -170,6 +170,10 @@ public class Medium
           ReactionEngine.getMoleculeFromName("O", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("O", _molecules).getConcentration() + 5f);
         if (Input.GetKey(KeyCode.LeftArrow))
           ReactionEngine.getMoleculeFromName("O", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("O", _molecules).getConcentration() - 5f);
+        if (Input.GetKey(KeyCode.E))
+          ReactionEngine.getMoleculeFromName("Toxine", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("Toxine", _molecules).getConcentration() + 5f);
+        if (Input.GetKey(KeyCode.D))
+          ReactionEngine.getMoleculeFromName("Toxine", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("Toxine", _molecules).getConcentration() - 5f);
       }
 
     // Graphic Stuff

@@ -34,6 +34,8 @@ public class ReactionEngine : MonoBehaviour {
   public GraphDrawer    _graphDrawer;                   //!< Graphic class that draw with Vectrosity
 
 
+  public Fick getFick() { return _fick; }
+  
   //! Return the Medium reference corresponding to the given id
   /*!
       \param id The id of searched Medium.

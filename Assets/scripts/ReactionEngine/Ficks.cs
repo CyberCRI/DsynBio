@@ -23,7 +23,7 @@ public class FickProprieties
  *  \author    Pierre COLLET
  *  \mail      pierre.collet91@gmail.com
  */
-class Fick
+public class Fick
 {
   public const float MaximumMoleculeSize = 0.25f;       //!< Limit size of molecules that can cross the membrane of the Medium
 
@@ -38,6 +38,8 @@ class Fick
 //     _mediums = mediums;
   }
 
+  public LinkedList<FickReaction>       getFickReactions() { return _reactions; }
+
   //! return a FickReaction reference that correspondond to the two given ids
   /*!
       \param id1 The first id.
@@ -51,8 +53,10 @@ class Fick
         Medium medium1 = react.getMedium1();
         Medium medium2 = react.getMedium2();
         if (medium1 != null && medium2 != null)
-          if (medium1.getId() == id1 && medium2.getId() == id2 || medium2.getId() == id1 && medium1.getId() == id2)
+          {
+          if ((medium1.getId() == id1 && medium2.getId() == id2) || (medium2.getId() == id1 && medium1.getId() == id2))
             return react;
+          }
       }
     return null;
   }
@@ -142,7 +146,7 @@ If a parameter of a fick reaction is not specified in files then this parameter 
   \author Pierre COLLET
   \mail pierre.collet91@gmail.com
  */
-class FickReaction : IReaction
+public class FickReaction : IReaction
 {
   private float _surface;       //!< Contact surface size bwtween the two mediums
   private float _P;             //!< Permeability coefficient
@@ -230,7 +234,8 @@ Where:
         if (mol2 != null && mol2.getSize() <= Fick.MaximumMoleculeSize)
           {
             c2 = mol2.getConcentration();
-            result = (c2 - c1) * _P * _surface * Time.deltaTime;
+            result = (c2 - c1) * _P * _surface//  * Time.deltaTime
+              ;
             mol2.setConcentration(c2 - result);
             mol1.setConcentration(c1 + result);
           }
