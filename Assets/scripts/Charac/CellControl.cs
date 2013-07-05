@@ -23,9 +23,8 @@ public class CellControl : MonoBehaviour{
 			float rotation = Mathf.Atan2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * Mathf.Rad2Deg;
 			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.AngleAxis(rotation, Vector3.up), Time.deltaTime * rotationSpeed);
 			//Translate
-			Vector3 inputMovement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-			//rigidbody.AddForce(inputMovement.normalized * moveSpeed * Time.deltaTime);
-			transform.Translate(Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime, 0, Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime, Space.World);
+			Vector3 inputMovement = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));;
+			transform.Translate(inputMovement * moveSpeed * Time.deltaTime, Space.World);
 		}
 	}
 
