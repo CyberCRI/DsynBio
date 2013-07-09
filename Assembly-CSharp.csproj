@@ -81,6 +81,7 @@
      <Compile Include="Assets\NGUI\Scripts\Interaction\UIButton.cs" />
      <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonActivate.cs" />
      <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonColor.cs" />
+     <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonKeyBinding.cs" />
      <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonKeys.cs" />
      <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonMessage.cs" />
      <Compile Include="Assets\NGUI\Scripts\Interaction\UIButtonOffset.cs" />
@@ -129,10 +130,13 @@
      <Compile Include="Assets\NGUI\Scripts\Internal\UINode.cs" />
      <Compile Include="Assets\NGUI\Scripts\Internal\UIWidget.cs" />
      <Compile Include="Assets\NGUI\Scripts\Internal\UpdateManager.cs" />
+     <Compile Include="Assets\NGUI\Scripts\Tweening\AnimatedAlpha.cs" />
+     <Compile Include="Assets\NGUI\Scripts\Tweening\AnimatedColor.cs" />
      <Compile Include="Assets\NGUI\Scripts\Tweening\SpringPosition.cs" />
      <Compile Include="Assets\NGUI\Scripts\Tweening\TweenAlpha.cs" />
      <Compile Include="Assets\NGUI\Scripts\Tweening\TweenColor.cs" />
      <Compile Include="Assets\NGUI\Scripts\Tweening\TweenFOV.cs" />
+     <Compile Include="Assets\NGUI\Scripts\Tweening\TweenOrthoSize.cs" />
      <Compile Include="Assets\NGUI\Scripts\Tweening\TweenPosition.cs" />
      <Compile Include="Assets\NGUI\Scripts\Tweening\TweenRotation.cs" />
      <Compile Include="Assets\NGUI\Scripts\Tweening\TweenScale.cs" />
@@ -227,6 +231,7 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (AlphaClip) .shader" />
      <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
+     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (AlphaClip).shader" />
      <None Include="Assets\data\reactions5.txt" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (AlphaClip).shader" />
@@ -237,7 +242,9 @@
      <None Include="Assets\data\reactions2.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (SoftClip).shader" />
      <None Include="Assets\Standard Assets\Water (Basic)\Sources\Shaders\FX-Water Simple.shader" />
+     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (SoftClip).shader" />
      <None Include="Assets\data\reactions4.txt" />
+     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-LightedOutline.shader" />
      <None Include="Assets\Standard Assets\Toon Shading\Sources\Shaders\Toony-Lighted.shader" />
      <None Include="Assets\NGUI\ReadMe - 2.0.9.txt" />
