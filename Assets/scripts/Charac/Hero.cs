@@ -68,7 +68,8 @@ public class Hero : MonoBehaviour{
       	//	_destination = mover.position;
       	gameObject.SetActive(true);
       	
-      	light.enabled = false;
+		//FIXME light is undefined
+      	//light.enabled = false;
 	}
   
 	void Update(){
@@ -107,11 +108,13 @@ public class Hero : MonoBehaviour{
 
 	//When the player reacts to the light and emits colors.
 	public void emitLight(bool boolean) {
-		light.enabled = boolean;
+		//FIXME light is undefined
+		//light.enabled = boolean;
 	}
 
 	public void changeColor(Color color) {
-		light.color = color;
+		//FIXME light is undefined
+		//light.color = color;
 	}
 
 }
