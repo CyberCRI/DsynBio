@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Device : MonoBehaviour {
 	
-	static string _activeSuffix = "Active";
+	private static string _activeSuffix = "Active";
 	private UITexture _equipedDeviceIcon;
 	private string _uri;
 	private bool _isActive;
@@ -49,8 +49,19 @@ public class Device : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		_equipedDeviceIcon = GameObject.Find ("EquipedDeviceIcon").GetComponent<UITexture>();
-		_uri = "Textures/Backdrop 1";
-			
+		int possibilities = 5;
+		float random = Random.Range(0.0f, 1.0f);
+		if(random > 1.0f/possibilities) {
+			_uri = "Textures/Backdrop";
+		} else if(random > 1.0f/possibilities) {
+			_uri = "Textures/brick";
+		} else if(random > 2.0f/possibilities) {
+			_uri = "Textures/brickNM";
+		} else if(random > 3.0f/possibilities) {
+			_uri = "Textures/burlap";
+		} else if(random > 4.0f/possibilities) {
+			_uri = "Textures/sand";
+		}
 		setActive();
 	}
 	
