@@ -3,21 +3,18 @@ using System.Collections;
 
 public class Device : MonoBehaviour {
 	
+	static string _activeSuffix = "Active";
 	private UITexture _equipedDeviceIcon;
 	private string _uri;
+	private bool _isActive;
 	
-	//TODO
-	/*
-	public Device(string uri = "") {
+	public Device(string uri = "", bool isActive = false) {
 		_equipedDeviceIcon = GameObject.Find ("EquipedDeviceIcon").GetComponent<UITexture>();
 		_uri = uri;
+		setActivity(isActive);
 	}
-	*/
-
-	// Use this for initialization
-	void Start () {		
-		_equipedDeviceIcon = GameObject.Find ("EquipedDeviceIcon").GetComponent<UITexture>();
-		
+	
+	private void setTexture(string textureUri) {
 		/*
 		// "material" version 
 		string materialUri = "Materials/Backdrop";		
@@ -27,9 +24,34 @@ public class Device : MonoBehaviour {
 		*/
 		
 		// "texture" version
-		string textureUri = "Textures/Backdrop 1";		
-		Texture myTexture = Resources.Load(textureUri, typeof(Texture)) as Texture;		
-		_equipedDeviceIcon.mainTexture = myTexture;
+		_equipedDeviceIcon.mainTexture = Resources.Load(textureUri, typeof(Texture)) as Texture;
+	}
+	
+	public void setActivity(bool activity) {
+		_isActive = activity;
+		if(activity) {
+			setActive();
+		} else {
+			setInactive();
+		}
+	}
+	
+	public void setActive() {
+		_isActive = true;
+		setTexture(_uri + _activeSuffix);		
+	}
+	
+	public void setInactive() {
+		_isActive = false;
+		setTexture(_uri);
+	}
+	
+	// Use this for initialization
+	void Start () {
+		_equipedDeviceIcon = GameObject.Find ("EquipedDeviceIcon").GetComponent<UITexture>();
+		_uri = "Textures/Backdrop 1";
+			
+		setActive();
 	}
 	
 	// Update is called once per frame
