@@ -31,9 +31,6 @@ public class ReactionEngine : MonoBehaviour {
   public string[]       _fickFiles;                     //!< all the Fick diffusion files
   public string[]       _activeTransportFiles;                     //!< all the Fick diffusion files
 
-  public GraphDrawer    _graphDrawer;                   //!< Graphic class that draw with Vectrosity
-
-
   public Fick getFick() { return _fick; }
   
   //! Return the Medium reference corresponding to the given id
@@ -141,13 +138,12 @@ public class ReactionEngine : MonoBehaviour {
     foreach (string file in _mediumsFiles)
       LinkedListExtensions.AppendRange<Medium>(_mediums, mediumLoader.loadMediumsFromFile(file));
     foreach (Medium medium in _mediums)
-      medium.Init(_reactionsSets, _moleculesSets, _graphDrawer);
+      medium.Init(_reactionsSets, _moleculesSets);
 
     _fick = new Fick();
     _fick.loadFicksReactionsFromFiles(_fickFiles, _mediums);
     _activeTransport = new ActiveTransport();
     _activeTransport.loadActiveTransportReactionsFromFiles(_activeTransportFiles, _mediums);
-//     Debug.Log("salut les coco2");
   }
 
   //! This function is called at each frame

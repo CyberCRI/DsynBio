@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Vectrosity;
@@ -7,25 +8,44 @@ public class Curve
 {
 
   public const int _maxPoints = 200;
+  private Molecule _mol;
   private string _label;
   private LinkedList<Vector2> _points;
   private VectorLine _line;
   private Vector2[] _pts;
+
+  private LineType[] _linesTypes;
+  private VectorLine[] _lines;
+
   private float _minY;
   private float _maxY;
   private Color _color;
+  private Camera _vectroCam;
+  public bool _isEnabled;
+  private Vector2 _pos;
 
-  public Curve(string label = "")
+  public Curve(Molecule mol, Vector2 pos, Camera VectroCam = null)
   {
-    _label = label;
+    _mol = mol;
+    _label = mol.getName();
     _points = new LinkedList<Vector2>();
     _pts = new Vector2[_maxPoints];
     _minY = 0;
     _maxY = 0;
-    _color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-    _line = new VectorLine("test", _pts, _color, null, 2.0f, LineType.Continuous, Joins.Weld);
-//     _line.SetCamera("mainCamera");
-    _line.Draw();
+    _color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
+    _line = new VectorLine(mol.getName(), _pts, _color, null, 2.0f, LineType.Continuous, Joins.Weld);
+    _isEnabled = true;
+    _vectroCam = VectroCam;
+//     _pos = pos;
+
+    _lines = new VectorLine[_maxPoints];
+//     _linesTypes = new _linesTypes[_maxPoints - 1];
+
+    VectorManager.useDraw3D = true;
+    if (_vectroCam != null)
+      Vectrosity.VectorLine.SetCamera(_vectroCam);
+    else
+      Debug.Log("No Camera set for the Graph Window.");
   }
 
   public float getLastY() { if (_points != null && _points.Last != null) return _points.Last.Value.y; return 0;}
@@ -35,6 +55,18 @@ public class Curve
   public float getMinY() { return _minY; }
   public Color getColor() { return _color; }
   public string getLabel() { return _label; }
+  public bool isEnabled() { return _isEnabled; }
+  public void changeState(bool state)
+  {
+    if (state == false)
+      {
+        if (_line != null)
+          _line.active = false;
+      }
+    else
+      _line.active = true;
+    _isEnabled = state;
+  }
   public LinkedList<Vector2> getPointsList() { return _points; }
 
   public void updateMinMax()
@@ -72,16 +104,33 @@ public class Curve
     _points.AddLast(pt);
   }
 
+  public void addPoint()
+  {
+    if (_mol == null)
+      {
+        Debug.Log("No molecule define for this Curve");
+        return ;
+      }
+    Vector2 p = new Vector2((float)Time.timeSinceLevelLoad * 200f, _mol.getConcentration());
+    addPoint(p);
+  }
+
 
   public void updatePts()
   {
     int i = 0;
-    Vector2 tmpPt;
+
+    if (_isEnabled == false)
+      return;
 
     foreach (Vector2 pt in _points)
       {
-        tmpPt = pt;
+        Vector2 tmpPt = new Vector2();
+        tmpPt.y = pt.y;
+        tmpPt.x = pt.x;
         tmpPt.x -= getMinX();
+//         if (i == 0)
+//           Debug.Log(tmpPt);
         _pts[i] = tmpPt;
         i++;
       }    
@@ -90,10 +139,10 @@ public class Curve
     _line.Draw();
   }
 
-  public Vector2[] getPts()
-  {
-    updatePts();
-    return _pts;
-  }
+//   public Vector2[] getPts()
+//   {
+//     updatePts();
+//     return _pts;
+//   }
 
 }

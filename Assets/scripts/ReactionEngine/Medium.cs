@@ -25,15 +25,6 @@ public class Medium
   private string        _reactionsSet;                  //!< The ReactionSet id affected to this Medium
   private string        _moleculesSet;                  //!< The MoleculeSet id affected to this Medium
 
-  // Graphic Stuff
-  private LinkedList<Curve>    _curves;                 //!< List of graphical curves
-  public GraphDrawer _graphic;                          //!< The graphic drawer
-
-  //! Default Constructor
-  public Medium()
-  {
-    _curves = new LinkedList<Curve>();
-  }
 
   public void setId(int id) { _id = id;}
   public int getId() { return _id;}
@@ -120,9 +111,8 @@ public class Medium
     \brief Initialize the Medium
     \param reactionsSets The list of all the reactions sets
     \param moleculesSets The list of all the molecules sets
-    \param drawer The drawe wich will draw curves (Curves) of this Medium
    */
-  public void Init(LinkedList<ReactionsSet> reactionsSets, LinkedList<MoleculesSet> moleculesSets, GraphDrawer drawer = null)
+  public void Init(LinkedList<ReactionsSet> reactionsSets, LinkedList<MoleculesSet> moleculesSets)
   {
     _reactions = new LinkedList<IReaction>();
     ReactionsSet reactSet = ReactionEngine.getReactionsSetFromId(_reactionsSet, reactionsSets);
@@ -137,18 +127,6 @@ public class Medium
     initReactionsFromReactionsSet(reactSet);
     initMoleculesFromMoleculesSets(molSet, allMolecules);
     initDegradationReactions(allMolecules);
-
-    _graphic = drawer;
-    int i = 0;
-//     for (int i = 0; i < _molecules.Count; i++)
-    foreach (Molecule m in _molecules)
-      {
-        Curve c = new Curve(m.getName());
-        _curves.AddLast(c);
-        if (_graphic != null)
-          _graphic.addCurve(c);
-        i++;
-      }    
   }
 
   /*!
@@ -159,6 +137,8 @@ public class Medium
     foreach (IReaction reaction in _reactions)
       reaction.react(_molecules);
 
+    foreach (Molecule m in _molecules)
+      Debug.Log(m.getConcentration());
 
     if (_name == "Cellia")
       {
@@ -174,16 +154,6 @@ public class Medium
           ReactionEngine.getMoleculeFromName("Toxine", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("Toxine", _molecules).getConcentration() + 5f);
         if (Input.GetKey(KeyCode.D))
           ReactionEngine.getMoleculeFromName("Toxine", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("Toxine", _molecules).getConcentration() - 5f);
-      }
-
-    // Graphic Stuff
-    LinkedListNode<Curve> node = _curves.First;
-    foreach (Molecule mol in _molecules)
-      {
-//         Debug.Log("[" + mol.getName() + "] = " + mol.getConcentration());
-        Vector2 p = new Vector2((float)Time.timeSinceLevelLoad*200f, mol.getConcentration() * 3.0f);
-        node.Value.addPoint(p);
-        node = node.Next;
       }
   }
 }

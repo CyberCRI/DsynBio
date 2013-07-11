@@ -1,10 +1,8 @@
 <Document>
 
   <reactions id="CelliaReactions">
-
     <instantReaction>
-      <name>A-BtoAB</name>
-
+      <name>MakeWater</name>
       <reactants>
 	<reactant>
 	  <name>O</name>
@@ -15,7 +13,6 @@
 	  <quantity>2</quantity>
 	</reactant>
       </reactants>
-
       <products>
 	<product>
 	  <name>H2O</name>
@@ -45,12 +42,6 @@
       <description>de l'eau!</description>
       <concentration>0</concentration>
       <degradationRate>0.01</degradationRate>
-    </molecule> 
-    <molecule type="other">
-      <name>Toxine</name>
-      <description></description>
-      <concentration>0</concentration>
-      <degradationRate>0.001</degradationRate>
     </molecule> 
 </molecules>
                                   
