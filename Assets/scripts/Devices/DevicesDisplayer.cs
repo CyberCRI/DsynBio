@@ -28,6 +28,7 @@ public class DevicesDisplayer : MonoBehaviour {
 			newDevice.transform.parent = gameObject.transform;
 			newDevice.transform.localPosition = localPosition;
 			newDevice.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			//newDevice.name = EquipedDeviceIcon
 		}
 	}
 	
