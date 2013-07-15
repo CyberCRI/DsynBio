@@ -1,6 +1,17 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+
+class AllosteryProprieties
+{
+  public string name;
+  public string effector;
+  public string protein;
+  public string product;
+  public float K;
+  public int n;
+}
 
 /*!
  *  \brief     Manages "allostery" reactions

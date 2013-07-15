@@ -26,8 +26,8 @@ public class ReactionEngine : MonoBehaviour {
   private LinkedList<ReactionsSet> _reactionsSets;      //!< The list that contain the reactions sets
   private LinkedList<MoleculesSet> _moleculesSets;      //!< The list that contain the molecules sets
   public string[]        _mediumsFiles;                 //!< all the medium files
-  public TextAsset[]         _reactionsFiles;           //!< all the reactions files
-  public TextAsset[]         _moleculesFiles;           //!< all the molecules files
+  public string[]         _reactionsFiles;           //!< all the reactions files
+  public string[]         _moleculesFiles;           //!< all the molecules files
   public string[]       _fickFiles;                     //!< all the Fick diffusion files
   public string[]       _activeTransportFiles;                     //!< all the Fick diffusion files
   public static float   reactionsSpeed = 10.0f;
@@ -130,9 +130,9 @@ public class ReactionEngine : MonoBehaviour {
     _moleculesSets = new LinkedList<MoleculesSet>();
     _mediums = new LinkedList<Medium>();
     
-    foreach (TextAsset file in _reactionsFiles)
+    foreach (string file in _reactionsFiles)
       LinkedListExtensions.AppendRange<ReactionsSet>(_reactionsSets, fileLoader.loadReactionsFromFile(file));
-    foreach (TextAsset file in _moleculesFiles)
+    foreach (string file in _moleculesFiles)
       LinkedListExtensions.AppendRange<MoleculesSet>(_moleculesSets, fileLoader.loadMoleculesFromFile(file));
 
     MediumLoader mediumLoader = new MediumLoader();

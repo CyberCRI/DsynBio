@@ -3,6 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+class InstantReactionProprieties
+{
+  public string name;
+  public LinkedList<Product> reactants;
+  public LinkedList<Product> products;
+}
+
 /*!
   This class represent all the reactions that are instantaneous
   The reactions that look like :

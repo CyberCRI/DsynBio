@@ -3,6 +3,7 @@ using System.Collections;
 using System.Xml;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 public class FileLoader
 {
@@ -11,406 +12,26 @@ public class FileLoader
 
 
   public TextAsset _reactionFile;
+  private PromoterLoader _promoterLoader;
+  private EnzymeReactionLoader _enzymeReactionLoader;
+  private AllosteryLoader _allosteryLoader;
+  private InstantReactionLoader _instantReactionLoader;
 
-  private PromoterParser _parser;
+//   private PromoterParser _parser;
 
 //   private LinkedList<IReaction> _reactions;
 //   private ArrayList             _molecules;
 
   public FileLoader()
   {
-    _parser = new PromoterParser();
+    _promoterLoader = new PromoterLoader();
+    _enzymeReactionLoader = new EnzymeReactionLoader();
+    _allosteryLoader = new AllosteryLoader();
+    _instantReactionLoader = new InstantReactionLoader();
+//     _parser = new PromoterParser();
 //     _reactions = new LinkedList<IReaction>();
 //     _molecules = new ArrayList();
   }
-
-//   public LinkedList<IReaction>  getReactions() { return _reactions; }
-//   public ArrayList  getMolecules() { return _molecules; }
-
-// ====================== PROMOTER LOADING ===========================
-
-  private bool loadPromoterName(string value, Promoter prom)
-  {
-    if (String.IsNullOrEmpty(value))
-      {
-        Debug.Log("Error: Empty name field");
-        return false;
-      }
-    prom.setName(value);
-    return true;
-  }
-
-  private bool loadPromoterProductionMax(string value, Promoter prom)
-  {
-    if (String.IsNullOrEmpty(value))
-      {
-        Debug.Log("Error: Empty productionMax field");
-        return false;
-      }
-    prom.setBeta(float.Parse(value.Replace(",", ".")));
-    return true;
-  }
-
-  private bool loadPromoterTerminatorFactor(string value, Promoter prom)
-  {
-    if (String.IsNullOrEmpty(value))
-      {
-        Debug.Log("Error: Empty TerminatorFactor field");
-        return false;
-      }
-    prom.setTerminatorFactor(float.Parse(value.Replace(",", ".")));
-    return true;
-  }
-
-  private bool loadGene(Promoter prom, string name, string RBSf)
-  {
-    Product gene = new Product();
-
-    if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(RBSf))
-      {
-        Debug.Log("Error: Empty Gene name field");
-        return false;
-      }
-    gene.setName(name);
-    gene.setQuantityFactor(float.Parse(RBSf.Replace(",", ".")));
-    prom.addProduct(gene);
-    return true;
-  }
-
-  private bool loadPromoterOperon(XmlNode node, Promoter prom)
-  {
-    string name = null;
-    string RBSf = null;
-    bool n = false;
-    bool rbsf = false;
-    bool b = true;
-
-    foreach (XmlNode gene in node)
-      {
-        n = false;
-        rbsf = false;
-        foreach(XmlNode attr in gene)
-          {
-            switch (attr.Name)
-              {
-              case "name":
-                name = attr.InnerText;
-                n = true;
-                break;
-              case "RBSFactor":
-                RBSf = attr.InnerText;
-                rbsf = true;
-                break;
-              }
-          }
-        if (n && rbsf)
-          b = b && loadGene(prom, name, RBSf);
-        if (!n)
-          Debug.Log("Error : Missing Gene name in operon");
-        if (!rbsf)
-          Debug.Log("Error : Missing RBSfactor in operon");
-      }
-    return b;
-  }
-
-  private bool loadPromoterFormula(string formula, Promoter p)
-  {
-    TreeNode<PromoterNodeData> tree = _parser.Parse(formula);
-    
-    if (tree == null)
-      {
-        Debug.Log("Syntax Error in promoter Formula");
-        return false;
-      }
-    p.setFormula(tree);
-    return true;
-  }
-
-  private bool loadPromoters(XmlNode node, LinkedList<IReaction> reactions)
-  {
-    XmlNodeList promotersList = node.SelectNodes("promoter");
-    bool b = true;
-
-    foreach (XmlNode promoter in promotersList)
-      {
-        Promoter p = new Promoter();
-        foreach (XmlNode attr in promoter)
-          {
-            switch (attr.Name)
-              {
-              case "name":
-                b = b && loadPromoterName(attr.InnerText, p);
-                break;
-              case "productionMax":
-                b = b && loadPromoterProductionMax(attr.InnerText, p);
-                break;
-              case "terminatorFactor":
-                b = b && loadPromoterTerminatorFactor(attr.InnerText, p);
-                break;
-              case "formula":
-                b = b && loadPromoterFormula(attr.InnerText, p);
-                break;
-              case "operon":
-                b = b && loadPromoterOperon(attr, p);
-                break;
-              }
-          }
-        reactions.AddLast(p);
-      }
-    return b;
-  }
-
-// ====================== END PROMOTER LOADING ===========================
-
-  
-
-// ================== ENZYME REACTIONS LOADING ==========================
-
-  private bool loadEnzymeString(string value, StrSetter setter)
-  {
-    if (String.IsNullOrEmpty(value))
-      {
-//         Debug.Log("Error: Empty name field");
-        return false;
-      }
-    setter(value);
-    return true;    
-  }
-
-  private bool loadEnzymeFloat(string value, FloatSetter setter)
-  {
-    if (String.IsNullOrEmpty(value))
-      {
-        Debug.Log("Error: Empty productionMax field");
-        return false;
-      }
-    setter(float.Parse(value.Replace(",", ".")));
-    return true;    
-  }
-
-  private bool loadEnzymeReactionProducts(XmlNode node, EnzymeReaction er)
-  {
-    foreach (XmlNode attr in node)
-      {
-        if (attr.Name == "name")
-          {
-            if (String.IsNullOrEmpty(attr.InnerText))
-              Debug.Log("Warning : Empty name field in Enzyme Reaction definition");
-            Product prod = new Product();
-            prod.setName(node.InnerText);
-            er.addProduct(prod);
-          }
-      }
-    return true;
-  }
-
-  private bool loadEnzymeReactions(XmlNode node, LinkedList<IReaction> reactions)
-  {
-    XmlNodeList EReactionsList = node.SelectNodes("enzyme");
-    bool b = true;
-    
-    foreach (XmlNode EReaction in EReactionsList)
-      {
-        EnzymeReaction er = new EnzymeReaction();
-        foreach (XmlNode attr in EReaction)
-          {
-            switch (attr.Name)
-              {
-              case "name":
-                b = b && loadEnzymeString(attr.InnerText, er.setName);
-                break;
-              case "substrate":
-                b = b && loadEnzymeString(attr.InnerText, er.setSubstrate);
-                break;
-              case "enzyme":
-                b = b && loadEnzymeString(attr.InnerText, er.setEnzyme);
-                break;
-              case "Kcat":
-                b = b && loadEnzymeFloat(attr.InnerText, er.setKcat);
-                break;
-              case "effector":
-                b = b && loadEnzymeString(attr.InnerText, er.setEffector);
-                break;
-              case "alpha":
-                b = b && loadEnzymeFloat(attr.InnerText, er.setAlpha);
-                break;
-              case "beta":
-                b = b && loadEnzymeFloat(attr.InnerText, er.setBeta);
-                break;
-              case "Km":
-                b = b && loadEnzymeFloat(attr.InnerText, er.setKm);
-                break;
-              case "Ki":
-                b = b && loadEnzymeFloat(attr.InnerText, er.setKi);
-                break;
-              case "Products":
-                b = b && loadEnzymeReactionProducts(attr, er);
-                break;
-              }
-          }
-        reactions.AddLast(er);
-      }
-    return b;
-  }
-
-// ================== END ENZYME REACTIONS LOADING =======================
-
-  private bool loadAllosteryString(string value, StrSetter setter)
-  {
-    if (String.IsNullOrEmpty(value))
-      {
-        Debug.Log("Error: Empty name field");
-        return false;
-      }
-    setter(value);
-    return true;    
-  }
-
-  private bool loadAllosteryFloat(string value, FloatSetter setter)
-  {
-    if (String.IsNullOrEmpty(value))
-      {
-        Debug.Log("Error: Empty productionMax field");
-        return false;
-      }
-    setter(float.Parse(value.Replace(",", ".")));
-    return true;    
-  }
-
-
-  private bool loadAllostericReactions(XmlNode node, LinkedList<IReaction> reactions)
-  {
-    XmlNodeList AReactionsList = node.SelectNodes("allostery");
-    bool b = true;
-    
-    foreach (XmlNode AReaction in AReactionsList)
-      {
-        Allostery ar = new Allostery();
-        foreach (XmlNode attr in AReaction)
-          {
-            switch (attr.Name)
-              {
-              case "name":
-                b = b && loadAllosteryString(attr.InnerText, ar.setName);
-                break;
-              case "effector":
-                b = b && loadAllosteryString(attr.InnerText, ar.setEffector);
-                break;
-              case "K":
-                b = b && loadAllosteryFloat(attr.InnerText, ar.setK);
-                break;
-              case "n":
-                ar.setN(Convert.ToInt32(attr.InnerText));
-                break;
-              case "protein":
-                b = b && loadAllosteryString(attr.InnerText, ar.setProtein);
-                break;
-              case "products":
-                b = b && loadAllosteryString(attr.InnerText, ar.setProduct);
-                break;
-              }
-          }
-        reactions.AddLast(ar);
-      }
-    return b;
-  }
-
-// ================== END ALLOSTERY LOADING =======================
-
-
-  private bool loadInstantReactionReactants(XmlNode node, InstantReaction ir)
-  {
-    foreach (XmlNode attr in node)
-      if (attr.Name == "reactant")
-        loadInstantReactionReactant(attr, ir);
-    return true;
-  }
-
-
-  private bool loadInstantReactionReactant(XmlNode node, InstantReaction ir)
-  {
-    Product prod = new Product();
-    foreach (XmlNode attr in node)
-      {
-        if (attr.Name == "name")
-          {
-            if (String.IsNullOrEmpty(attr.InnerText))
-              Debug.Log("Warning : Empty name field in instant reaction reactant definition");
-            prod.setName(attr.InnerText);
-          }
-        else if (attr.Name == "quantity")
-          {
-            if (String.IsNullOrEmpty(attr.InnerText))
-              Debug.Log("Warning : Empty quantity field in instant reaction reactant definition");
-            prod.setQuantityFactor(float.Parse(attr.InnerText.Replace(",", ".")));
-          }
-      }
-    ir.addReactant(prod);
-    return true;
-  }
-
-  private bool loadInstantReactionProducts(XmlNode node, InstantReaction ir)
-  {
-    foreach (XmlNode attr in node)
-      if (attr.Name == "product")
-        loadInstantReactionProduct(attr, ir);
-    return true;
-  }
-
-
-  private bool loadInstantReactionProduct(XmlNode node, InstantReaction ir)
-  {
-    Product prod = new Product();
-    foreach (XmlNode attr in node)
-      {
-        if (attr.Name == "name")
-          {
-            if (String.IsNullOrEmpty(attr.InnerText))
-              Debug.Log("Warning : Empty name field in instant reaction product definition");
-            prod.setName(attr.InnerText);
-          }
-        else if (attr.Name == "quantity")
-          {
-            if (String.IsNullOrEmpty(attr.InnerText))
-              Debug.Log("Warning : Empty quantity field in instant reaction product definition");
-            prod.setQuantityFactor(float.Parse(attr.InnerText.Replace(",", ".")));
-          }
-      }
-    ir.addProduct(prod);
-    return true;
-  }
-
-
-  private bool loadInstantReactions(XmlNode node, LinkedList<IReaction> reactions)
-  {
-    XmlNodeList IReactionsList = node.SelectNodes("instantReaction");
-    bool b = true;
-    
-    foreach (XmlNode IReaction in IReactionsList)
-      {
-        InstantReaction ir = new InstantReaction();
-        foreach (XmlNode attr in IReaction)
-          {
-            switch (attr.Name)
-              {
-              case "name":
-                ir.setName(attr.InnerText);
-                break;
-              case "reactants":
-                loadInstantReactionReactants(attr, ir);
-                break;
-              case "products":
-                loadInstantReactionProducts(attr, ir);
-                break;
-              }
-          }
-        reactions.AddLast(ir);
-      }
-    return b;
-  }
-
-// ================== END INSTANT REACTIONS LOADING =======================
-
 
   private bool storeMolecule(XmlNode node, Molecule.eType type, ArrayList molecules)
   {
@@ -473,12 +94,11 @@ public class FileLoader
 //FIXME : patch parser to return correct boolean by checking if last node is a ending Token
   private bool loadReactions(XmlNode node, LinkedList<IReaction> reactions)
   {
-    loadPromoters(node, reactions);
-    loadEnzymeReactions(node, reactions);
-    loadAllostericReactions(node, reactions);
-    loadInstantReactions(node, reactions);
+    _promoterLoader.loadPromoters(node, reactions);
+    _enzymeReactionLoader.loadEnzymeReactions(node, reactions);
+    _allosteryLoader.loadAllostericReactions(node, reactions);
+    _instantReactionLoader.loadInstantReactions(node, reactions);
     return true;
-//     return loadPromoters(node) && loadEnzymeReactions(node);//  && loadChemicalReactions(node);
   }
   
   public LinkedList<ReactionsSet> loadReactionsFromFile(TextAsset filePath)
@@ -512,6 +132,38 @@ public class FileLoader
     return reactionSets;
   }
 
+  public LinkedList<ReactionsSet> loadReactionsFromFile(string filePath)
+  {
+    MemoryStream ms = Tools.getEncodedFileContent(filePath);
+    bool b = true;
+    ReactionsSet reactionSet;
+    string setId;
+    LinkedList<ReactionsSet> reactionSets = new LinkedList<ReactionsSet>();
+
+    XmlDocument xmlDoc = new XmlDocument();
+    xmlDoc.Load(ms);
+    XmlNodeList reactionsLists = xmlDoc.GetElementsByTagName("reactions");
+    foreach (XmlNode reactionsNode in reactionsLists)
+      {
+        setId = reactionsNode.Attributes["id"].Value;
+        if (setId != "" && setId != null)
+          {
+            LinkedList<IReaction> reactions = new LinkedList<IReaction>();
+            b &= loadReactions(reactionsNode, reactions);
+            reactionSet = new ReactionsSet();
+            reactionSet.id = setId;
+            reactionSet.reactions = reactions;
+            reactionSets.AddLast(reactionSet);
+          }
+        else
+          {
+            Debug.Log("Error : missing attribute id in reactions node");
+            b = false;
+          }
+      }
+    return reactionSets;
+  }
+
   public LinkedList<MoleculesSet> loadMoleculesFromFile(TextAsset filePath)
   {
     bool b = true;
@@ -521,6 +173,38 @@ public class FileLoader
 
     XmlDocument xmlDoc = new XmlDocument();
     xmlDoc.LoadXml(filePath.text);
+    XmlNodeList moleculesLists = xmlDoc.GetElementsByTagName("molecules");
+    foreach (XmlNode moleculesNode in moleculesLists)
+      {
+        setId = moleculesNode.Attributes["id"].Value;
+        if (setId != "" && setId != null)
+          {
+            ArrayList molecules = new ArrayList();
+            b &= loadMolecules(moleculesNode, molecules);
+            moleculeSet = new MoleculesSet();
+            moleculeSet.id = setId;
+            moleculeSet.molecules = molecules;
+            moleculesSets.AddLast(moleculeSet);
+          }
+        else
+          {
+            Debug.Log("Error : missing attribute id in reactions node");
+            b = false;
+          }
+      }
+    return moleculesSets;
+  }
+
+  public LinkedList<MoleculesSet> loadMoleculesFromFile(string filePath)
+  {
+    MemoryStream ms = Tools.getEncodedFileContent(filePath);
+    bool b = true;
+    MoleculesSet moleculeSet;
+    string setId;
+    LinkedList<MoleculesSet> moleculesSets = new LinkedList<MoleculesSet>();
+
+    XmlDocument xmlDoc = new XmlDocument();
+    xmlDoc.Load(ms);
     XmlNodeList moleculesLists = xmlDoc.GetElementsByTagName("molecules");
     foreach (XmlNode moleculesNode in moleculesLists)
       {

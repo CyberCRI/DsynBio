@@ -3,7 +3,15 @@ using System.Collections;
 using System;
 using UnityEngine;
 
-// ========================== Promoter ================================
+
+public class PromoterProprieties
+{
+  public string name;
+  public float beta;
+  public float terminatorFactor;
+  public string formula;
+  public LinkedList<Product> products;
+}
 
 /*!
  *  \brief     Manage promoter reactions

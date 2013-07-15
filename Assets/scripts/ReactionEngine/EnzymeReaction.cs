@@ -1,6 +1,21 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+
+public class EnzymeReactionProprieties
+{
+  public string name;
+  public string substrate;
+  public string enzyme;
+  public string effector;
+  public float Kcat;
+  public float beta;
+  public float alpha;
+  public float Km;
+  public float Ki;
+  LinkedList<Product> products;
+}
 
 /*!
   \brief This class manage enzyme reactions
