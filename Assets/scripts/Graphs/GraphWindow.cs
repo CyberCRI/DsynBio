@@ -52,19 +52,18 @@ public class GraphWindow : MonoBehaviour {
 
   void Update ()
   {
-
     LinkedListNode<Curve> node = _curves.First;
     foreach (Molecule mol in _molecules)
       {
-        Vector2 p = new Vector2((float)Time.timeSinceLevelLoad*100f, mol.getConcentration() * 3.0f);
+        Vector2 p = new Vector2((float)Time.timeSinceLevelLoad*100f, mol.getConcentration());
         Vector3 WindowPos = gameObject.GetComponent<Transform>().position;
 
         Vector2 ps = _VectrosityCam.WorldToScreenPoint(WindowPos);
 
 //         Debug.Log(ps);
 //         p.x -=  ps.x;
-        p.y *= 30f;
-        p.x -= ps.x;
+//         p.y *= 30f;
+//         p.x -= ps.x;
 //         p.y +=  ps.y + (ps.y * 0.01f);
 //         p.y = ps.y;
         node.Value.addPoint(p);

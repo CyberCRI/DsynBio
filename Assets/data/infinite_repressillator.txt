@@ -5,7 +5,7 @@
       <name>PromY</name>
       <productionMax>75</productionMax>
       <terminatorFactor>1</terminatorFactor>
-      <formula>![0.001,1]X</formula>
+      <formula>![0.01,2]X</formula>
       <operon>
 	<gene>
 	  <name>Y</name>
@@ -18,7 +18,7 @@
       <name>PromX</name>
       <productionMax>75</productionMax>
       <terminatorFactor>1</terminatorFactor>
-      <formula>![0.001,1]Z</formula>
+      <formula>![0.01,2]Z</formula>
       <operon>
 	<gene>
 	  <name>X</name>
@@ -31,7 +31,7 @@
       <name>PromZ</name>
       <productionMax>75</productionMax>
       <terminatorFactor>1</terminatorFactor>
-      <formula>![0.001,1]Y</formula>
+      <formula>![0.01,2]Y</formula>
       <operon>
 	<gene>
 	  <name>Z</name>

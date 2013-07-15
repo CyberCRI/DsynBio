@@ -140,7 +140,6 @@ public class Medium
 
 //     foreach (Molecule m in _molecules)
 //       Debug.Log(m.getConcentration());
-
     if (_name == "Cellia")
       {
         if (Input.GetKey(KeyCode.UpArrow))

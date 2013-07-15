@@ -162,7 +162,9 @@ public class Degradation : IReaction
     if (!_isActive)
       return;
     Molecule mol = ReactionEngine.getMoleculeFromName(_molName, molecules);
-    mol.subConcentration(mol.getDegradationRate() * mol.getConcentration() * _reactionSpeed * ReactionEngine.reactionsSpeed * Time.deltaTime);
+    mol.subConcentration(mol.getDegradationRate() * mol.getConcentration() * _reactionSpeed * ReactionEngine.reactionsSpeed  * 0.01f// * Time.deltaTime
+                         );
+    Debug.Log(Time.deltaTime);
     //     mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * mol.getConcentration() * 1f//  * 0.05f
     //                          );
   }

@@ -2,9 +2,9 @@
   <reactions id="CelliaReactions">
     <promoter>
       <name>PromX</name>
-      <productionMax>0.3</productionMax>
+      <productionMax>10</productionMax>
       <terminatorFactor>1</terminatorFactor>
-      <formula>![0.3,1]X</formula>
+      <formula>![0.5,1]X</formula>
       <operon>
 	<gene>
 	  <name>X</name>
@@ -19,7 +19,7 @@
       <name>X</name>
       <description></description>
       <concentration>0.5</concentration>
-      <degradationRate>2</degradationRate>
+      <degradationRate>1</degradationRate>
     </molecule>
   </molecules>
 </Document>

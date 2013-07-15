@@ -43,9 +43,5 @@ public class MediumInfoWindow : MonoBehaviour {
   }
 
   void Update () {
-    
-  }
-
-  void OnGUI() {
   }
 }

@@ -148,7 +148,7 @@ public class ReactionEngine : MonoBehaviour {
   }
 
   //! This function is called at each frame
-  public void Update ()
+  public void Update()
   {
     _fick.react();
     _activeTransport.react();
