@@ -34,6 +34,24 @@ public class ReactionEngine : MonoBehaviour {
 
   public Fick getFick() { return _fick; }
   
+  public void addReactionToMedium(int mediumId, IReaction reaction)
+  {
+    Medium med = ReactionEngine.getMediumFromId(mediumId, _mediums);
+
+    if (med == null)
+      return ;
+    med.addReaction(reaction);
+  }
+
+  public void removeReactionFromMediumByName(int mediumId, string name)
+  {
+    Medium med = ReactionEngine.getMediumFromId(mediumId, _mediums);
+
+    if (med == null)
+      return ;
+    med.removeReactionByName(name);    
+  }
+
   //! Return the Medium reference corresponding to the given id
   /*!
       \param id The id of searched Medium.

@@ -36,6 +36,28 @@ public class Medium
   public string getMoleculesSet() { return _moleculesSet;}
   public ArrayList getMolecules() { return _molecules; }
 
+  public void addReaction(IReaction reaction)
+  {
+    if (reaction != null)
+      _reactions.AddLast(reaction);
+  }
+
+  public void removeReactionByName(string name)
+  {
+    LinkedListNode<IReaction> node = _reactions.First;
+    bool b = true;
+
+    while (node != null && b)
+      {
+        if (node.Value.getName() == name)
+          {
+            _reactions.Remove(node);
+            b = false;
+          }
+        node = node.Next;
+      }
+  }
+
   /*!
     \brief Substract a concentration to molecule corresponding to the name.
     \param name The name of the Molecules.
