@@ -33,8 +33,6 @@ public class DisplayCamOn: MonoBehaviour {
     Vector3 loc = UICamera.WorldToScreenPoint(gameObject.transform.position);
 //     Vector2 max = UICamera.WorldToScreenPoint(gameObject.transform.position + gameObject.transform.position);
 //     camToPrint.aspect = size.x / size.y;
-    camToPrint.pixelRect = new Rect(loc.x, loc.y, size.x , size.y);
-    
-    Debug.Log("Size : " + size);
+    camToPrint.pixelRect = new Rect(loc.x, loc.y, size.x , size.y);    
   }
 }

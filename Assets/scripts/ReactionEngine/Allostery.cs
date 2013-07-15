@@ -105,10 +105,10 @@ public class Allostery : IReaction
     else
       {
         m = (float)Math.Pow(effector.getConcentration() / _K, _n);
-        delta =  (m / (1 + m)) * protein.getConcentration();
-        product.setConcentration(product.getConcentration() + delta * 1f);
-        protein.setConcentration(protein.getConcentration() - delta * 1f);
-        effector.setConcentration(effector.getConcentration() - delta * 1f);
+        delta =  (m / (1 + m)) * protein.getConcentration() * _reactionSpeed * ReactionEngine.reactionsSpeed * Time.deltaTime;
+        product.setConcentration(product.getConcentration() + delta);
+        protein.setConcentration(protein.getConcentration() - delta);
+        effector.setConcentration(effector.getConcentration() - delta);
       }
   }
 

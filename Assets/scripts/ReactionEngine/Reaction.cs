@@ -102,16 +102,20 @@ public abstract class IReaction
   protected string _name;                       //! The name of the reaction.
   protected LinkedList<Product> _products;      //! The list of products
   protected bool _isActive;                     //! Activation booleen
+  protected float _reactionSpeed;               //! Speed coefficient of the reaction
 
   //! Default constructor
   public IReaction()
   {
     _products = new LinkedList<Product>();
     _isActive = true;
+    _reactionSpeed = 1f;
   }
 
   public void setName(string name) { _name = Tools.epurStr(name); }
   public string getName() { return _name; }
+  public void setReactionSpeed(float speed) { _reactionSpeed = speed; }
+  public float getReactionSpeed() { return _reactionSpeed; }
 
   //! This function should be implemented by each reaction that inherit from this class.
   //! It's called at each tick of the game.
@@ -158,7 +162,7 @@ public class Degradation : IReaction
     if (!_isActive)
       return;
     Molecule mol = ReactionEngine.getMoleculeFromName(_molName, molecules);
-    mol.subConcentration(mol.getDegradationRate() * mol.getConcentration() * 1f);
+    mol.subConcentration(mol.getDegradationRate() * mol.getConcentration() * _reactionSpeed * ReactionEngine.reactionsSpeed * Time.deltaTime);
     //     mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * mol.getConcentration() * 1f//  * 0.05f
     //                          );
   }

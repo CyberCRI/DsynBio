@@ -63,6 +63,7 @@ public class GraphWindow : MonoBehaviour {
 
 //         Debug.Log(ps);
 //         p.x -=  ps.x;
+        p.y *= 30f;
         p.x -= ps.x;
 //         p.y +=  ps.y + (ps.y * 0.01f);
 //         p.y = ps.y;

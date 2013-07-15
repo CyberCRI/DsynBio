@@ -184,6 +184,7 @@ Execute a Node of type : Constant
 //       Debug.Log("hill : " + hillFunc(K, mol.getConcentration(), 4));
 //     else
 //       Debug.Log(mol.getName());
+//     return stepFunc(K, mol.getConcentration(), n);
     return hillFunc(K, mol.getConcentration(), n);
   }
 
@@ -235,7 +236,7 @@ Execute a Node.
     if (node != null)
       {
         if (node.getData().token == PromoterParser.eNodeType.OR)
-          return execNode(node.getLeftNode(), molecules) + execNode(node.getRightNode(), molecules);
+          return Math.Max(execNode(node.getLeftNode(), molecules), execNode(node.getRightNode(), molecules));
         else if (node.getData().token == PromoterParser.eNodeType.AND)
           return Math.Min(execNode(node.getLeftNode(), molecules), execNode(node.getRightNode(), molecules));
         else if (node.getData().token == PromoterParser.eNodeType.NOT)
@@ -275,8 +276,8 @@ For each Product P in the operon :
       {
 //         Debug.Log(pro.getName());
         Molecule mol = ReactionEngine.getMoleculeFromName(pro.getName(), molecules);
-        mol.setConcentration(mol.getConcentration() + delta * 1f
-                             * pro.getQuantityFactor() * _terminatorFactor * _beta);
+        mol.setConcentration(mol.getConcentration() + delta * pro.getQuantityFactor() * _terminatorFactor * _beta
+                             * ReactionEngine.reactionsSpeed * _reactionSpeed * Time.deltaTime);
       }
     //       pro.setConcentration(pro.getConcentration() * delta);
   }

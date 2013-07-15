@@ -39,7 +39,7 @@ public class ActiveTransportReaction : EnzymeReaction
     if (substrate == null)
       return ;
 
-    float delta = execEnzymeReaction(molSrcMed) * 1f;
+    float delta = execEnzymeReaction(molSrcMed) * _reactionSpeed * ReactionEngine.reactionsSpeed * Time.deltaTime;
 
     substrate.setConcentration(substrate.getConcentration() - delta);
     foreach (Product pro in _products)

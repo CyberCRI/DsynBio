@@ -30,6 +30,7 @@ public class ReactionEngine : MonoBehaviour {
   public TextAsset[]         _moleculesFiles;           //!< all the molecules files
   public string[]       _fickFiles;                     //!< all the Fick diffusion files
   public string[]       _activeTransportFiles;                     //!< all the Fick diffusion files
+  public static float   reactionsSpeed = 10.0f;
 
   public Fick getFick() { return _fick; }
   

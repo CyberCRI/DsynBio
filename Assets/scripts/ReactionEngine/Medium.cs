@@ -134,18 +134,19 @@ public class Medium
    */
   public void Update()
   {
+    LinkedListExtensions.Shuffle<IReaction>(_reactions);
     foreach (IReaction reaction in _reactions)
       reaction.react(_molecules);
 
-    foreach (Molecule m in _molecules)
-      Debug.Log(m.getConcentration());
+//     foreach (Molecule m in _molecules)
+//       Debug.Log(m.getConcentration());
 
     if (_name == "Cellia")
       {
         if (Input.GetKey(KeyCode.UpArrow))
-          ReactionEngine.getMoleculeFromName("H", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("H", _molecules).getConcentration() + 5f);
+          ReactionEngine.getMoleculeFromName("X", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("X", _molecules).getConcentration() + 5f);
         if (Input.GetKey(KeyCode.DownArrow))
-          ReactionEngine.getMoleculeFromName("H", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("H", _molecules).getConcentration() - 5f);
+          ReactionEngine.getMoleculeFromName("X", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("X", _molecules).getConcentration() - 5f);
         if (Input.GetKey(KeyCode.RightArrow))
           ReactionEngine.getMoleculeFromName("O", _molecules).setConcentration(ReactionEngine.getMoleculeFromName("O", _molecules).getConcentration() + 5f);
         if (Input.GetKey(KeyCode.LeftArrow))
