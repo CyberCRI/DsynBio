@@ -83,6 +83,13 @@ public class Product
   protected string      _name;                  //! The name of the molecule
   protected float       _quantityFactor;        //! The factor of production
 
+  public Product() { }
+  public Product(Product p)
+  {
+    _name = p._name;
+    _quantityFactor = p._quantityFactor;
+  }
+
   // FIXME : Potentially add a ptr to the molecule
   public void setName(string name) { _name = Tools.epurStr(name); }
   public string getName() { return _name; }

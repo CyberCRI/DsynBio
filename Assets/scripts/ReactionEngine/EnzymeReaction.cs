@@ -14,7 +14,7 @@ public class EnzymeReactionProprieties
   public float alpha;
   public float Km;
   public float Ki;
-  LinkedList<Product> products;
+  public LinkedList<Product> products;
 }
 
 /*!
@@ -61,6 +61,31 @@ public class EnzymeReaction : IReaction
   public void setKm(float value) { _Km = value;}
   public void setKi(float value) { _Ki = value;}
   public float getKi() { return _Ki; }
+
+
+  public static IReaction       buildEnzymeReactionFromProps(EnzymeReactionProprieties props)
+  {
+    EnzymeReaction reaction = new EnzymeReaction();
+
+    reaction.setName(props.name);
+    reaction.setSubstrate(props.substrate);
+    reaction.setEnzyme(props.enzyme);
+    reaction.setKcat(props.Kcat);
+    reaction.setEffector(props.effector);
+    reaction.setAlpha(props.alpha);
+    reaction.setBeta(props.beta);
+    reaction.setKm(props.Km);
+    reaction.setKi(props.Ki);
+
+    Product newProd;
+    foreach (Product p in props.products)
+      {
+        newProd = new Product(p);
+        reaction.addProduct(newProd);
+      }
+    return reaction;
+  }
+
 
   /*!
     Execute an enzyme reaction.

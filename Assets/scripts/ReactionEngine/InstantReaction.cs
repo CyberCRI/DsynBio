@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-class InstantReactionProprieties
+public class InstantReactionProprieties
 {
   public string name;
   public LinkedList<Product> reactants;
@@ -30,6 +30,27 @@ public class InstantReaction : IReaction
   {
     _reactants = new LinkedList<Product>();
   }
+
+  public static IReaction       buildInstantReactionFromProps(InstantReactionProprieties props)
+  {
+    InstantReaction reaction = new InstantReaction();
+
+    reaction.setName(props.name);
+    Product newReactant;
+    foreach (Product r in props.reactants)
+      {
+        newReactant = new Product(r);
+        reaction.addReactant(newReactant);
+      }
+    Product newProd;
+    foreach (Product p in props.products)
+      {
+        newProd = new Product(p);
+        reaction.addProduct(newProd);
+      }
+    return reaction;
+  }
+
 
   public string getName() { return _name; }
   public void setName(string str) { _name = str; }

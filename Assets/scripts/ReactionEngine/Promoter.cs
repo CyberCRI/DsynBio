@@ -144,6 +144,25 @@ public class Promoter : IReaction
   public TreeNode<PromoterNodeData> getFormula() { return _formula; }
 
 
+  public static IReaction       buildPromoterFromProps(PromoterProprieties props)
+  {
+    PromoterParser parser = new PromoterParser();
+    Promoter reaction = new Promoter();
+
+    reaction.setName(props.name);
+    reaction.setBeta(props.beta);
+    reaction.setTerminatorFactor(props.terminatorFactor);
+    TreeNode<PromoterNodeData> formula = parser.Parse(props.formula);
+    reaction.setFormula(formula);
+    Product newProd;
+    foreach (Product p in props.products)
+      {
+        newProd = new Product(p);
+        reaction.addProduct(newProd);
+      }
+    return reaction;
+  }
+
   /*! 
 Implementation of a Hill function
 \param K Threshold value

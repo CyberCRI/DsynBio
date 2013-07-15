@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-class AllosteryProprieties
+public class AllosteryProprieties
 {
   public string name;
   public string effector;
@@ -79,6 +79,19 @@ public class Allostery : IReaction
 
 
   
+  public static IReaction       buildAllosteryFromProps(AllosteryProprieties props)
+  {
+    Allostery reaction = new Allostery();
+
+    reaction.setName(props.name);
+    reaction.setEffector(props.effector);
+    reaction.setK(props.K);
+    reaction.setN(props.n);
+    reaction.setProtein(props.protein);
+    reaction.setProduct(props.product);
+    return reaction;
+  }
+
   //! \brief Do all the allostery reaction for one tick
   /*! \details This function do this calculus :
    
