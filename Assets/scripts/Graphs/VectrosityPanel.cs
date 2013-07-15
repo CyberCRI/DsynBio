@@ -2,19 +2,23 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Vectrosity;
-
-public class LineToPanel : MonoBehaviour {
+/*!
+ \brief This behaviour class manages the line drawing on a basic 2D shape
+ \author Yann LEFLOUR
+ \mail yleflour@gmail.com
+ \sa PanelInfo
+ \sa Line
+*/
+public class VectrosityPanel : MonoBehaviour {
 	
-	public Camera GUICam;
-	public bool draw = true;
-	public float padding = 20f;
-	public PanelInfos infos;
-	public List<Line> line {get{return _lines;}}
+	public Camera GUICam; //!< The Isometric camera which will display the layer
+	public bool draw = true; //!< Toggles drawing of the lines
+	public float padding = 20f; //!< Adds padding to the side of your graph (to use if the panel sprite \shape has borders
+	public PanelInfos infos; //!< Will provide the panel information to all the lines drawn \sa PanelInfo
+	public List<Line> line {get{return _lines;}} //!< List of the lines being drawn
 	
-	private List<Line> _lines;
+	private List<Line> _lines; 
 	private List<float> _values;
-	private float v = 0;
-	private int nb = 0;
 	
 	// Use this for initialization
 	void Start () {
@@ -38,6 +42,10 @@ public class LineToPanel : MonoBehaviour {
 		drawLines(resize);
 	}
 	
+	/*!
+	 * \brief Will draw the lines in the list
+	 * \param resize If true will resize the lines first
+ 	*/
 	void drawLines(bool resize) {
 		int i = 0;
 		foreach(Line line in _lines){
@@ -53,6 +61,11 @@ public class LineToPanel : MonoBehaviour {
 		}
 	}
 	
+	/*!
+	 * \brief Refreshes the infos of the panel 
+	 * \return True if the panel information were modified
+	 * \sa PanelInfo
+ 	*/
 	public bool refreshInfos(){
 		bool changed = false;
 		if(infos.layer != gameObject.layer){
