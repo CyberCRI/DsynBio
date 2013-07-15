@@ -84,8 +84,6 @@ public class Line{
 	 * \brief Redraws the line
  	*/
 	public void redraw(){
-		if(!draw)
-			addPoint (-1f);
 		_vectorline.Draw3D();
 	}
 	
