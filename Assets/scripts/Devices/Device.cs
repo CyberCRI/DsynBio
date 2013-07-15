@@ -29,6 +29,21 @@ public class Device : MonoBehaviour {
 	}
 	*/
 	
+	public static Object prefab = Resources.Load("/Assets/scripts/GUI/screen1/EquipedDeviceSlotPrefab");
+	public static Device Create(Transform parentTransform, Vector3 localPosition)
+	{
+	    GameObject newDevice = Instantiate(prefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
+		newDevice.transform.parent = parentTransform;
+		newDevice.transform.localPosition = localPosition;
+		newDevice.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+		
+	    Device yourObject = newDevice.GetComponent<Device>();
+	 
+	    //do additional initialization steps here
+	 
+	    return yourObject;
+	}
+	
 	private void initTextures() {
 		if(texture1 == null) {
 			texture1 = Resources.Load(textureName1, typeof(Texture)) as Texture;

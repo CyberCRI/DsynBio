@@ -24,11 +24,7 @@ public class DevicesDisplayer : MonoBehaviour {
 		
 		for(int i = 0; i < 5; i++) {
 			Vector3 localPosition = _positionOffset + new Vector3(i*_width, 0.0f, 0.0f);
-			GameObject newDevice = Instantiate(_devicePrefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
-			newDevice.transform.parent = gameObject.transform;
-			newDevice.transform.localPosition = localPosition;
-			newDevice.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-			//newDevice.name = EquipedDeviceIcon
+			Device.Create (gameObject.transform, localPosition);
 		}
 	}
 	
