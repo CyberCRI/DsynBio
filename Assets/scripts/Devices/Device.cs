@@ -1,23 +1,21 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Device : MonoBehaviour {
 	
 	private static string _activeSuffix = "Active";
-	public UITexture _equipedDeviceIcon;
+	private static string _prefix = "Textures/Devices/";
+	private static List<string> textureNames = new List<string>( new string [] {
+		"Backdrop"
+		,"brick"
+		,"brickNM"
+		,"burlap"
+		,"sand"
+	});
 	
-	public Texture _texture;
-	public Texture texture1;
-	public Texture texture2;
-	public Texture texture3;
-	public Texture texture4;
-	public Texture texture5;
-	public string textureName1 = "Textures/Devices/Backdrop";
-	public string textureName2 = "Textures/Devices/brick";
-	public string textureName3 = "Textures/Devices/brickNM";
-	public string textureName4 = "Textures/Devices/burlap";
-	public string textureName5 = "Textures/Devices/sand";
 	
+	private UITexture _equipedDeviceIcon;
 	private string _uri;
 	private bool _isActive;
 	private int _deviceID;
@@ -52,24 +50,6 @@ public class Device : MonoBehaviour {
 		gameObject.transform.localPosition = newLocalPosition;
 	}
 	
-	private void initTextures() {
-		if(texture1 == null) {
-			texture1 = Resources.Load(textureName1, typeof(Texture)) as Texture;
-		}
-		if(texture2 == null) {
-			texture2 = Resources.Load(textureName2, typeof(Texture)) as Texture;
-		}
-		if(texture3 == null) {
-			texture3 = Resources.Load(textureName3, typeof(Texture)) as Texture;
-		}
-		if(texture4 == null) {
-			texture4 = Resources.Load(textureName4, typeof(Texture)) as Texture;
-		}
-		if(texture5 == null) {
-			texture5 = Resources.Load(textureName5, typeof(Texture)) as Texture;
-		}
-	}
-	
 	private void setTexture(string textureUri) {
 		/*
 		// "material" version 
@@ -81,7 +61,6 @@ public class Device : MonoBehaviour {
 		
 		// "_texture" version
 		_equipedDeviceIcon.mainTexture = Resources.Load(textureUri, typeof(Texture)) as Texture;
-		_texture = _equipedDeviceIcon.mainTexture;
 	}
 	
 	public void setActivity(bool activity) {
@@ -105,25 +84,12 @@ public class Device : MonoBehaviour {
 	
 	//TODO clean
 	private string getRandomTexture() {
-		float random = Random.Range(1, 6);
-		if(random == 1) {
-			return textureName1;
-		} else if(random == 2) {
-			return textureName2;
-		} else if(random == 3) {
-			return textureName3;
-		} else if(random == 4) {
-			return textureName4;
-		} else {
-			return textureName5;
-		}
+		int randomIndex = Random.Range(0, textureNames.Count);
+		return _prefix + textureNames[randomIndex];
 	}
 	
 	// Use this for initialization
-	void Start () {
-		
-		initTextures();
-		
+	void Start () {		
 		_equipedDeviceIcon = transform.Find ("EquipedDeviceIcon").GetComponent<UITexture>();
 		_uri = getRandomTexture();
 		setActive();

@@ -1,29 +1,41 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Potion : MonoBehaviour {
 	private static string _normalSuffix = "Normal";
 	private static string _hoverSuffix = "Hover";
-	private static string _pressedSuffix = "Pressed";
+	private static string _pressedSuffix = "Pressed";	
+	private static string _prefix = "Textures/Potions/";	
+	private static List<string> _spriteNames = new List<string>( new string[] {
+		//works
+		/*
+		"Dark",
+		"Light",
+		"Button"
+		*/
+		//fails
+		//TODO investigate in UISprite when mSpriteName is modified
+		
+		"greaterhealing"
+		,"healing"
+		,"lesserclarity"
+		,"lesserinvulnerability"
+		,"mana"
+		,"minorrejuv"
+		,"potionofclarity"
+		,"potionofdivinity"
+		,"potionofrestoration"
+		,"rejuvpotion"
+		});
+
 	
-	public string _normalSprite;
-	public string _hoverSprite;
-	public string _pressedSprite;
+	private static Vector3 _scale = new Vector3(0.2812413f, 1.103634f, 1.0f);
 	
-	public static string _prefix = "Textures/Potions/";
-	
-	public string spriteName1 = "greaterhealing";
-	public string spriteName2 = "healing";
-	public string spriteName3 = "lesserclarity";
-	public string spriteName4 = "lesserinvulnerability";
-	public string spriteName5 = "mana";
-	public string spriteName6 = "minorrejuv";
-	public string spriteName7 = "potionofclarity";
-	public string spriteName8 = "potionofdivinity";
-	public string spriteName9 = "potionofrestoration";
-	public string spriteName0 = "rejuvpotion";
 	
 	private int _potionID;	
+	public string _uri;
+	
 	
 	public int getID() {
 		return _potionID;
@@ -32,10 +44,11 @@ public class Potion : MonoBehaviour {
 	public static Object prefab = Resources.Load("GUI/screen1/Potions/PotionPrefab");
 	public static Potion Create(Transform parentTransform, Vector3 localPosition, int potionID)
 	{
+		Debug.Log("create potion "+potionID);
 	    GameObject newPotion = Instantiate(prefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
 		newPotion.transform.parent = parentTransform;
 		newPotion.transform.localPosition = localPosition;
-		newPotion.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+		newPotion.transform.localScale = _scale;
 		
 	    Potion yourObject = newPotion.GetComponent<Potion>();
 		yourObject._potionID = potionID;
@@ -54,33 +67,25 @@ public class Potion : MonoBehaviour {
 	}
 	
 	private void setSprite(string spriteUri) {
-		_normalSprite = spriteUri + _normalSuffix;
-		_hoverSprite = spriteUri + _hoverSuffix;
-		_pressedSprite = spriteUri + _pressedSuffix;
+		UIImageButton imageButton = gameObject.GetComponent<UIImageButton>() as UIImageButton;
+		imageButton.normalSprite = _prefix + spriteUri + _normalSuffix;
+		imageButton.hoverSprite = _prefix + spriteUri + _hoverSuffix;
+		imageButton.pressedSprite = _prefix + spriteUri + _pressedSuffix;
+		
+		Debug.Log("setSprite("+spriteUri+"): normalSprite="+imageButton.normalSprite
+			+", imageButton.hoverSprite=" + imageButton.hoverSprite
+			+", imageButton.pressedSprite" + imageButton.pressedSprite);			
 	}
 	
 	//TODO clean
 	private string getRandomSprite() {
-		float random = Random.Range(1, 11);
-		if(random == 1) {
-			return spriteName1;
-		} else if(random == 2) {
-			return spriteName2;
-		} else if(random == 3) {
-			return spriteName3;
-		} else if(random == 4) {
-			return spriteName4;
-		} else {
-			return spriteName5;
-		}
+		int randomIndex = Random.Range(0, _spriteNames.Count);
+		return _spriteNames[randomIndex];
 	}
 	
 	// Use this for initialization
 	void Start () {
-		
-		initSprites();
-		
-		_potionIcon = transform.Find ("PotionIcon").GetComponent<UISprite>();
+		Debug.Log("start potion "+_potionID);
 		_uri = getRandomSprite();
 		setSprite(_uri);
 	}
