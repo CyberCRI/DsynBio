@@ -148,12 +148,14 @@ public class Degradation : IReaction
 {
   private float _degradationRate;               //! The degradation speed
   private string _molName;                      //! Molecule name's
+//   private INumberGenerator _numberGenerator;     //! Random number generator
 
   //! Default constructor
   public Degradation(float degradationRate, string molName)
   {
     _degradationRate = degradationRate;
     _molName = molName;
+//     _numberGenerator = new NumberGenerator(NumberGenerator.normale, -5f, 5f, 0.001f);
   }
 
   // FIXME : use _degradationRate
@@ -171,7 +173,8 @@ public class Degradation : IReaction
     Molecule mol = ReactionEngine.getMoleculeFromName(_molName, molecules);
     mol.subConcentration(mol.getDegradationRate() * mol.getConcentration() * _reactionSpeed * ReactionEngine.reactionsSpeed  * 0.01f// * Time.deltaTime
                          );
-    Debug.Log(Time.deltaTime);
+//     Debug.Log(Time.deltaTime);
+//     Debug.Log(_numberGenerator.getNumber());
     //     mol.setConcentration(mol.getConcentration() - mol.getDegradationRate() * mol.getConcentration() * 1f//  * 0.05f
     //                          );
   }
