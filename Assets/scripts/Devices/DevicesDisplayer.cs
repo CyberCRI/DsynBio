@@ -16,16 +16,24 @@ public class DevicesDisplayer : MonoBehaviour {
 	
 	public void addDevice(int deviceID) {
 		Debug.Log("addDevice("+deviceID+")");
-		Vector3 localPosition = _positionOffset + new Vector3(_devices.Count*_width, 0.0f, 0.0f);
-		Device device = Device.Create (gameObject.transform, localPosition, deviceID);
-		_devices.Add(device);
+		if(!_devices.Exists(device => device.getID() == deviceID)) { 
+			Vector3 localPosition = _positionOffset + new Vector3(_devices.Count*_width, 0.0f, 0.0f);
+			Device device = Device.Create (gameObject.transform, localPosition, deviceID);
+			_devices.Add(device);
+		}
 	}
 	
 	public void removeDevice(int deviceID) {
 		Debug.Log("removeDevice("+deviceID+")");
 		Device toRemove = _devices.Find(device => device.getID() == deviceID);
-		toRemove.Remove();
-		_devices.Remove(toRemove);
+		if(toRemove != null) {
+			toRemove.Remove();
+			_devices.Remove(toRemove);
+			for(int i = 0; i < _devices.Count; i++) {
+				Vector3 newLocalPosition = _positionOffset + new Vector3(i*_width, 0.0f, 0.0f);
+				_devices[i].Redraw(newLocalPosition);
+			}
+		}
 	}
 	
 	// Use this for initialization
@@ -41,10 +49,15 @@ public class DevicesDisplayer : MonoBehaviour {
 	void Update () {
 		if(Time.time - _timeCounter > _timeDelta) {
 			if (Input.GetKey(KeyCode.C)) {//CREATE
-	        	addDevice(_devices.Count);
+				int randomID = Random.Range(0, 12000);
+	        	addDevice(randomID);
 			}
 	        if (Input.GetKey(KeyCode.R)) {//REMOVE
-	        	removeDevice(_devices.Count-1);
+				if(_devices.Count > 0) {
+					int randomIdx = Random.Range(0, _devices.Count);
+					Device randomDevice = _devices[randomIdx];
+		        	removeDevice(randomDevice.getID());
+				}
 			}
 			_timeCounter = Time.time;
 		}

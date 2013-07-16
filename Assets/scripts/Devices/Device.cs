@@ -48,6 +48,10 @@ public class Device : MonoBehaviour {
 		Destroy(gameObject);
 	}
 	
+	public void Redraw(Vector3 newLocalPosition) {
+		gameObject.transform.localPosition = newLocalPosition;
+	}
+	
 	private void initTextures() {
 		if(texture1 == null) {
 			texture1 = Resources.Load(textureName1, typeof(Texture)) as Texture;
