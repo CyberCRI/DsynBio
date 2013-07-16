@@ -22,13 +22,11 @@ public class Device : MonoBehaviour {
 	private bool _isActive;
 	private int _deviceID;
 	
-	/*
-	public Device(string uri = "", bool isActive = false) {
-		_equipedDeviceIcon = transform.Find ("EquipedDeviceIcon").GetComponent<UITexture>();
-		_uri = uri;
-		setActivity(isActive);
+	
+	
+	public int getID() {
+		return _deviceID;
 	}
-	*/
 	
 	public static Object prefab = Resources.Load("GUI/screen1/EquipedDevices/EquipedDeviceSlotPrefab");
 	public static Device Create(Transform parentTransform, Vector3 localPosition, int deviceID)
@@ -44,6 +42,10 @@ public class Device : MonoBehaviour {
 	    //do additional initialization steps here
 	 
 	    return yourObject;
+	}
+	
+	public void Remove() {
+		Destroy(gameObject);
 	}
 	
 	private void initTextures() {
