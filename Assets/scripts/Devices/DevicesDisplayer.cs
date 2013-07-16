@@ -24,7 +24,7 @@ public class DevicesDisplayer : MonoBehaviour {
 		
 		for(int i = 0; i < 5; i++) {
 			Vector3 localPosition = _positionOffset + new Vector3(i*_width, 0.0f, 0.0f);
-			Device.Create (gameObject.transform, localPosition);
+			Device device = Device.Create (gameObject.transform, localPosition, i);
 		}
 	}
 	

@@ -20,6 +20,7 @@ public class Device : MonoBehaviour {
 	
 	private string _uri;
 	private bool _isActive;
+	private int _deviceID;
 	
 	/*
 	public Device(string uri = "", bool isActive = false) {
@@ -29,8 +30,8 @@ public class Device : MonoBehaviour {
 	}
 	*/
 	
-	public static Object prefab = Resources.Load("/Assets/scripts/GUI/screen1/EquipedDeviceSlotPrefab");
-	public static Device Create(Transform parentTransform, Vector3 localPosition)
+	public static Object prefab = Resources.Load("GUI/screen1/EquipedDevices/EquipedDeviceSlotPrefab");
+	public static Device Create(Transform parentTransform, Vector3 localPosition, int deviceID)
 	{
 	    GameObject newDevice = Instantiate(prefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
 		newDevice.transform.parent = parentTransform;
@@ -38,6 +39,7 @@ public class Device : MonoBehaviour {
 		newDevice.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 		
 	    Device yourObject = newDevice.GetComponent<Device>();
+		yourObject._deviceID = deviceID;
 	 
 	    //do additional initialization steps here
 	 
