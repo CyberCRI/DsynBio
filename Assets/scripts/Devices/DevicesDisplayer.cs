@@ -10,14 +10,14 @@ public class DevicesDisplayer : MonoBehaviour {
 	private float _timeDelta = 0.2f;
 	
 	//TODO use real device width
-	static private float _width = 90.0f;
-	static private Vector3 _positionOffset = new Vector3(-486.7966f, 62.19043f, 0.0f);
+	static private float _height = 60.0f;
+	static private Vector3 _positionOffset = new Vector3(35.0f, 72.0f, 0.0f);
 	
 	
 	public void addDevice(int deviceID) {
 		Debug.Log("addDevice("+deviceID+")");
 		if(!_devices.Exists(device => device.getID() == deviceID)) { 
-			Vector3 localPosition = _positionOffset + new Vector3(_devices.Count*_width, 0.0f, 0.0f);
+			Vector3 localPosition = _positionOffset + new Vector3(0.0f, -_devices.Count*_height, 0.0f);
 			Device device = Device.Create (gameObject.transform, localPosition, deviceID);
 			_devices.Add(device);
 		}
@@ -30,7 +30,7 @@ public class DevicesDisplayer : MonoBehaviour {
 			toRemove.Remove();
 			_devices.Remove(toRemove);
 			for(int i = 0; i < _devices.Count; i++) {
-				Vector3 newLocalPosition = _positionOffset + new Vector3(i*_width, 0.0f, 0.0f);
+				Vector3 newLocalPosition = _positionOffset + new Vector3(0.0f, -i*_height, 0.0f);
 				_devices[i].Redraw(newLocalPosition);
 			}
 		}
