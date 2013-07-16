@@ -6,17 +6,17 @@ public class Device : MonoBehaviour {
 	private static string _activeSuffix = "Active";
 	public UITexture _equipedDeviceIcon;
 	
-	public Texture texture;
+	public Texture _texture;
 	public Texture texture1;
 	public Texture texture2;
 	public Texture texture3;
 	public Texture texture4;
 	public Texture texture5;
-	public string textureName1 = "Textures/Backdrop";
-	public string textureName2 = "Textures/brick";
-	public string textureName3 = "Textures/brickNM";
-	public string textureName4 = "Textures/burlap";
-	public string textureName5 = "Textures/sand";
+	public string textureName1 = "Textures/Devices/Backdrop";
+	public string textureName2 = "Textures/Devices/brick";
+	public string textureName3 = "Textures/Devices/brickNM";
+	public string textureName4 = "Textures/Devices/burlap";
+	public string textureName5 = "Textures/Devices/sand";
 	
 	private string _uri;
 	private bool _isActive;
@@ -79,9 +79,9 @@ public class Device : MonoBehaviour {
 		_equipedDeviceIcon.material.mainTexture = myMaterial.mainTexture;
 		*/
 		
-		// "texture" version
+		// "_texture" version
 		_equipedDeviceIcon.mainTexture = Resources.Load(textureUri, typeof(Texture)) as Texture;
-		texture = _equipedDeviceIcon.mainTexture;
+		_texture = _equipedDeviceIcon.mainTexture;
 	}
 	
 	public void setActivity(bool activity) {
