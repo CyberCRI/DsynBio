@@ -10,8 +10,8 @@ public class DevicesDisplayer : MonoBehaviour {
 	private float _timeDelta = 0.2f;
 	
 	//TODO use real device width
-	static private float _height = 60.0f;
-	static private Vector3 _positionOffset = new Vector3(35.0f, 72.0f, 0.0f);
+	static private float _height = 45.0f;
+	static private Vector3 _positionOffset = new Vector3(10.0f, 75.0f, 0.0f);
 	
 	
 	public void addDevice(int deviceID) {
