@@ -24,8 +24,9 @@ public class Potion : MonoBehaviour {
 	private static Vector3 _scaleVector = new Vector3(_scale, _scale, _scale);
 	
 	
+	private UIImageButton _imageButton;
 	private int _potionID;	
-	public string _uri;
+	private string _uri;
 	
 	
 	public int getID() {
@@ -58,21 +59,29 @@ public class Potion : MonoBehaviour {
 	}
 	
 	private void setSprite(string spriteUri) {
-		UIImageButton imageButton = gameObject.GetComponent<UIImageButton>() as UIImageButton;
-		imageButton.normalSprite =  spriteUri + _normalSuffix;
-		imageButton.hoverSprite =   spriteUri + _hoverSuffix;
-		imageButton.pressedSprite = spriteUri + _pressedSuffix;
+		_imageButton.normalSprite =  spriteUri + _normalSuffix;
+		_imageButton.hoverSprite =   spriteUri + _hoverSuffix;
+		_imageButton.pressedSprite = spriteUri + _pressedSuffix;
 		
 		//ugly but necessary (current image is not updated)
-		imageButton.target.spriteName = spriteUri + _normalSuffix;
-		imageButton.target.MakePixelPerfect();
+		_imageButton.target.spriteName = spriteUri + _normalSuffix;
+		_imageButton.target.MakePixelPerfect();
 		
-		Debug.Log("setSprite("+spriteUri+"): normalSprite="+imageButton.normalSprite
-			+", imageButton.hoverSprite=" + imageButton.hoverSprite
-			+", imageButton.pressedSprite=" + imageButton.pressedSprite);
+		Debug.Log("setSprite("+spriteUri+"): normalSprite=" + _imageButton.normalSprite
+			+ ", imageButton.hoverSprite=" + _imageButton.hoverSprite
+			+ ", imageButton.pressedSprite=" + _imageButton.pressedSprite);
 	}
 	
-	//TODO clean
+	/*
+	public override void OnPress(bool isPressed) {
+		Debug.Log("potion " + _potionID + " with uri " + _uri + " OnPress");
+	}
+	
+	public override void Pressed() {
+		Debug.Log("potion " + _potionID + " with uri " + _uri + " Pressed");
+	}
+	*/
+	
 	private string getRandomSprite() {
 		int randomIndex = Random.Range(0, _spriteNames.Count);
 		return _spriteNames[randomIndex];
@@ -81,6 +90,7 @@ public class Potion : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Debug.Log("start potion "+_potionID);
+		_imageButton = gameObject.GetComponent<UIImageButton>() as UIImageButton;
 		_uri = getRandomSprite();
 		setSprite(_uri);
 	}
