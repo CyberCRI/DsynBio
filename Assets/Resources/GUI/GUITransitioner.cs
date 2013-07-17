@@ -4,7 +4,7 @@ using System.Collections;
 public class GUITransitioner : MonoBehaviour {
 	
 	private float _timeCounter = 0.0f;
-	private float _timeDelta = 0.7f;
+	private float _timeDelta = 0.2f;
 	private GameScreen _currentScreen = GameScreen.screen1;
 	private enum GameScreen {
 		screen1,
@@ -12,8 +12,13 @@ public class GUITransitioner : MonoBehaviour {
 		screen3
 	};
 	
-	public GameObject _craftScreen;
+	
+	public GameObject _mainCameraObject;
+	private Camera _mainCamera;
+	private cameraFollow _mainCameraFollow;
+	
 	public GameObject _worldScreen;
+	public GameObject _craftScreen;
 	
 	// Use this for initialization
 	void Start () {
@@ -22,16 +27,39 @@ public class GUITransitioner : MonoBehaviour {
 		SetScreen1(true);
 	}
 	
-	void SetScreen1(bool active) {
+	
+	private void SetScreen1(bool active) {
+		if(active) ZoomOut();
 		_worldScreen.SetActive(active);
 	}
 	
-	void SetScreen2(bool active) {
+	private void SetScreen2(bool active) {
+		if(active) ZoomIn();
 		_worldScreen.SetActive(active);
 	}
 	
-	void SetScreen3(bool active) {
+	private void SetScreen3(bool active) {
 		_craftScreen.SetActive(active);
+	}
+	
+	private void checkCamera() {
+		if(_mainCamera == null) {
+			_mainCamera = _mainCameraObject.GetComponent<Camera>() as Camera;
+		}
+		if(_mainCameraFollow == null) {
+			_mainCameraFollow = _mainCameraObject.GetComponent<cameraFollow>() as cameraFollow;
+		}
+	}
+	
+	private void ZoomIn() {
+		checkCamera();
+		_mainCameraFollow.zoom = false;
+		_mainCamera.fov = 10;		
+	}
+	private void ZoomOut() {
+		checkCamera();
+		_mainCameraFollow.zoom = true;
+		//_mainCamera.fov = 65;		
 	}
 		
 	
@@ -46,8 +74,11 @@ public class GUITransitioner : MonoBehaviour {
 					//remove catalog device, deviceID
 					//add graphs
 					//move devices and potions?
-					SetScreen2(false);
-					SetScreen1(true);
+					
+					//SetScreen2(false);
+					//SetScreen1(true);
+					ZoomOut();
+					
 					_currentScreen = GameScreen.screen1;
 				} else if(_currentScreen == GameScreen.screen3) {
 					Debug.Log("3->1");					
@@ -71,8 +102,11 @@ public class GUITransitioner : MonoBehaviour {
 					//add catalog device, deviceID
 					//remove graphs
 					//move devices and potions?
-					SetScreen1(false);
-					SetScreen2(true);
+					
+					//SetScreen1(false);
+					//SetScreen2(true);
+					ZoomIn();
+					
 					_currentScreen = GameScreen.screen2;
 				} else if(_currentScreen == GameScreen.screen3) {
 					Debug.Log("3->2");					
