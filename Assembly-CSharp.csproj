@@ -44,6 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\MockupScript.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -164,6 +165,7 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITiledSprite.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
+     <Compile Include="Assets\Resources\GUI\GUITransitioner.cs" />
      <Compile Include="Assets\Resources\GUI\screen1\LifeEnergyIndicators\EnergyIndicator.cs" />
      <Compile Include="Assets\Resources\GUI\screen1\LifeEnergyIndicators\LifeIndicator.cs" />
      <Compile Include="Assets\Resources\GUI\screen1\Potions\PotionsPanelBackground.cs" />
