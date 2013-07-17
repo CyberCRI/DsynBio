@@ -11,7 +11,7 @@ public class PotionsDisplayer : MonoBehaviour {
 	
 	//TODO use real potion width
 	static private float _width = 50.0f;
-	static private Vector3 _positionOffset = new Vector3(-147.0f, 22.0f, 0.0f);
+	static private Vector3 _positionOffset = new Vector3(-147.0f, 23.0f, -0.1f);
 	
 	
 	public void addPotion(int potionID) {

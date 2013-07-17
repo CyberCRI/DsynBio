@@ -5,8 +5,7 @@ using System.Collections.Generic;
 public class Potion : MonoBehaviour {
 	private static string _normalSuffix = "Normal";
 	private static string _hoverSuffix = "Hover";
-	private static string _pressedSuffix = "Pressed";	
-	private static string _prefix = "Textures/Potions/";	
+	private static string _pressedSuffix = "Pressed";
 	private static List<string> _spriteNames = new List<string>( new string[] {
 		//works
 		/*
@@ -20,18 +19,19 @@ public class Potion : MonoBehaviour {
 		
 		"greaterhealing"
 		,"healing"
-		,"lesserclarity"
-		,"lesserinvulnerability"
+		,"lesserclaritypotion"
+		,"lesserinvulneralbility"
+		,"lesserrejuvpotion"
 		,"mana"
-		,"minorrejuv"
+		,"minorrejuvpotion"
 		,"potionofclarity"
 		,"potionofdivinity"
 		,"potionofrestoration"
 		,"rejuvpotion"
 		});
 
-	
-	private static Vector3 _scale = new Vector3(0.2812413f, 1.103634f, 1.0f);
+	private static float _scale = 0.6687689f;
+	private static Vector3 _scaleVector = new Vector3(_scale, _scale, _scale);
 	
 	
 	private int _potionID;	
@@ -49,7 +49,7 @@ public class Potion : MonoBehaviour {
 	    GameObject newPotion = Instantiate(prefab, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity) as GameObject;
 		newPotion.transform.parent = parentTransform;
 		newPotion.transform.localPosition = localPosition;
-		newPotion.transform.localScale = _scale;
+		newPotion.transform.localScale = _scaleVector;
 		
 	    Potion yourObject = newPotion.GetComponent<Potion>();
 		yourObject._potionID = potionID;
@@ -69,13 +69,13 @@ public class Potion : MonoBehaviour {
 	
 	private void setSprite(string spriteUri) {
 		UIImageButton imageButton = gameObject.GetComponent<UIImageButton>() as UIImageButton;
-		imageButton.normalSprite = _prefix + spriteUri + _normalSuffix;
-		imageButton.hoverSprite = _prefix + spriteUri + _hoverSuffix;
-		imageButton.pressedSprite = _prefix + spriteUri + _pressedSuffix;
+		imageButton.normalSprite =  spriteUri + _normalSuffix;
+		imageButton.hoverSprite =   spriteUri + _hoverSuffix;
+		imageButton.pressedSprite = spriteUri + _pressedSuffix;
 		
 		Debug.Log("setSprite("+spriteUri+"): normalSprite="+imageButton.normalSprite
 			+", imageButton.hoverSprite=" + imageButton.hoverSprite
-			+", imageButton.pressedSprite" + imageButton.pressedSprite);			
+			+", imageButton.pressedSprite=" + imageButton.pressedSprite);
 	}
 	
 	//TODO clean

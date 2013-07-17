@@ -48,7 +48,7 @@ public class DevicesDisplayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Time.time - _timeCounter > _timeDelta) {
-			if (Input.GetKey(KeyCode.C)) {//CREATE
+			if (false && Input.GetKey(KeyCode.C)) {//CREATE
 				int randomID = Random.Range(0, 12000);
 	        	addDevice(randomID);
 			}
