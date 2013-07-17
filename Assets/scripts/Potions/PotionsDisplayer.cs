@@ -10,7 +10,7 @@ public class PotionsDisplayer : MonoBehaviour {
 	private float _timeDelta = 0.2f;
 	
 	//TODO use real potion width
-	static private float _width = 70.0f;
+	static private float _width = 50.0f;
 	static private Vector3 _positionOffset = new Vector3(-147.0f, 22.0f, 0.0f);
 	
 	

@@ -16,6 +16,7 @@ public class Potion : MonoBehaviour {
 		*/
 		//fails
 		//TODO investigate in UISprite when mSpriteName is modified
+		//TODO or create specific atlas
 		
 		"greaterhealing"
 		,"healing"
