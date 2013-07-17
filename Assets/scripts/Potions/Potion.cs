@@ -7,16 +7,6 @@ public class Potion : MonoBehaviour {
 	private static string _hoverSuffix = "Hover";
 	private static string _pressedSuffix = "Pressed";
 	private static List<string> _spriteNames = new List<string>( new string[] {
-		//works
-		/*
-		"Dark",
-		"Light",
-		"Button"
-		*/
-		//fails
-		//TODO investigate in UISprite when mSpriteName is modified
-		//TODO or create specific atlas
-		
 		"greaterhealing"
 		,"healing"
 		,"lesserclaritypotion"
@@ -72,6 +62,10 @@ public class Potion : MonoBehaviour {
 		imageButton.normalSprite =  spriteUri + _normalSuffix;
 		imageButton.hoverSprite =   spriteUri + _hoverSuffix;
 		imageButton.pressedSprite = spriteUri + _pressedSuffix;
+		
+		//ugly but necessary (current image is not updated)
+		imageButton.target.spriteName = spriteUri + _normalSuffix;
+		imageButton.target.MakePixelPerfect();
 		
 		Debug.Log("setSprite("+spriteUri+"): normalSprite="+imageButton.normalSprite
 			+", imageButton.hoverSprite=" + imageButton.hoverSprite
