@@ -14,7 +14,6 @@ public class GUITransitioner : MonoBehaviour {
 	
 	
 	public GameObject _mainCameraObject;
-	private Camera _mainCamera;
 	private cameraFollow _mainCameraFollow;
 	
 	public GameObject _worldScreen;
@@ -43,9 +42,6 @@ public class GUITransitioner : MonoBehaviour {
 	}
 	
 	private void checkCamera() {
-		if(_mainCamera == null) {
-			_mainCamera = _mainCameraObject.GetComponent<Camera>() as Camera;
-		}
 		if(_mainCameraFollow == null) {
 			_mainCameraFollow = _mainCameraObject.GetComponent<cameraFollow>() as cameraFollow;
 		}
@@ -53,13 +49,11 @@ public class GUITransitioner : MonoBehaviour {
 	
 	private void ZoomIn() {
 		checkCamera();
-		_mainCameraFollow.zoom = false;
-		_mainCamera.fov = 10;		
+		_mainCameraFollow.SetZoom(true);
 	}
 	private void ZoomOut() {
 		checkCamera();
-		_mainCameraFollow.zoom = true;
-		//_mainCamera.fov = 65;		
+		_mainCameraFollow.SetZoom(false);
 	}
 		
 	
@@ -75,11 +69,6 @@ public class GUITransitioner : MonoBehaviour {
 					//add graphs
 					//move devices and potions?
 					
-					//SetScreen2(false);
-					//SetScreen1(true);
-					ZoomOut();
-					
-					_currentScreen = GameScreen.screen1;
 				} else if(_currentScreen == GameScreen.screen3) {
 					Debug.Log("3->1");					
 					//3 -> 1
@@ -92,8 +81,11 @@ public class GUITransitioner : MonoBehaviour {
 					//add medium info
 					SetScreen3(false);
 					SetScreen1(true);
-					_currentScreen = GameScreen.screen1;
 				}
+				
+				ZoomOut();
+				_currentScreen = GameScreen.screen1;
+				
 			} else if (Input.GetKey(KeyCode.Alpha2)) {//GOTO screen2
 				if(_currentScreen == GameScreen.screen1) {
 					Debug.Log("1->2");
@@ -103,11 +95,6 @@ public class GUITransitioner : MonoBehaviour {
 					//remove graphs
 					//move devices and potions?
 					
-					//SetScreen1(false);
-					//SetScreen2(true);
-					ZoomIn();
-					
-					_currentScreen = GameScreen.screen2;
 				} else if(_currentScreen == GameScreen.screen3) {
 					Debug.Log("3->2");					
 					//3 -> 1
@@ -120,8 +107,11 @@ public class GUITransitioner : MonoBehaviour {
 					//add medium info
 					SetScreen3(false);
 					SetScreen2(true);
-					_currentScreen = GameScreen.screen2;
-				}				
+				}	
+				
+				ZoomIn();
+				_currentScreen = GameScreen.screen2;			
+				
 			} else if (Input.GetKey(KeyCode.Alpha3)) {//GOTO screen3
 				if(_currentScreen == GameScreen.screen1) {
 					Debug.Log("1->3");
@@ -132,7 +122,7 @@ public class GUITransitioner : MonoBehaviour {
 					//move devices and potions?
 					SetScreen1(false);
 					SetScreen3(true);
-					_currentScreen = GameScreen.screen3;
+					
 				} else if(_currentScreen == GameScreen.screen2) {
 					Debug.Log("2->3");					
 					//3 -> 1
@@ -140,8 +130,12 @@ public class GUITransitioner : MonoBehaviour {
 					//add craft screen
 					SetScreen2(false);
 					SetScreen3(true);
-					_currentScreen = GameScreen.screen3;
-				}				
+					
+				}	
+				
+				ZoomIn();					
+				_currentScreen = GameScreen.screen3;			
+				
 			}
 			_timeCounter = Time.time;
 		}
