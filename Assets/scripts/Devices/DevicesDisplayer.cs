@@ -27,8 +27,8 @@ public class DevicesDisplayer : MonoBehaviour {
 		Debug.Log("removeDevice("+deviceID+")");
 		Device toRemove = _devices.Find(device => device.getID() == deviceID);
 		if(toRemove != null) {
-			toRemove.Remove();
 			_devices.Remove(toRemove);
+			toRemove.Remove();
 			for(int i = 0; i < _devices.Count; i++) {
 				Vector3 newLocalPosition = _positionOffset + new Vector3(0.0f, -i*_height, 0.0f);
 				_devices[i].Redraw(newLocalPosition);

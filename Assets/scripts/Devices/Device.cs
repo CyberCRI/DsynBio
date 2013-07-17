@@ -82,7 +82,6 @@ public class Device : MonoBehaviour {
 		setTexture(_uri);
 	}
 	
-	//TODO clean
 	private string getRandomTexture() {
 		int randomIndex = Random.Range(0, textureNames.Count);
 		return _prefix + textureNames[randomIndex];

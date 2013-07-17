@@ -27,8 +27,8 @@ public class PotionsDisplayer : MonoBehaviour {
 		Debug.Log("removePotion("+potionID+")");
 		Potion toRemove = _potions.Find(potion => potion.getID() == potionID);
 		if(toRemove != null) {
-			toRemove.Remove();
 			_potions.Remove(toRemove);
+			toRemove.Remove();
 			for(int i = 0; i < _potions.Count; i++) {
 				Vector3 newLocalPosition = _positionOffset + new Vector3(i*_width, 0.0f, 0.0f);
 				_potions[i].Redraw(newLocalPosition);

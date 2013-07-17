@@ -72,15 +72,11 @@ public class Potion : MonoBehaviour {
 			+ ", imageButton.pressedSprite=" + _imageButton.pressedSprite);
 	}
 	
-	/*
-	public override void OnPress(bool isPressed) {
-		Debug.Log("potion " + _potionID + " with uri " + _uri + " OnPress");
+	void OnPress (bool pressed)
+	{
+		PotionsDisplayer displayer = transform.parent.GetComponent<PotionsDisplayer>() as PotionsDisplayer;
+		displayer.removePotion(_potionID);
 	}
-	
-	public override void Pressed() {
-		Debug.Log("potion " + _potionID + " with uri " + _uri + " Pressed");
-	}
-	*/
 	
 	private string getRandomSprite() {
 		int randomIndex = Random.Range(0, _spriteNames.Count);
